@@ -70,7 +70,7 @@ public class UserController {
             ra.addFlashAttribute("msg",user.getName()+"님 환영합니다!");
         } catch (Exception e) {
             ra.addFlashAttribute("msg","ID/PW가 일치하지 않습니다.");
-            return "redirect:/login";
+            return "redirect:/";
         }
         Cookie cookie = new Cookie("id", id);
         if(saveId) {
