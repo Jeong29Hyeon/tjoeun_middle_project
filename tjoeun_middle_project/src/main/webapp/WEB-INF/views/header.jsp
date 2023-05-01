@@ -15,12 +15,7 @@
     </style>
 </head>
 <body>
-<c:set var="joinOrNotLink" value="${sessionScope.user.id==null ? '/user/join' : ''}"/>
-<c:set var="logInOrOutLink" value="${sessionScope.user.id==null ? '/user/login' : '/user/logout'}"/>
-<c:set var="joinOrId" value="${sessionScope.user.id==null ? '회원가입' : sessionScope.user.name}"/>
-<c:set var="logInOrOut" value="${sessionScope.user.id==null ? '로그인' : '로그아웃'}"/>
-<c:set var="myPageLink" value="${sessionScope.user.id==null ? '' : '#'}"/>
-<c:set var="myPage" value="${sessionScope.user.id==null ? '' : 'MyPage'}"/>
+
 <nav class="navbar bg-light">
     <div class="container-fluid">
         <a class="navbar-brand mx-auto" href="/"><i class="fa-solid fa-hurricane"></i>TJOEUN CINEMA</a>
@@ -31,50 +26,83 @@
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title" id="offcanvasNavbarLabel">메뉴</h5>
-                <h5 class="offcanvas-title"><a href="<c:url value="${myPageLink}"/> " style="color: black; text-decoration-line: none">${myPage}</a></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
-                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">홈</a>
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 mb-auto">
+                    <li class="nav-item dropdown mb-3" >
+                        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#reserveTap" aria-controls="reserveTap" aria-expanded="false" aria-label="Toggle navigation">
+                            <span>예매</span>
+                        </button>
+                        <div class="navbar-collapse collapse show" id="reserveTap" style="">
+                            <ul class="navbar-nav me-auto mb-2">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">예매하기</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">상영시간표</a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<c:url value="${joinOrNotLink}"/> ">${joinOrId}</a>
+                    <li class="nav-item dropdown mb-3">
+                        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#movieTap" aria-controls="movieTap" aria-expanded="false" aria-label="Toggle navigation">
+                            <span>영화</span>
+                        </button>
+                        <div class="navbar-collapse collapse show" id="movieTap" style="">
+                            <ul class="navbar-nav me-auto mb-2">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">현재상영작</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">상영예정작</a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<c:url value="${logInOrOutLink}"/>">${logInOrOut}</a>
+                </ul>
+            </div>
+
+            <c:set var="joinOrNotLink" value="${sessionScope.user.id==null ? '/user/join' : ''}"/>
+            <c:set var="logInOrOutLink" value="${sessionScope.user.id==null ? '/user/login' : '/user/logout'}"/>
+            <c:set var="logInOrOut" value="${sessionScope.user.id==null ? 'Sign In' : 'Sign Out'}"/>
+            <c:set var="joinOrId" value="${sessionScope.user.id==null ? '회원가입' : ''}"/>
+            <c:set var="logInOrName" value="${sessionScope.user.id==null ? '로그인후 이용해주세요' : sessionScope.user.name}"/>
+            <c:set var="profileLink" value="${sessionScope.user.id==null ? '' : '#'}"/>
+            <c:set var="profile" value="${sessionScope.user.id==null ? '' : 'Profile'}"/>
+            <c:set var="Reservation" value="${sessionScope.user.id==null ? '' : '#'}"/>
+            <c:set var="ReservationInfo" value="${sessionScope.user.id==null ? '' : 'Reservation'}"/>
+            <c:set var="searchIdPwLink" value="${sessionScope.user.id==null ? '#' : ''}"/>
+            <c:set var="searchIdPw" value="${sessionScope.user.id==null ? 'SEARCH ID&PW' : ''}"/>
+
+            <div class="dropup ms-3 mb-3">
+                <a href="#" class="d-flex align-items-center text-black text-decoration-none dropdown-toggle"
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-circle-user fa-xl me-2"></i>
+                    <strong>${logInOrName}</strong>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                    <c:choose>
+                        <c:when test="${empty sessionScope.user}">
+                            <li><a class="dropdown-item" href="${joinOrNotLink}">${joinOrId}</a></li>
+                            <li><a class="dropdown-item" href="${searchIdPwLink}">${searchIdPw}</a></li>
+                        </c:when>
+                        <c:when test="${not empty sessionScope.user}">
+                            <li><a class="dropdown-item" href="${profileLink}">${profile}</a></li>
+                            <li><a class="dropdown-item" href="${Reservation}">${ReservationInfo}</a></li>
+                        </c:when>
+                    </c:choose>
+                    <li>
+                        <hr class="dropdown-divider">
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            예매
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">예매하기</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">상영시간표</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                           aria-expanded="false">
-                            영화
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">현재상영작</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">상영예정작</a></li>
-                        </ul>
-                    </li>
+                    <li><a class="dropdown-item" href="${logInOrOutLink}">${logInOrOut}</a></li>
                 </ul>
             </div>
         </div>
     </div>
+
 </nav>
+
 
 </body>
 </html>
