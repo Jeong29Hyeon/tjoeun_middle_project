@@ -36,7 +36,7 @@
                 <p id="result" class="badge"></p>
             </div>
             <div class="col-md-4">
-                <input id="checkBtn" class="btn btn-warning" type="button" value="중복체크"/>
+                <input id="checkBtn" class="btn btn-warning" type="button" value="중복체크" onclick="checkId()"/>
             </div>
             <div class="row mt-md-3">
                 <div class="col-md-12">
@@ -89,8 +89,8 @@
             </div>
             <div class="row mt-md-3">
                 <div class="col-md-12">
-                    <label for="sex" class="form-label">성별</label>
-                    <select class="form-select" id="sex" name="sex">
+                    <label for="gender" class="form-label">성별</label>
+                    <select class="form-select" id="gender" name="gender">
                         <option selected>성별</option>
                         <option value="남자">남자</option>
                         <option value="여자">여자</option>
@@ -123,215 +123,153 @@
             </div>
         </form>
     </div>
-    <script>
-      $(document).ready(function () {
-        var form = document.joinForm;
-        var regExpId = /^[a-z0-9]{5,20}$/;
-        var regExpPw = /^[a-zA-Z0-9]{4,}$/;
-        var regExpName = /^[a-zA-Z가-힣]{2,15}$/;
-        var regExpYear = /^[0-9]{4}$/;
-        var regExpDay = /^[0-9]{1,2}/;
-        var regExpEmail1 = /^[a-zA-Z0-9]([-_]?[a-zA-Z0-9])*$/;
-        var regExpEmail2 = /^[0-9a-zA-Z]([-_]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
-        var regExpPhone = /^010[0-9]{8}$/;
-
-        function checkForm() {
-          var current = new Date();
-          if (form.id.value === "") {
-            alert("아이디를 입력해주세요.");
-            form.id.select();
-            return;
-          } else if (!regExpId.test(form.id.value)) {
-            alert("아이디는 5~20자의 영문 소문자, 숫자만 사용 가능합니다.");
-            form.id.select();
-            return;
-          }
-          if (form.password.value === "") {
-            alert("비밀번호를 입력해주세요.");
-            form.password.select();
-            return;
-          } else if (!regExpPw.test(form.password.value)) {
-            alert("비밀번호는 4자 이상의 영문 대소문자와 숫자만 사용 가능합니다.");
-            form.password.select();
-            return;
-          }
-          if (form.rePw.value !== form.password.value) {
-            alert("비밀번호가 일치하지 않습니다.");
-            form.rePw.select();
-            return;
-          }
-          if (form.name.value === "") {
-            alert("이름을 입력해주세요.");
-            return;
-          } else if (!regExpName.test(form.name.value)) {
-            alert("이름을 다시 확인해주세요.");
-            return;
-          }
-          if (!regExpYear.test(form.year.value)) {
-            alert("태어난 년도 4자리를 정확하게 입력하세요.");
-            form.year.select();
-            return;
-          } else if (form.month.value === "월") {
-            alert("태어난 월을 선택하세요.");
-            return;
-          } else if (!regExpDay.test(form.day.value)) {
-            alert("일(날짜)를 다시 확인해주세요.");
-            form.day.select();
-            return;
-          } else if (Number(form.year.value) > current.getFullYear()) {
-            alert("미래에서 오셨군요.^^");
-            form.year.select();
-            return;
-          }
-          var lastDay = new Date(Number(form.year.value), Number(form.month.value), 0).getDate();
-          if (Number(form.day.value) > lastDay) {
-            alert("일(날짜)를 다시 확인해주세요.");
-            form.day.select();
-            return;
-          }
-          if (form.sex.value === "성별") {
-            alert("성별을 선택해주세요.");
-            return;
-          }
-          if (form.email1.value === "") {
-            alert("이메일을 입력해주세요.");
-            form.email1.select();
-            return;
-          } else if (!regExpEmail1.test(form.email1.value)) {
-            alert("이메일은 영문 대소문자와 하이픈(-), 언더바(_)만 사용가능합니다.");
-            form.email1.select();
-            return;
-          }
-          if (form.email2.value === "") {
-            alert("도메인을 입력해주세요.");
-            form.email2.select();
-            return;
-          } else if (!regExpEmail2.test(form.email2.value)) {
-            alert("도메인을 다시 확인해주세요.");
-            form.email2.select();
-            return;
-          }
-          if (form.phone.value === "") {
-            alert("번호를 입력해주세요.");
-            form.phone.select();
-            return;
-          } else if (!regExpPhone.test(form.phone.value)) {
-            alert("번호를 다시 확인해주세요.");
-            form.phone.select();
-            return;
-          }
-          if (form.address.value === "") {
-            alert("주소를 입력해주세요.")
-            form.address.select();
-            return;
-          }
-          if (!form.id.disabled) {
-            alert("아이디 중복검사를 진행해주세요.");
-            return;
-          }
-          $('#id').attr('disabled', false);
-          form.submit();
-        }
-
-        // function checkId(){
-        //   if($('#checkBtn').val() === '변경'){
-        //     $('#id').attr('disabled',false);
-        //     $('#id').val("");
-        //     $('#checkBtn').val("중복체크");
-        //     $('#result').text("");
-        //     return;
-        //   }
-        //   var id = $('#id').val();
-        //   if(id === ""){
-        //     alert("아이디를 입력해주세요.");
-        //     form.id.select();
-        //     return;
-        //   }
-        //   else if(!regExpId.test(id)){
-        //     alert("아이디는 5~20자의 영문 소문자, 숫자만 사용 가능합니다.");
-        //     form.id.select();
-        //     return;
-        //   }
-        //   $.ajax({
-        //     type :'post',
-        //     async :false,
-        //     url:'/user/duplicateCheck',
-        //     data:{'id':id},
-        //     success: function (result){
-        //       if(result === "success"){
-        //         $('#result').text("사용가능한 아이디입니다.");
-        //         $('#result').css("color","green");
-        //         $('#id').attr('disabled',true);
-        //         $('#checkBtn').val("변경");
-        //       }else{
-        //         $('#result').text("중복된 아이디입니다.");
-        //         $('#result').css("color","red");
-        //       }
-        //     },
-        //     error:function () {
-        //       alert("에러임");
-        //       console.log('error');
-        //     }
-        //   });
-        // }
-
-        $('#checkBtn').on('click', function () {
-          if ($('#checkBtn').val() === '변경') {
-            $('#id').attr('disabled', false);
-            $('#id').val("");
-            $('#checkBtn').val("중복체크");
-            $('#result').text("");
-            return;
-          }
-          var id = $('#id').val();
-          if (id === "") {
-            alert("아이디를 입력해주세요.");
-            form.id.select();
-            return;
-          } else if (!regExpId.test(id)) {
-            alert("아이디는 5~20자의 영문 소문자, 숫자만 사용 가능합니다.");
-            form.id.select();
-            return;
-          }
-          $.ajax({
-            type: 'post',
-            async: false,
-            url: '/user/duplicateCheck',
-            data: {'id': id},
-            success: function (result) {
-              if (result === "success") {
-                $('#result').text("사용가능한 아이디입니다.");
-                $('#result').css("color", "green");
-                $('#id').attr('disabled', true);
-                $('#checkBtn').val("변경");
-              } else {
-                $('#result').text("중복된 아이디입니다.");
-                $('#result').css("color", "red");
-              }
-            },
-            error: function () {
-              console.log('error');
-            }
-          });
-        });
-        // 버튼 누를 필요 없이 실시간 이벤트
-        // $("#id").on("keyup", function(){
-        //     var checkId = $("#id").val();
-        //     $.ajax({
-        //         type : "POST",
-        //         url: "checkId.jsp",
-        //         data : {"id":checkId},
-        //         dataType : "text",
-        //         async : true,
-        //         success : function(data){
-        //             if(data.trim() === "1"){
-        //                 $('#result').text("이 아이디는 이미 존재합니다.");
-        //             }
-        //         }
-        //     })
-        // })
-      });
-    </script>
     <%@include file="footer.jsp"%>
+    <script>
+      var form = document.joinForm;
+      var regExpId = /^[a-z0-9]{5,20}$/;
+      var regExpPw = /^[a-zA-Z0-9]{4,}$/;
+      var regExpName = /^[a-zA-Z가-힣]{2,15}$/;
+      var regExpYear = /^[0-9]{4}$/;
+      var regExpDay = /^[0-9]{1,2}/;
+      var regExpEmail1 = /^[a-zA-Z0-9]([-_]?[a-zA-Z0-9])*$/;
+      var regExpEmail2 = /^[0-9a-zA-Z]([-_]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+      var regExpPhone = /^010[0-9]{8}$/;
+
+
+      function checkForm(){
+        var current = new Date();
+        if(form.id.value === ""){
+          alert("아이디를 입력해주세요.");
+          form.id.select();
+          return;
+        }
+        else if(!regExpId.test(form.id.value)){
+          alert("아이디는 5~20자의 영문 소문자, 숫자만 사용 가능합니다.");
+          form.id.select();
+          return;
+        }
+        if(form.password.value===""){
+          alert("비밀번호를 입력해주세요.");
+          form.password.select();
+          return;
+        }else if(!regExpPw.test(form.password.value)){
+          alert("비밀번호는 4자 이상의 영문 대소문자와 숫자만 사용 가능합니다.");
+          form.password.select();
+          return;
+        }
+        if(form.rePw.value !== form.password.value){
+          alert("비밀번호가 일치하지 않습니다.");
+          form.rePw.select();
+          return;
+        }
+        if(form.name.value === ""){
+          alert("이름을 입력해주세요.");
+          return;
+        }else if(!regExpName.test(form.name.value)){
+          alert("이름을 다시 확인해주세요.");
+          return;
+        }
+        if(!regExpYear.test(form.year.value)){
+          alert("태어난 년도 4자리를 정확하게 입력하세요.");
+          form.year.select();
+          return;
+        }else if(form.month.value==="월"){
+          alert("태어난 월을 선택하세요.");
+          return;
+        }else if(!regExpDay.test(form.day.value)){
+          alert("일(날짜)를 다시 확인해주세요.");
+          form.day.select();
+          return;
+        }else if(Number(form.year.value)>current.getFullYear()){
+          alert("미래에서 오셨군요.^^");
+          form.year.select();
+          return;
+        }
+        var lastDay = new Date(Number(form.year.value),Number(form.month.value),0).getDate();
+        if(Number(form.day.value) > lastDay){
+          alert("일(날짜)를 다시 확인해주세요.");
+          form.day.select();
+          return;
+        }
+        if(form.gender.value==="성별"){
+          alert("성별을 선택해주세요.");
+          return;
+        }
+        if(form.email1.value===""){
+          alert("이메일을 입력해주세요.");
+          form.email1.select();
+          return;
+        }else if(!regExpEmail1.test(form.email1.value)){
+          alert("이메일은 영문 대소문자와 하이픈(-), 언더바(_)만 사용가능합니다.");
+          form.email1.select();
+          return;
+        }
+        if(form.email2.value===""){
+          alert("도메인을 입력해주세요.");
+          form.email2.select();
+          return;
+        }else if(!regExpEmail2.test(form.email2.value)){
+          alert("도메인을 다시 확인해주세요.");
+          form.email2.select();
+          return;
+        }
+        if(form.phone.value === ""){
+          alert("번호를 입력해주세요.");
+          form.phone.select();
+          return;
+        }else if(!regExpPhone.test(form.phone.value)){
+          alert("번호를 다시 확인해주세요.");
+          form.phone.select();
+          return;
+        }
+        if(!form.id.disabled){
+          alert("아이디 중복검사를 진행해주세요.");
+          return;
+        }
+        $('#id').attr('disabled',false);
+        form.submit();
+      }
+
+      function checkId(){
+        if($('#checkBtn').val() === '변경'){
+          $('#id').attr('disabled',false);
+          $('#id').val("");
+          $('#checkBtn').val("중복체크");
+          $('#result').text("");
+          return;
+        }
+        var id = $('#id').val();
+        if(id === ""){
+          alert("아이디를 입력해주세요.");
+          form.id.select();
+          return;
+        }
+        else if(!regExpId.test(id)){
+          alert("아이디는 5~20자의 영문 소문자, 숫자만 사용 가능합니다.");
+          form.id.select();
+          return;
+        }
+        $.ajax({
+          type :'post',
+          async :false,
+          url:'/user/duplicateCheck',
+          data:{'id':id},
+          success: function (result){
+            if(result === "success"){
+              $('#result').text("사용가능한 아이디입니다.");
+              $('#result').css("color","green");
+              $('#id').attr('disabled',true);
+              $('#checkBtn').val("변경");
+            }else{
+              $('#result').text("중복된 아이디입니다.");
+              $('#result').css("color","red");
+            }
+          },
+          error:function () {
+            console.log('error');
+          }
+        });
+      }
+    </script>
 </body>
 </html>
