@@ -81,6 +81,14 @@
       <artifactId>aspectjweaver</artifactId>
       <version>1.9.7</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
+    <!-- 영화 정보를 크롤링 하기 위한 jsoup -->
+    <dependency>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+      <version>1.15.3</version>
+    </dependency>
+
   </dependencies>
   <build>
     <finalName>tjoeun_middle_project</finalName>
