@@ -1,1 +1,2 @@
-# tjoeun_middle_project
+# 더조은 종각 중간 웹 프로젝트
+영화예매 사이트
