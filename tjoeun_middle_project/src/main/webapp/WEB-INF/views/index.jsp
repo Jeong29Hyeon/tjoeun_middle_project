@@ -8,6 +8,15 @@
 </head>
 <body>
 <%@include file="header.jsp"%>
+<!-- msg 창 -->
+<div class="container">
+    <c:if test="${not empty msg}">
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                ${msg}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </c:if>
+</div>
 <!-- 영화 캐러셀 -->
 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
     <div class="carousel-indicators">
