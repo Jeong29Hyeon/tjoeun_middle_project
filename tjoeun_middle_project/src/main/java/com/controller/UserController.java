@@ -62,10 +62,10 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(String id, String passwd, String toUrl,boolean saveId, HttpServletRequest request,
+    public String login(String id, String password, String toUrl,boolean saveId, HttpServletRequest request,
         HttpServletResponse response, RedirectAttributes ra){
         try {
-            User user = userService.login(id,passwd);
+            User user = userService.login(id,password);
             request.getSession().setAttribute("user",user);
             ra.addFlashAttribute("msg",user.getName()+"님 환영합니다!");
         } catch (Exception e) {
@@ -82,5 +82,6 @@ public class UserController {
 
         return "redirect:"+(toUrl == null || toUrl.equals("") ? '/' : toUrl.replace("-","&"));
     }
+
 
 }

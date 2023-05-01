@@ -23,9 +23,9 @@ public class UserService {
         }
     }
 
-    public User login(String id, String passwd) throws Exception {
+    public User login(String id, String password) throws Exception {
         User user = userMapper.selectById(id);
-        if (user == null || !user.getPassword().equals(passwd)) {
+        if (user == null || !user.getPassword().equals(password)) {
             throw new Exception("id,pw에 해당하는 유저가 없음");
         }
         return user;

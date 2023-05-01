@@ -43,7 +43,7 @@
                 </c:when>
             </c:choose>
         </div>
-        <form name="loginForm" class="row g-3" action="<c:url value='/login'/>" method="post">
+        <form name="loginForm" class="row g-3" action="<c:url value='/user/login'/>" method="post">
             <div class="row mt-md-3">
                 <div class="col-md-12">
                     <label for="id" class="form-label">아이디</label>
@@ -52,8 +52,8 @@
             </div>
             <div class="row mt-md-3">
                 <div class="col-md-12">
-                    <label for="passwd" class="form-label">비밀번호</label>
-                    <input class="form-control" type="password" id="passwd" name="passwd" placeholder="비밀번호입력">
+                    <label for="password" class="form-label">비밀번호</label>
+                    <input class="form-control" type="password" id="password" name="password" placeholder="비밀번호입력">
                 </div>
             </div>
             <div class="row mt-md-3">
@@ -82,9 +82,9 @@
           alert("아이디를 입력해주세요.");
           form.id.select();
           return;
-        }else if(form.passwd.value===""){
+        }else if(form.password.value===""){
           alert("비밀번호를 입력해주세요.")
-          form.passwd.select();
+          form.password.select();
           return;
         }
         form.submit();
