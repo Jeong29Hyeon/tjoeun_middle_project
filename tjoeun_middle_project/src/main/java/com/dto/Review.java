@@ -22,4 +22,60 @@ public class Review {                // 영화 넘버링에 pk fk 해서 리뷰�
         this.like_hit = like_hit;
         this.hate_hit = hate_hit;
     }
+
+    public int getMovie_num() {
+        return movie_num;
+    }
+
+    public void setMovie_num(int movie_num) {
+        this.movie_num = movie_num;
+    }
+
+    public String getMovie_name() {
+        return movie_name;
+    }
+
+    public void setMovie_name(String movie_name) {
+        this.movie_name = movie_name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
+    public void setReview(String review) {
+        this.review = review;
+    }
+
+    public Date getReg_day() {
+        return reg_day;
+    }
+
+    public void setReg_day(Date reg_day) {
+        this.reg_day = reg_day;
+    }
+
+    public int getLike_hit() {
+        return like_hit;
+    }
+
+    public void setLike_hit(int like_hit) {
+        this.like_hit = like_hit;
+    }
+
+    public int getHate_hit() {
+        return hate_hit;
+    }
+
+    public void setHate_hit(int hate_hit) {
+        this.hate_hit = hate_hit;
+    }
 }

@@ -14,4 +14,36 @@ public class Cinema {
         this.seats = seats;
         this.cinema_money = cinema_money;
     }
+
+    public int getCinema_num() {
+        return cinema_num;
+    }
+
+    public void setCinema_num(int cinema_num) {
+        this.cinema_num = cinema_num;
+    }
+
+    public String getCinema_name() {
+        return cinema_name;
+    }
+
+    public void setCinema_name(String cinema_name) {
+        this.cinema_name = cinema_name;
+    }
+
+    public int getSeats() {
+        return seats;
+    }
+
+    public void setSeats(int seats) {
+        this.seats = seats;
+    }
+
+    public int getCinema_money() {
+        return cinema_money;
+    }
+
+    public void setCinema_money(int cinema_money) {
+        this.cinema_money = cinema_money;
+    }
 }

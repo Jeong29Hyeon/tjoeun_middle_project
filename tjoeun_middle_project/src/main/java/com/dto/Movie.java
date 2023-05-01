@@ -14,7 +14,7 @@ public class Movie {
     private String nation;                  // 국가
     private String story;                   // 짧은 한줄 스토리
     private Date reg_day;                   // 개봉일자
-    private String star;                  // 리뷰 -> 평점기능
+    private String star;                    // 리뷰 -> 평점기능
 
     public Movie(){}
 
@@ -30,6 +30,94 @@ public class Movie {
         this.nation = nation;
         this.story = story;
         this.reg_day = reg_day;
+        this.star = star;
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
+
+    public String getMovie_Name() {
+        return movie_Name;
+    }
+
+    public void setMovie_Name(String movie_Name) {
+        this.movie_Name = movie_Name;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getActor() {
+        return actor;
+    }
+
+    public void setActor(String actor) {
+        this.actor = actor;
+    }
+
+    public int getCumulative_User() {
+        return cumulative_User;
+    }
+
+    public void setCumulative_User(int cumulative_User) {
+        this.cumulative_User = cumulative_User;
+    }
+
+    public String getAge_rating() {
+        return age_rating;
+    }
+
+    public void setAge_rating(String age_rating) {
+        this.age_rating = age_rating;
+    }
+
+    public String getRunning_time() {
+        return running_time;
+    }
+
+    public void setRunning_time(String running_time) {
+        this.running_time = running_time;
+    }
+
+    public String getNation() {
+        return nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation;
+    }
+
+    public String getStory() {
+        return story;
+    }
+
+    public void setStory(String story) {
+        this.story = story;
+    }
+
+    public Date getReg_day() {
+        return reg_day;
+    }
+
+    public void setReg_day(Date reg_day) {
+        this.reg_day = reg_day;
+    }
+
+    public String getStar() {
+        return star;
+    }
+
+    public void setStar(String star) {
         this.star = star;
     }
 }
