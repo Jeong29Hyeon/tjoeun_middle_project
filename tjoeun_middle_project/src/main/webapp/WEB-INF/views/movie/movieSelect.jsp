@@ -30,9 +30,9 @@
 <div class="container text-center mt-5">
     <div class="row">
         <div class="col">
-            <c:forEach var="poster" items="${posters}">
+            <c:forEach var="movie" items="${posters}">
                 <div class="container" style="text-align: left">
-                    <a href="#" style="text-decoration-line: none; color: black" class="mt-3" id="titleTag">${poster.title}</a>
+                    <a href="#" style="text-decoration-line: none; color: black" class="mt-3">${movie.title}</a>
                 </div>
 <%--                <input type="hidden" id="title${poster.rank}" value="${poster.title}">--%>
 
