@@ -2,51 +2,33 @@ package com.dto;
 
 import java.util.Date;
 
-public class Movie {    
-    private int num;                        // 영화 넘버링 (오토인크)
-//    private String movie_img;               // 제희 왈 이미지 스트링으로 가져온다
-    private String movie_Name;              // 영화이름
+public class Movie {
+    private int seq; //포스터 seq
     private String category;                // 카테고리 스릴러 코믹 섹스
     private String actor;                   // 배우 및 감독 ( 이제희 감독 정민규 조연 이정현 조연)   이미지 삽입시 고민 해야댐
-    private int cumulative_User;            // 누적 관객수
-    private String age_rating;              // 영화 관람 등급 12세 15세 청불
-    private String running_time;            // 상영시간
+    private int cumulativeUser;            // 누적 관객수
+    private String ageRating;              // 영화 관람 등급 12세 15세 청불
+    private String runningTime;            // 상영시간
     private String nation;                  // 국가
     private String story;                   // 짧은 한줄 스토리
-    private Date reg_day;                   // 개봉일자
+    private Date regDay;                   // 개봉일자
     private String star;                    // 리뷰 -> 평점기능
 
-    public Movie(){}
+    private String img; //크롤링 포스터 이미지
+    private String rank; // 1~10위까지 영화
+    private String title; //영화 제목
+    private String rateInfo; //예매율
+    private String openingDate; //개봉일
 
-    public Movie(int num, String movie_Name, String category, String actor, int cumulative_User, String age_rating,
-                 String running_time, String nation, String story, Date reg_day, String star) {
-        this.num = num;
-        this.movie_Name = movie_Name;
-        this.category = category;
-        this.actor = actor;
-        this.cumulative_User = cumulative_User;
-        this.age_rating = age_rating;
-        this.running_time = running_time;
-        this.nation = nation;
-        this.story = story;
-        this.reg_day = reg_day;
-        this.star = star;
+    public Movie() {
     }
 
-    public int getNum() {
-        return num;
+    public int getSeq() {
+        return seq;
     }
 
-    public void setNum(int num) {
-        this.num = num;
-    }
-
-    public String getMovie_Name() {
-        return movie_Name;
-    }
-
-    public void setMovie_Name(String movie_Name) {
-        this.movie_Name = movie_Name;
+    public void setSeq(int seq) {
+        this.seq = seq;
     }
 
     public String getCategory() {
@@ -65,28 +47,28 @@ public class Movie {
         this.actor = actor;
     }
 
-    public int getCumulative_User() {
-        return cumulative_User;
+    public int getCumulativeUser() {
+        return cumulativeUser;
     }
 
-    public void setCumulative_User(int cumulative_User) {
-        this.cumulative_User = cumulative_User;
+    public void setCumulativeUser(int cumulativeUser) {
+        this.cumulativeUser = cumulativeUser;
     }
 
-    public String getAge_rating() {
-        return age_rating;
+    public String getAgeRating() {
+        return ageRating;
     }
 
-    public void setAge_rating(String age_rating) {
-        this.age_rating = age_rating;
+    public void setAgeRating(String ageRating) {
+        this.ageRating = ageRating;
     }
 
-    public String getRunning_time() {
-        return running_time;
+    public String getRunningTime() {
+        return runningTime;
     }
 
-    public void setRunning_time(String running_time) {
-        this.running_time = running_time;
+    public void setRunningTime(String runningTime) {
+        this.runningTime = runningTime;
     }
 
     public String getNation() {
@@ -105,12 +87,12 @@ public class Movie {
         this.story = story;
     }
 
-    public Date getReg_day() {
-        return reg_day;
+    public Date getRegDay() {
+        return regDay;
     }
 
-    public void setReg_day(Date reg_day) {
-        this.reg_day = reg_day;
+    public void setRegDay(Date regDay) {
+        this.regDay = regDay;
     }
 
     public String getStar() {
@@ -119,5 +101,45 @@ public class Movie {
 
     public void setStar(String star) {
         this.star = star;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getRank() {
+        return rank;
+    }
+
+    public void setRank(String rank) {
+        this.rank = rank;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getRateInfo() {
+        return rateInfo;
+    }
+
+    public void setRateInfo(String rateInfo) {
+        this.rateInfo = rateInfo;
+    }
+
+    public String getOpeningDate() {
+        return openingDate;
+    }
+
+    public void setOpeningDate(String openingDate) {
+        this.openingDate = openingDate;
     }
 }
