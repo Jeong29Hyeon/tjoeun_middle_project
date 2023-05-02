@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.dto.Movie;
 import com.dto.Poster;
 
 import java.io.IOException;
@@ -29,21 +30,20 @@ public class MainController {
         Elements rateInfos = doc.select(".percent span"); //
         Elements openDateInfos = doc.select("span.txt-info > strong");
         //일단 10개 추후에 <더보기> 를 추가하는건 어떨까?
-        List<Poster> posters = new ArrayList<>();
+        List<Movie> movies = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            Poster poster = new Poster();
-            poster.setSeq(i);
-            poster.setImg(imgs.get(i).attr("src"));
-            poster.setRank(ranks.get(i).text());
-            poster.setTitle(titles.get(i).text());
-            poster.setRateInfo(rateInfos.get(i).text());
-            poster.setOpeningDate(openDateInfos.get(i).text());
+            Movie movie = new Movie();
             String url = imgs.get(i).attr("src");   //url자를려고 넣었음 ㅎㅎ
             String[] urlParts = url.split("/");     ///기준으로 잘랐는데 7번째가 영화 코드임 ^^
-            poster.setDetailUrl(urlParts[7]);       // 그래서 7번째꺼 deatilUrl로 셋해줌
-            posters.add(poster);
+            movie.setSeq(Integer.parseInt(urlParts[7]));
+            movie.setImg(imgs.get(i).attr("src"));
+            movie.setRank(ranks.get(i).text());
+            movie.setTitle(titles.get(i).text());
+            movie.setRateInfo(rateInfos.get(i).text());
+            movie.setOpeningDate(openDateInfos.get(i).text());
+            movies.add(movie);
         }
-        model.addAttribute("posters", posters);
+        model.addAttribute("movies", movies);
         return "index";
     }
 
