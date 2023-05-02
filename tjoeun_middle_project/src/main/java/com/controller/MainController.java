@@ -23,7 +23,6 @@ public class MainController {
     public String index(Model model) throws IOException {
         String currentMovieUrl = "http://www.cgv.co.kr/movies/";
         Document doc = Jsoup.connect(currentMovieUrl).get();
-        Elements detailUrl = doc.select("#contents > div.wrap-movie-chart > div.sect-movie-chart > ol:nth-child(2) > li:nth-child(1) > div.box-image > a");     //디테일뷰
         Elements imgs = doc.select("span.thumb-image > img"); //포스터 이미지
         Elements ranks = doc.select(".rank"); //영화 순위
         Elements titles = doc.select("div.box-contents strong.title"); //제목
@@ -39,14 +38,11 @@ public class MainController {
             poster.setTitle(titles.get(i).text());
             poster.setRateInfo(rateInfos.get(i).text());
             poster.setOpeningDate(openDateInfos.get(i).text());
-
             String url = imgs.get(i).attr("src");   //url자를려고 넣었음 ㅎㅎ
             String[] urlParts = url.split("/");     ///기준으로 잘랐는데 7번째가 영화 코드임 ^^
-
             poster.setDetailUrl(urlParts[7]);       // 그래서 7번째꺼 deatilUrl로 셋해줌
             posters.add(poster);
         }
-
         model.addAttribute("posters", posters);
         return "index";
     }

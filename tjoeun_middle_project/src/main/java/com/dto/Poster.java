@@ -12,7 +12,6 @@ public class Poster {
 
     private String detailUrl;     //디ㅔ일뷰
 
-    private int seq; //포스터 seq
     public Poster() {
     }
 
@@ -25,10 +24,6 @@ public class Poster {
         this.openingDate = openingDate;
         this.story = story;
         this.detailUrl = detailUrl;
-    }
-
-    public int getSeq() {
-        return seq;
     }
 
     public void setSeq(int seq) {
@@ -95,7 +90,5 @@ public class Poster {
         return seq;
     }
 
-    public void setSeq(int seq) {
-        this.seq = seq;
-    }
+
 }
