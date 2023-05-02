@@ -64,35 +64,34 @@
 </div>
 <!-- 영화 목록 -->
 <div class="container my-4">
-    <div class="row row-cols-md-4 row-cols-sm-auto">
-        <c:if test="${not empty posters}">
-            <c:forEach var="poster" items="${posters}">
+    <div class="row row-cols-md-4 row-cols-sm-2 row-cols-lg-5">
+        <c:if test="${not empty movies}">
+            <c:forEach var="movie" items="${movies}">
                 <div class="col">
                     <form action="" method="post">
                         <div class="card mb-3">
                             <!-- 디테일 뷰 -->
-                            <span id="imgWrap${poster.seq}" class="position-relative rounded-2">
-                                    <img id="posterImg${poster.seq}" src="${poster.img}"
+                            <span id="imgWrap${movie.seq}" class="position-relative rounded-2">
+                                    <img id="posterImg${movie.seq}" src="${movie.img}"
                                          class="card-img-top" alt="...">
-                                <span id="btnWrap${poster.seq}"
-                                      class="position-absolute top-50 start-50 translate-middle"
-                                      hidden>
-                                    <a href="<c:url value="/movies/detail-view?detailUrl=${poster.detailUrl}"/>">
-                                    <button id="btnDetail${poster.seq}" type="button"
-                                            class="btn btn-sm btn-light mb-2">상세보기</button></a>
-                                    <button id="btnReserve${poster.seq}"
+                                <div id="btnWrap${movie.seq}"
+                                      class="position-absolute top-50 start-50 translate-middle text-center" hidden>
+                                    <a href="<c:url value="/movies/detail-view?seq=${movie.seq}"/>">
+                                    <button id="btnDetail${movie.seq}" type="button"
+                                            class="btn btn-sm btn-light mb-md-2">상세보기</button></a>
+                                    <button id="btnReserve${movie.seq}"
                                             class="btn btn-sm btn-danger">예매하기</button>
-                                </span>
+                                </div>
                             </span>
                             <div class="card-body mx-auto">
                                 <p class="card-title fw-bold mb-0 mx-auto"
-                                   style="font-size: 12px">${poster.rank}</p>
+                                   style="font-size: 12px">${movie.rank}</p>
                                 <p class="card-title fw-bold mb-0 mx-auto"
-                                   style="font-size: 12px">${poster.title}</p>
+                                   style="font-size: 12px">${movie.title}</p>
                                 <p class="card-text my-0" style="font-size:10px;"><small
-                                        class="text-muted">예매율 ${poster.rateInfo}</small></p>
+                                        class="text-muted">예매율 ${movie.rateInfo}</small></p>
                                 <p class="card-text" style="font-size:10px"><small
-                                        class="text-muted">${poster.openingDate}</small></p>
+                                        class="text-muted">${movie.openingDate}</small></p>
                             </div>
                         </div>
                         <!-- 서버로 넘길 영화 데이터 input hidden -->
@@ -106,17 +105,17 @@
 <%@include file="footer.jsp" %>
 <script>
     $(document).ready(function () {
-        <c:forEach var="poster" items="${posters}">
-        $('#imgWrap${poster.seq}').on('mouseover', function () {
-            $('#imgWrap${poster.seq}').css('background', 'rgba(0,0,0,0.8)');
-            $('#posterImg${poster.seq}').css('opacity', '0.5');
-            $('#posterImg${poster.seq}').css('transition', 'opacity 0.25s ease-in-out');
-            $('#btnWrap${poster.seq}').attr('hidden', false);
+        <c:forEach var="movie" items="${movies}">
+        $('#imgWrap${movie.seq}').on('mouseover', function () {
+            $('#imgWrap${movie.seq}').css('background', 'rgba(0,0,0,0.8)');
+            $('#posterImg${movie.seq}').css('opacity', '0.5');
+            $('#posterImg${movie.seq}').css('transition', 'opacity 0.25s ease-in-out');
+            $('#btnWrap${movie.seq}').attr('hidden', false);
         });
 
-        $('#imgWrap${poster.seq}').on('mouseout', function () {
-            $('#posterImg${poster.seq}').css('opacity', '1');
-            $('#btnWrap${poster.seq}').attr('hidden', true);
+        $('#imgWrap${movie.seq}').on('mouseout', function () {
+            $('#posterImg${movie.seq}').css('opacity', '1');
+            $('#btnWrap${movie.seq}').attr('hidden', true);
         });
         </c:forEach>
     });

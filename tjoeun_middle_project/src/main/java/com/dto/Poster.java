@@ -26,6 +26,10 @@ public class Poster {
         this.detailUrl = detailUrl;
     }
 
+    public void setSeq(int seq) {
+        this.seq = seq;
+    }
+
     public String getOpeningDate() {
         return openingDate;
     }
@@ -86,7 +90,5 @@ public class Poster {
         return seq;
     }
 
-    public void setSeq(int seq) {
-        this.seq = seq;
-    }
+
 }
