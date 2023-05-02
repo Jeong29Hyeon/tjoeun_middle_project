@@ -77,8 +77,9 @@
                                 <span id="btnWrap${poster.seq}"
                                       class="position-absolute top-50 start-50 translate-middle"
                                       hidden>
-                                    <button id="btnDetail${poster.seq}"
-                                            class="btn btn-sm btn-light mb-2">상세보기</button>
+                                    <a href="<c:url value="/movies/detail-view?detailUrl=${poster.detailUrl}"/>">
+                                    <button id="btnDetail${poster.seq}" type="button"
+                                            class="btn btn-sm btn-light mb-2">상세보기</button></a>
                                     <button id="btnReserve${poster.seq}"
                                             class="btn btn-sm btn-danger">예매하기</button>
                                 </span>
@@ -101,23 +102,24 @@
         </c:if>
     </div>
 </div>
-<script>
-  $(document).ready(function () {
-    <c:forEach var="poster" items="${posters}">
-    $('#imgWrap${poster.seq}').on('mouseover', function () {
-      $('#imgWrap${poster.seq}').css('background', 'rgba(0,0,0,0.8)');
-      $('#posterImg${poster.seq}').css('opacity', '0.5');
-      $('#posterImg${poster.seq}').css('transition', 'opacity 0.25s ease-in-out');
-      $('#btnWrap${poster.seq}').attr('hidden', false);
-    });
 
-    $('#imgWrap${poster.seq}').on('mouseout', function () {
-      $('#posterImg${poster.seq}').css('opacity', '1');
-      $('#btnWrap${poster.seq}').attr('hidden', true);
-    });
-    </c:forEach>
-  });
-</script>
 <%@include file="footer.jsp" %>
+<script>
+    $(document).ready(function () {
+        <c:forEach var="poster" items="${posters}">
+        $('#imgWrap${poster.seq}').on('mouseover', function () {
+            $('#imgWrap${poster.seq}').css('background', 'rgba(0,0,0,0.8)');
+            $('#posterImg${poster.seq}').css('opacity', '0.5');
+            $('#posterImg${poster.seq}').css('transition', 'opacity 0.25s ease-in-out');
+            $('#btnWrap${poster.seq}').attr('hidden', false);
+        });
+
+        $('#imgWrap${poster.seq}').on('mouseout', function () {
+            $('#posterImg${poster.seq}').css('opacity', '1');
+            $('#btnWrap${poster.seq}').attr('hidden', true);
+        });
+        </c:forEach>
+    });
+</script>
 </body>
 </html>
