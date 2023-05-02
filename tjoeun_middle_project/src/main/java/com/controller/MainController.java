@@ -33,6 +33,7 @@ public class MainController {
         List<Poster> posters = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             Poster poster = new Poster();
+            poster.setSeq(i);
             poster.setImg(imgs.get(i).attr("src"));
             poster.setRank(ranks.get(i).text());
             poster.setTitle(titles.get(i).text());

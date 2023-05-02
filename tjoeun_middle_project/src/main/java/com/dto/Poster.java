@@ -10,10 +10,13 @@ public class Poster {
     private String story;       //잠시 테스트로 줄거리좀 넣음
 
     private String detailUrl;     //디ㅔ일뷰
+
+    private int seq; //포스터 seq
     public Poster() {
     }
 
-    public Poster(String img, String rank, String title, String rateInfo, String openingDate, String story,String detailUrl) {
+    public Poster(int seq,String img, String rank, String title, String rateInfo, String openingDate, String story,String detailUrl) {
+        this.seq = seq;
         this.img = img;
         this.rank = rank;
         this.title = title;
@@ -77,5 +80,13 @@ public class Poster {
 
     public void setDetailUrl(String detailUrl) {
         this.detailUrl = detailUrl;
+    }
+
+    public int getSeq() {
+        return seq;
+    }
+
+    public void setSeq(int seq) {
+        this.seq = seq;
     }
 }
