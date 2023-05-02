@@ -16,10 +16,6 @@
 <jsp:include page="header.jsp"/>
 <div class="container mt-md-3" style="width: 500px">
     <div class="row g-3">
-        <div class="col-md-12 position-relative bg-primary rounded text-center fs-1"
-             style="height: 100px; color:white;">
-            <span class="position-absolute top-50 start-50 translate-middle">로그인</span>
-        </div>
         <div id="msg">
             <c:choose>
                 <c:when test="${not empty msg}">
@@ -57,18 +53,21 @@
                 </div>
             </div>
             <div class="row mt-md-3">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <input type="checkbox" name="saveId" ${empty cookie.id ? '':'checked'}>아이디 저장
+                </div>
+                <div class="col-md-6 ms-auto">
+                    <a href="<c:url value="#"/>" style="text-decoration: none; font-size: 12px">아이디 혹은 비밀번호를 잊으셨나요?</a>
                 </div>
             </div>
             <div class="row mt-md-4 text-center">
-                <div class="col-md-6">
+                <div class="col">
                     <input type="hidden" name="toUrl" value="${param.toUrl}"/>
-                    <input type="button" class="btn btn-primary fluid" value="로그인하기" onclick="checkLogin()">
+                    <input type="button" class="btn btn-primary" value="로그인하기" onclick="checkLogin()">
                 </div>
-                <div class="col-md-6">
+                <div class="col">
                     <button type="button" class="btn btn-primary">
-                        <a href="<c:url value="/searchIdPw"/>" style="color:white; text-decoration: none">ID/PW찾기</a>
+                        <a href="<c:url value="/user/join"/>" style="color:white; text-decoration: none">회원가입</a>
                     </button>
                 </div>
             </div>
