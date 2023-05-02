@@ -71,7 +71,8 @@
                     <form action="" method="post">
                         <div class="card mb-3">
                             <!-- 디테일 뷰 -->
-                            <a href="#"><img src="${poster.img}" class="card-img-top" alt="..."></a>
+                            <!-- detailUrl보내줍니다-->
+                            <a href="<c:url value="/movies/detail-view?detailUrl=${poster.detailUrl}"/>"><img src="${poster.img}" class="card-img-top" alt="..."></a>
                             <div class="card-body text-center">
                                 <p class="card-title fw-bold mb-0"
                                    style="font-size: 12px">${poster.rank}</p>

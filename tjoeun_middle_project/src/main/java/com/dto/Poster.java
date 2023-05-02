@@ -7,15 +7,20 @@ public class Poster {
     private String rateInfo; //예매율
 
     private String openingDate; //개봉일
+    private String story;       //잠시 테스트로 줄거리좀 넣음
+
+    private String detailUrl;     //디ㅔ일뷰
     public Poster() {
     }
 
-    public Poster(String img, String rank, String title, String rateInfo, String openingDate) {
+    public Poster(String img, String rank, String title, String rateInfo, String openingDate, String story,String detailUrl) {
         this.img = img;
         this.rank = rank;
         this.title = title;
         this.rateInfo = rateInfo;
         this.openingDate = openingDate;
+        this.story = story;
+        this.detailUrl = detailUrl;
     }
 
     public String getOpeningDate() {
@@ -58,4 +63,19 @@ public class Poster {
         this.rateInfo = rateInfo;
     }
 
+    public String getStory() {
+        return story;
+    }
+
+    public void setStory(String story) {
+        this.story = story;
+    }
+
+    public String getDetailUrl() {
+        return detailUrl;
+    }
+
+    public void setDetailUrl(String detailUrl) {
+        this.detailUrl = detailUrl;
+    }
 }
