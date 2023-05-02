@@ -25,9 +25,6 @@ public class DetailController {
 //        Elements rateInfos = doc.select(".percent span"); //
 //        Elements openDateInfos = doc.select("span.txt-info > strong");
         Elements story = doc.select("div.sect-story-movie");    //줄거리
-        System.out.println(titles.get(0).text());
-        System.out.println(story.get(0).text());
-        System.out.println("test2^^");
         //디테일이니까 하나만 가져오고 싶은데
         Poster poster = new Poster();
         poster.setImg(imgs.get(0).attr("src"));
