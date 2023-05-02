@@ -6,5 +6,6 @@
 <configuration>
   <typeAliases>
     <typeAlias type="com.dto.User" alias="User"/>
+    <typeAlias type="com.dto.Cinema" alias="Cinema"/>
   </typeAliases>
 </configuration>

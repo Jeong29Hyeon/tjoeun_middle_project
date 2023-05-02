@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>header</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://kit.fontawesome.com/5a1cb9332c.js" crossorigin="anonymous"></script>
@@ -39,7 +40,7 @@
                         <div class="navbar-collapse collapse show" id="reserveTap" style="">
                             <ul class="navbar-nav me-auto mb-2">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">예매하기</a>
+                                    <a class="nav-link" href="/movieSelect">예매하기</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">상영시간표</a>
