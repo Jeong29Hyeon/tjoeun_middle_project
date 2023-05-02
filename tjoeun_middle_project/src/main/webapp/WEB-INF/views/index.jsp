@@ -64,7 +64,7 @@
 </div>
 <!-- 영화 목록 -->
 <div class="container my-4">
-    <div class="row row-cols-md-4 row-cols-sm-auto">
+    <div class="row row-cols-md-4 row-cols-sm-2 row-cols-lg-5">
         <c:if test="${not empty posters}">
             <c:forEach var="poster" items="${posters}">
                 <div class="col">
@@ -74,15 +74,14 @@
                             <span id="imgWrap${poster.seq}" class="position-relative rounded-2">
                                     <img id="posterImg${poster.seq}" src="${poster.img}"
                                          class="card-img-top" alt="...">
-                                <span id="btnWrap${poster.seq}"
-                                      class="position-absolute top-50 start-50 translate-middle"
-                                      hidden>
+                                <div id="btnWrap${poster.seq}"
+                                      class="position-absolute top-50 start-50 translate-middle text-center" hidden>
                                     <a href="<c:url value="/movies/detail-view?detailUrl=${poster.detailUrl}"/>">
                                     <button id="btnDetail${poster.seq}" type="button"
-                                            class="btn btn-sm btn-light mb-2">상세보기</button></a>
+                                            class="btn btn-sm btn-light mb-md-2">상세보기</button></a>
                                     <button id="btnReserve${poster.seq}"
                                             class="btn btn-sm btn-danger">예매하기</button>
-                                </span>
+                                </div>
                             </span>
                             <div class="card-body mx-auto">
                                 <p class="card-title fw-bold mb-0 mx-auto"
