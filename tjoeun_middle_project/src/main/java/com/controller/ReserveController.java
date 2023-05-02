@@ -1,8 +1,7 @@
 package com.controller;
 
-import com.dto.Cinema;
 import com.dto.Poster;
-import com.service.CinemaService;
+import com.service.HallService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -19,10 +18,10 @@ import java.util.List;
 
 @Controller
 public class ReserveController {
-    CinemaService cinemaService;
+    HallService hallMapper;
     @Autowired
-    public ReserveController(CinemaService cinemaService){
-        this.cinemaService = cinemaService;
+    public ReserveController(HallService hallMapper){
+        this.hallMapper = hallMapper;
     }
 
     @GetMapping("/movieRoom")
@@ -30,7 +29,7 @@ public class ReserveController {
         return "/movie/movieRoom";
     }
     @RequestMapping(value = "/movieSelect", method = {RequestMethod.GET,RequestMethod.POST})
-    public String selectTime(Model model, Cinema cinema) throws IOException {
+    public String selectTime(Model model) throws IOException {
         String currentMovieUrl = "http://www.cgv.co.kr/movies/";
         Document doc = Jsoup.connect(currentMovieUrl).get();
         Elements imgs = doc.select("span.thumb-image > img"); //포스터 이미지
@@ -51,8 +50,8 @@ public class ReserveController {
         }
         model.addAttribute("posters",posters);
 //        Cinema cinemaInfo = cinemaService.select(cinema);
-        model.addAttribute("cinemaList",cinemaService.selectAll(cinema));
-        System.out.println(cinemaService.selectAll(cinema).get(0).getCinema_num());
+        model.addAttribute("hallMapper",hallMapper.selectAll());
+
         return "/movie/movieSelect";
     }
 }
