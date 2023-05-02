@@ -1,12 +1,12 @@
 package com.mapper;
 
-import com.dto.Cinema;
+import com.dto.Hall;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 @Mapper
-public interface CinemaMapper {
+public interface HallMapper {
 
-    List<Cinema> selectAll(Cinema cinema);
+    List<Hall> selectAll();
 }

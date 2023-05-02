@@ -32,26 +32,47 @@
         <div class="col">
             <c:forEach var="poster" items="${posters}">
                 <div class="container" style="text-align: left">
-                    <a href="#" style="text-decoration-line: none; color: black" class="mt-3">${poster.title}</a>
+                    <a href="#" style="text-decoration-line: none; color: black" class="mt-3" id="titleTag">${poster.title}</a>
                 </div>
+<%--                <input type="hidden" id="title${poster.rank}" value="${poster.title}">--%>
+
             </c:forEach>
         </div>
         <div class="col">
-            <c:forEach var="cinema" items="${cinemaList}">
+            <c:forEach var="hall" items="${hallMapper}">
                 <div class="container" style="text-align: left">
-                    <a href="#" style="text-decoration-line: none; color: black" class="mt-3">${cinema.cinema_num}관/
-                        TYPE) ${cinema.cinema_name}</a>
+                    <a href="#" style="text-decoration-line: none; color: black" class="mt-3">${hall.hall_num}관/
+                        TYPE) ${hall.hall_name}</a>
                 </div>
             </c:forEach>
         </div>
         <div class="col">
-<%--            <c:forEach var="cinema" items="${cinemaList}">--%>
-                <a href="#" style="text-decoration-line: none; color: black" class="mt-3">10시</a>100석<br>
-                <a href="#" style="text-decoration-line: none; color: black" class="mt-3">12시</a>100석
-<%--            </c:forEach>--%>
+            <%--            <c:forEach var="cinema" items="${cinemaList}">--%>
+            <a href="#" style="text-decoration-line: none; color: black" class="mt-3">10시</a>100석<br>
+            <a href="#" style="text-decoration-line: none; color: black" class="mt-3">12시</a>100석
+            <%--            </c:forEach>--%>
         </div>
     </div>
 </div>
+<div class="container text-center mt-5">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col">
+            <input type="text" id="info" value="들어갈고임">
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
 <%@ include file="/WEB-INF/views/footer.jsp" %>
+<script>
+    $(document).ready(function () {
+        <c:forEach var="poster" items="posters">
+        $("#titleTag").click(function () {
+            <%--var value = $("#title${poster.rank}").val();--%>
+            $("#info").val("qwe");
+        })
+        </c:forEach>
+    });
+</script>
 </body>
 </html>
