@@ -1,11 +1,12 @@
 package com.dto;
 
 public class Poster {
+
+    private int seq; //포스터 seq
     private String img; //크롤링 포스터 이미지
     private String rank; // 1~10위까지 영화
     private String title; //영화 제목
     private String rateInfo; //예매율
-
     private String openingDate; //개봉일
     private String story;       //잠시 테스트로 줄거리좀 넣음
 
@@ -24,6 +25,14 @@ public class Poster {
         this.openingDate = openingDate;
         this.story = story;
         this.detailUrl = detailUrl;
+    }
+
+    public int getSeq() {
+        return seq;
+    }
+
+    public void setSeq(int seq) {
+        this.seq = seq;
     }
 
     public String getOpeningDate() {
