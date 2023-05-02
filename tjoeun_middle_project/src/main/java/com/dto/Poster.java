@@ -1,21 +1,32 @@
 package com.dto;
 
 public class Poster {
+
+    private int seq; //포스터 seq
     private String img; //크롤링 포스터 이미지
     private String rank; // 1~10위까지 영화
     private String title; //영화 제목
     private String rateInfo; //예매율
-
     private String openingDate; //개봉일
     public Poster() {
     }
 
-    public Poster(String img, String rank, String title, String rateInfo, String openingDate) {
+    public Poster(int seq, String img, String rank, String title, String rateInfo,
+        String openingDate) {
+        this.seq = seq;
         this.img = img;
         this.rank = rank;
         this.title = title;
         this.rateInfo = rateInfo;
         this.openingDate = openingDate;
+    }
+
+    public int getSeq() {
+        return seq;
+    }
+
+    public void setSeq(int seq) {
+        this.seq = seq;
     }
 
     public String getOpeningDate() {
