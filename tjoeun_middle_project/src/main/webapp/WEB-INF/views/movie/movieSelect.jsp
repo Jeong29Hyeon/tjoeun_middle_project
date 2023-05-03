@@ -1,3 +1,4 @@
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
   Created by IntelliJ IDEA.
   User: USER
@@ -35,12 +36,12 @@
             </div>
         </div>
         <div class="col">
-            <h3>Hall & HallType</h3>
+            <div class="col">
+                <h3>DAY</h3>
+            </div>
         </div>
         <div class="col">
-            <div class="col">
-                <h3>MAY</h3>
-            </div>
+            <h3>Hall & HallType</h3>
         </div>
         <div class="col">
             <div class="col">
@@ -56,10 +57,10 @@
             <c:when test="${not empty movies}">
                 <div class="col">
                     <c:forEach var="movie" items="${movies}">
-                        <div class="container" style="text-align: left">
+                        <div id="titleWrap" class="container" style="text-align: left">
                             <a href="#" style="text-decoration-line: none; color: black" class="mt-3"
-                               id="movieTag">${movie.title}</a>
-<%--                                ${movie.seq}--%>
+                               id="selectTitle${movie.seq}">${movie.title}</a>
+                                <%--                                ${movie.seq}--%>
                         </div>
                     </c:forEach>
                 </div>
@@ -68,28 +69,26 @@
                 <div class="col">
                     <div class="container" style="text-align: left">
                         <a href="#" style="text-decoration-line: none; color: black" class="mt-3"
-                           id="movieTag${NotNullMovies.seq}">${NotNullMovies.title}</a>
+                           id="selectTitle${NotNullMovies.seq}">${NotNullMovies.title}</a>
                     </div>
                 </div>
             </c:when>
         </c:choose>
         <div class="col">
-            <c:forEach var="hall" items="${hallList}">
-                <div class="container" style="text-align: left">
+            <div id="dayWrap" hidden>
+                <c:forEach var="day" items="${dayList}">
                     <a href="#" style="text-decoration-line: none; color: black" class="mt-3"
-                       id="hallTag${hall.hall_num}">${hall.hall_num}관/ TYPE) ${hall.hall_name}</a>
-                </div>
-            </c:forEach>
+                       id="selectDay${day}" onclick="dayClick(this)">${day}</a><br>
+                </c:forEach>
+            </div>
         </div>
-        <div class="col">
-            <c:forEach var="day" items="${dayList}">
-                <a href="#" style="text-decoration-line: none; color: black" class="mt-3"
-                   id="dayTag${day}">${day}</a><br>
-            </c:forEach>
+        <div id="hall" class="col">
+
         </div>
-        <div class="col">
-            <a href="#" style="text-decoration-line: none; color: black" class="mt-3">10시</a>잔여석<br>
-            <a href="#" style="text-decoration-line: none; color: black" class="mt-3">12시</a>잔여석
+        <div id="time" class="col">
+            <div id="timeWrap">
+
+            </div>
         </div>
     </div>
 </div>
@@ -99,17 +98,18 @@
         <div class="row">
             <div class="col">
                 <div class="col">
-                    <input type="text" id="movieInfo" name="movieInfo" value="${selectMovie}">
+                    <input type="text" id="titleInfo" name="titleInfo" value="${selectMovie}">
                 </div>
-            </div>
-            <div class="col">
-                <input type="text" id="hallInfo" name="hallInfo" value="관">
             </div>
             <div class="col">
                 <div class="col">
                     <input type="text" id="dayInfo" name="dayInfo" value="날짜">
                 </div>
             </div>
+            <div class="col">
+                <input type="text" id="hallInfo" name="hallInfo" value="관">
+            </div>
+
             <div class="col">
                 <div class="col">
                     <input type="text" id="timeInfo" name="timeInfo" value="시간">
@@ -129,61 +129,161 @@
 날짜 처음에 1일(요일) 로 하였으나 ( 특수문자를 받아드리지 못하여 _로 수정함 할거면 디티오 만들어서 불러내는 방식? 을써야할듯<br>
 
 <%@ include file="/WEB-INF/views/footer.jsp" %>
-<%--<script>--%>
-<%--    // $(document).ready(function () {--%>
-<%--    <c:forEach var="movie" items="${movies}">--%>
-<%--    $("#movieTag${movie.seq}").click(function () {--%>
-<%--        $("#movieInfo").val("${movie.title}");--%>
-<%--    })--%>
-<%--    </c:forEach>--%>
-
-<%--    <c:forEach var="hall" items="${hallList}">--%>
-<%--    $("#hallTag${hall.hall_num}").click(function () {--%>
-<%--        $("#hallInfo").val("${hall.hall_num}관");--%>
-<%--    })--%>
-<%--    </c:forEach>--%>
-
-<%--    <c:forEach var="day" items="${dayList}">--%>
-<%--    $("#dayTag${day}").click(function () {--%>
-<%--        $("#dayInfo").val("${day}");--%>
-<%--    })--%>
-<%--    </c:forEach>--%>
-
-<%--    // });--%>
-<%--</script>--%>
 <script>
-    $(document).ready(function (){
-<%--        <c:forEach var="movie" items="movies">--%>
-        $('#movieTag').on('click',function (){
+    function hallClick(selectedHall) {
+
+        $('#hallInfo').val(selectedHall.text);
+        $('#timeWrap').attr('hidden',false);
+        $('#timeWrap').html("");
+        $('#timeInfo').val("");
+        var links = document.querySelectorAll('#hall a');
+        links.forEach(function(link) {
+            link.addEventListener('click', function() {
+                // 모든 링크의 색상을 초기화합니다.
+                links.forEach(function(link) {
+                    link.style.color = 'black';
+                    link.style.fontSize = '14px';
+                });
+                // 선택된 링크의 색상을 변경합니다.
+                this.style.color = 'blue';
+                this.style.fontSize = '18px';
+            });
+        });
+        selectedHall.style.color = "blue";
+        let selectedDay = $('#dayInfo').val().replace(/[^0-9]/g, "");
+        let date = new Date();
+        let dateFormat = date.getFullYear() + "" + ((date.getMonth() + 1) <= 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)) + "" + ((selectedDay) <= 9 ? "0" + (selectedDay) : (selectedDay));
+        $.ajax({
+            type: 'post',
+            url: 'https://www.megabox.co.kr/on/oh/ohc/Brch/schedulePage.do',
+            data: {
+                "masterType": "brch",
+                "detailType": "area",
+                "brchNo": "1372",
+                "firstAt": "Y",
+                "brchNo1": "1372",
+                "playDe": dateFormat
+            },
+            success: function (result) {
+                var addedTheabExpoNm = [];
+                const str = JSON.stringify(result);
+                const obj = JSON.parse(str);
+                const movieList = obj.megaMap.movieFormList;
+                $.each(movieList, function (key, value) {
+                    if (value.movieNm.substring(0, 2).trim() === $('#titleInfo').val().substring(0, 2).trim() && $('#hallInfo').val().trim() === value.theabExpoNm.trim()) {
+                        console.log(value.playStartTime + "~" + value.playEndTime);
+                        $('#timeWrap').append('<a onclick="timeClick(this)" id="selectTime'+value.playStartTime+'" href="#" style="text-decoration-line: none; color: black" class="mt-3">' + value.playStartTime +"~"+ value.playEndTime + '</a><br>');
+                    }
+                });
+                if ($('#timeWrap').html().trim() === '') {
+                }
+            }
+        });
+    }
+
+    function dayClick(selectedDay){
+        $('#dayInfo').val(selectedDay.text);
+        $('#hall').html("");
+        $('#hallInfo').val("");
+        $('#timeInfo').val("");
+        $('#timeWrap').html("");
+        var links = document.querySelectorAll('#dayWrap a');
+        links.forEach(function(link) {
+            link.addEventListener('click', function() {
+                // 모든 링크의 색상을 초기화합니다.
+                links.forEach(function(link) {
+                    link.style.color = 'black';
+                    link.style.fontSize = '14px';
+                });
+                // 선택된 링크의 색상을 변경합니다.
+                this.style.color = 'blue';
+                this.style.fontSize = '18px';
+            });
+        });
+    }
+
+    function timeClick(selectedTime){
+        $('#timeInfo').val(selectedTime.text);
+        var links = document.querySelectorAll('#timeWrap a');
+        links.forEach(function(link) {
+            link.addEventListener('click', function() {
+                // 모든 링크의 색상을 초기화합니다.
+                links.forEach(function(link) {
+                    link.style.color = 'black';
+                    link.style.fontSize = '14px';
+                });
+                // 선택된 링크의 색상을 변경합니다.
+                this.style.color = 'blue';
+                this.style.fontSize = '18px';
+            });
+        });
+    }
+
+    $(document).ready(function () {
+        <c:forEach var="movie" items="${movies}">
+        $('#selectTitle${movie.seq}').on('click', function () {
+            $('#dayWrap').attr('hidden', false);
+            $('#hall').html("")
+            $('#titleInfo').val("${movie.title}")
+            $('#timeWrap').html('');
+            $('#timeInfo').val("");
+            $('#dayInfo').val("");
+            $('#hallInfo').val("");
+        });
+        </c:forEach>
+        var links = document.querySelectorAll('#titleWrap a');
+        links.forEach(function(link) {
+            link.addEventListener('click', function() {
+                // 모든 링크의 색상을 초기화합니다.
+                links.forEach(function(link) {
+                    link.style.color = 'black';
+                    link.style.fontSize = '14px';
+                });
+                // 선택된 링크의 색상을 변경합니다.
+                this.style.color = 'blue';
+                this.style.fontSize = '18px';
+            });
+        });
+
+
+        <c:forEach var="day" items="${dayList}">
+        $('#selectDay${day}').on('click', function () {
+            $('#hall').html("");
+            let selectedDay = $('#selectDay${day}').text().replace(/[^0-9]/g, "");
+            let date = new Date();
+            let dateFormat = date.getFullYear() + "" + ((date.getMonth() + 1) <= 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)) + "" + ((selectedDay) <= 9 ? "0" + (selectedDay) : (selectedDay));
             $.ajax({
-                type:'post',
-                url:'https://www.megabox.co.kr/on/oh/ohc/Brch/schedulePage.do',
-                data:{
+                type: 'post',
+                url: 'https://www.megabox.co.kr/on/oh/ohc/Brch/schedulePage.do',
+                data: {
                     "masterType": "brch",
                     "detailType": "area",
                     "brchNo": "1372",
                     "firstAt": "Y",
                     "brchNo1": "1372",
-                    "playDe": "20230503"
+                    "playDe": dateFormat
                 },
-                success:function (result){
+                success: function (result) {
+                    var addedTheabExpoNm = [];
                     const str = JSON.stringify(result);
                     const obj = JSON.parse(str);
-                    console.log(obj);
                     const movieList = obj.megaMap.movieFormList;
-                    console.log(movieList);
-                    $.each(movieList,function (key,value){
-                        if(value.movieNm.trim() ==="클로즈".trim()){
-                            console.log("나오삼");
-                            console.log(value.playStartTime);
-                            console.log(value.playEndTime);
-                            console.log(value.theabExpoNm);
+                    $.each(movieList, function (key, value) {
+                        if (value.movieNm.substring(0, 2).trim() === $('#titleInfo').val().substring(0,2).trim()) {
+                            console.log(value.playStartTime +"~"+ value.playEndTime);
+                            if (addedTheabExpoNm.indexOf(value.theabExpoNm) === -1) {
+                                $('#hall').append('<a onclick="hallClick(this)" id="hall' + value.theabNo + '" href="#" style="text-decoration-line: none; color: black" class="mt-3">' + value.theabExpoNm + '</a><br>');
+                                addedTheabExpoNm.push(value.theabExpoNm); // 추가된 theabExpoNm을 배열에 저장
+                            }
                         }
-                    })
+                    });
+                    if ($('#hall').html().trim() === '') {
+                        $('#hall').append("다른 날을 선택해주세요")
+                    }
                 }
             });
         });
-<%--        </c:forEach>--%>
+        </c:forEach>
     });
 </script>
 </body>

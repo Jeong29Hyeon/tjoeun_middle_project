@@ -1,7 +1,7 @@
 package com.controller;
 
 import com.dto.Movie;
-import com.dto.Ticket;
+//import com.dto.Ticket;
 import com.service.HallService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -35,17 +35,17 @@ public class ReserveController {
         return "/movie/movieRoom";
     }
 
-    @PostMapping("/movieRoom")
-    public String movieRoom(Model model, Ticket ticket,
-                            String movieInfo,String hallInfo, String dayInfo, String timeInfo) {
-        System.out.println(movieInfo);
-        System.out.println(hallInfo);
-        System.out.println(dayInfo);
-        System.out.println(timeInfo);
-        
-        System.out.println(ticket.getMovieInfo());      // 가져옴
-        return "/movie/movieRoom";
-    }
+//    @PostMapping("/movieRoom")
+//    public String movieRoom(Model model, Ticket ticket,
+//                            String movieInfo,String hallInfo, String dayInfo, String timeInfo) {
+//        System.out.println(movieInfo);
+//        System.out.println(hallInfo);
+//        System.out.println(dayInfo);
+//        System.out.println(timeInfo);
+//
+//        System.out.println(ticket.getMovieInfo());      // 가져옴
+//        return "/movie/movieRoom";
+//    }
 
     @RequestMapping(value = "/movieSelect", method = RequestMethod.GET)
     public String selectTime(Model model, String seq, Movie m) throws IOException {
