@@ -78,7 +78,7 @@
             <div id="dayWrap" hidden>
                 <c:forEach var="day" items="${dayList}">
                     <a href="#" style="text-decoration-line: none; color: black" class="mt-3"
-                       id="selectDay${day}" onclick="dayClick(this)">${day}</a><br>
+                       id="selectDay${day}">${day}</a><br>
                 </c:forEach>
             </div>
         </div>
@@ -131,7 +131,6 @@
 <%@ include file="/WEB-INF/views/footer.jsp" %>
 <script>
     function hallClick(selectedHall) {
-
         $('#hallInfo').val(selectedHall.text);
         $('#timeWrap').attr('hidden',false);
         $('#timeWrap').html("");
@@ -165,7 +164,6 @@
                 "playDe": dateFormat
             },
             success: function (result) {
-                var addedTheabExpoNm = [];
                 const str = JSON.stringify(result);
                 const obj = JSON.parse(str);
                 const movieList = obj.megaMap.movieFormList;
@@ -175,30 +173,7 @@
                         $('#timeWrap').append('<a onclick="timeClick(this)" id="selectTime'+value.playStartTime+'" href="#" style="text-decoration-line: none; color: black" class="mt-3">' + value.playStartTime +"~"+ value.playEndTime + '</a><br>');
                     }
                 });
-                if ($('#timeWrap').html().trim() === '') {
-                }
             }
-        });
-    }
-
-    function dayClick(selectedDay){
-        $('#dayInfo').val(selectedDay.text);
-        $('#hall').html("");
-        $('#hallInfo').val("");
-        $('#timeInfo').val("");
-        $('#timeWrap').html("");
-        var links = document.querySelectorAll('#dayWrap a');
-        links.forEach(function(link) {
-            link.addEventListener('click', function() {
-                // 모든 링크의 색상을 초기화합니다.
-                links.forEach(function(link) {
-                    link.style.color = 'black';
-                    link.style.fontSize = '14px';
-                });
-                // 선택된 링크의 색상을 변경합니다.
-                this.style.color = 'blue';
-                this.style.fontSize = '18px';
-            });
         });
     }
 
@@ -229,26 +204,43 @@
             $('#timeInfo').val("");
             $('#dayInfo').val("");
             $('#hallInfo').val("");
+          var links = document.querySelectorAll('#titleWrap a');
+          links.forEach(function(link) {
+            link.addEventListener('click', function() {
+              // 모든 링크의 색상을 초기화합니다.
+              links.forEach(function(link) {
+                link.style.color = 'black';
+                link.style.fontSize = '14px';
+              });
+              // 선택된 링크의 색상을 변경합니다.
+              this.style.color = 'blue';
+              this.style.fontSize = '18px';
+            });
+          });
         });
         </c:forEach>
-        var links = document.querySelectorAll('#titleWrap a');
-        links.forEach(function(link) {
-            link.addEventListener('click', function() {
-                // 모든 링크의 색상을 초기화합니다.
-                links.forEach(function(link) {
-                    link.style.color = 'black';
-                    link.style.fontSize = '14px';
-                });
-                // 선택된 링크의 색상을 변경합니다.
-                this.style.color = 'blue';
-                this.style.fontSize = '18px';
-            });
-        });
 
 
         <c:forEach var="day" items="${dayList}">
         $('#selectDay${day}').on('click', function () {
-            $('#hall').html("");
+          $('#dayInfo').val($('#selectDay${day}').text());
+          $('#hall').html("");
+          $('#hallInfo').val("");
+          $('#timeInfo').val("");
+          $('#timeWrap').html("");
+          var links = document.querySelectorAll('#dayWrap a');
+          links.forEach(function(link) {
+            link.addEventListener('click', function() {
+              // 모든 링크의 색상을 초기화합니다.
+              links.forEach(function(link) {
+                link.style.color = 'black';
+                link.style.fontSize = '14px';
+              });
+              // 선택된 링크의 색상을 변경합니다.
+              this.style.color = 'blue';
+              this.style.fontSize = '18px';
+            });
+          });
             let selectedDay = $('#selectDay${day}').text().replace(/[^0-9]/g, "");
             let date = new Date();
             let dateFormat = date.getFullYear() + "" + ((date.getMonth() + 1) <= 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)) + "" + ((selectedDay) <= 9 ? "0" + (selectedDay) : (selectedDay));
