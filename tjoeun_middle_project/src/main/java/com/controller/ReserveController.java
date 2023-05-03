@@ -49,8 +49,6 @@ public class ReserveController {
 
     @RequestMapping(value = "/movieSelect", method = RequestMethod.GET)
     public String selectTime(Model model, String seq, Movie m) throws IOException {
-        System.out.println(m.getSeq());
-        System.out.println(m.getTitle());
         if (seq == null) {
             String currentMovieUrl = "http://www.cgv.co.kr/movies/";
             Document doc = Jsoup.connect(currentMovieUrl).get();
@@ -75,7 +73,9 @@ public class ReserveController {
             }
             model.addAttribute("movies", movies);
         } else {
-            model.addAttribute("NotNullMovies", m);
+            System.out.println(m.getSeq());
+            System.out.println(m.getTitle());
+            model.addAttribute("movie", m);
         }
         model.addAttribute("hallList", hallMapper.selectAll());
 
