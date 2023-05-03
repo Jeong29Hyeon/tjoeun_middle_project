@@ -13,21 +13,7 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/views/header.jsp" %>
-<div class="container mt-5 form-check-reverse">
-    인원수>>
-    성인
-    <select>
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-    </select>
-    아동
-    <select>
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-    </select>
-</div>
+
 <div class="container text-center mt-5">
     <div class="row">
         <div class="col">
