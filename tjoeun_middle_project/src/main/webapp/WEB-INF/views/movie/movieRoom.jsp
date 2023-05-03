@@ -17,42 +17,52 @@
 
 <body>
 <%@ include file="../header.jsp" %>
-
+<div class="container mt-5">
+    <h3>선택하신 영화 정보</h3><br>
+    ${ticket.titleInfo}<br>
+    ${ticket.hallInfo}<br>
+    ${ticket.dayInfo}<br>
+    ${ticket.timeInfo}<br>
+</div>
 <h1 style="text-align: center; background-color: grey" class="mb-5 mt-3">스크린</h1>
 
 <form>
     <div class="form-group">
         <div class="container">
             <div class="row mb-3">
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-outline-secondary btn-block" disabled>A열</button>
+                <c:forEach var="b" begin='65' step="1" end='71'>
+                <div class="col-md-2 mt-3">
+                    <button type="button" class="btn btn-outline-secondary btn-block" disabled>${b}열</button>
                 </div>
-                <c:forEach var="a" begin="1" end="10">
-                    <div class="col-md-1">
-                        <button type="button" class="btn btn-outline-secondary btn-block" value="${a}">${a}</button>
-                    </div>
+                    <c:forEach var="a" begin="1" end="10">
+                        <div class="col-md-1 mt-3">
+                            <button type="button" class="btn btn-outline-secondary btn-block" value="${a}">${a}</button>
+                        </div>
+                    </c:forEach>
+
                 </c:forEach>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-outline-secondary btn-block" disabled>B열</button>
-                </div>
-                <c:forEach var="a" begin="1" end="10">
-                    <div class="col-md-1">
-                        <button type="button" class="btn btn-outline-secondary btn-block" value="${a}">${a}</button>
-                    </div>
-                </c:forEach>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-outline-secondary btn-block" disabled>C열</button>
-                </div>
-                <c:forEach var="a" begin="1" end="10">
-                    <div class="col-md-1">
-                        <button type="button" class="btn btn-outline-secondary btn-block" value="${a}">${a}</button>
-                    </div>
-                </c:forEach>
-            </div>
+
+<%--            </div>--%>
+<%--            <div class="row mb-3">--%>
+<%--                <div class="col-md-2">--%>
+<%--                    <button type="button" class="btn btn-outline-secondary btn-block" disabled>B열</button>--%>
+<%--                </div>--%>
+<%--                <c:forEach var="a" begin="1" end="10">--%>
+<%--                    <div class="col-md-1">--%>
+<%--                        <button type="button" class="btn btn-outline-secondary btn-block" value="${a}">${a}</button>--%>
+<%--                    </div>--%>
+<%--                </c:forEach>--%>
+<%--            </div>--%>
+<%--            <div class="row mb-3">--%>
+<%--                <div class="col-md-2">--%>
+<%--                    <button type="button" class="btn btn-outline-secondary btn-block" disabled>C열</button>--%>
+<%--                </div>--%>
+<%--                <c:forEach var="a" begin="1" end="10">--%>
+<%--                    <div class="col-md-1">--%>
+<%--                        <button type="button" class="btn btn-outline-secondary btn-block" value="${a}">${a}</button>--%>
+<%--                    </div>--%>
+<%--                </c:forEach>--%>
+<%--            </div>--%>
         </div>
     </div>
 

@@ -51,23 +51,22 @@
     </div>
 </div>
 
-<div class="container text-center mt-5">
+<div class="container text-center mt-3">
     <div class="row">
         <c:choose>
             <c:when test="${not empty movies}">
                 <div class="col">
                     <c:forEach var="movie" items="${movies}">
-                        <div id="titleWrap" class="container" style="text-align: left">
+                        <div id="titleWrap" class="container mb-2" style="text-align: left">
                             <a href="#" style="text-decoration-line: none; color: black" class="mt-3"
                                id="selectTitle${movie.seq}">${movie.title}</a>
-                                <%--                                ${movie.seq}--%>
                         </div>
                     </c:forEach>
                 </div>
             </c:when>
             <c:when test="${empty movies}">
                 <div class="col">
-                    <div class="container" style="text-align: left">
+                    <div class="container mb-2" style="text-align: left">
                         <a href="#" style="text-decoration-line: none; color: black" class="mt-3"
                            id="selectTitle${NotNullMovies.seq}">${NotNullMovies.title}</a>
                     </div>
@@ -77,8 +76,10 @@
         <div class="col">
             <div id="dayWrap" hidden>
                 <c:forEach var="day" items="${dayList}">
+                    <div class="container mb-4">
                     <a href="#" style="text-decoration-line: none; color: black" class="mt-3"
-                       id="selectDay${day}" onclick="dayClick(this)">${day}</a><br>
+                       id="selectDay${day}" onclick="dayClick(this)">${day}</a>
+                    </div>
                 </c:forEach>
             </div>
         </div>
@@ -86,13 +87,13 @@
 
         </div>
         <div id="time" class="col">
-            <div id="timeWrap">
+            <div id="timeWrap" class="container mb-2">
 
             </div>
         </div>
     </div>
 </div>
-<c:set var="selectMovie" value="${ empty NotNullMovies ? '영화' : NotNullMovies.title}"/>
+<c:set var="selectMovie" value="${ not empty movie ? '영화' : movie.title}"/>
 <form action="/movieRoom" method="post">
     <div class="container text-center mt-5">
         <div class="row">
@@ -139,12 +140,10 @@
         var links = document.querySelectorAll('#hall a');
         links.forEach(function(link) {
             link.addEventListener('click', function() {
-                // 모든 링크의 색상을 초기화합니다.
                 links.forEach(function(link) {
                     link.style.color = 'black';
                     link.style.fontSize = '14px';
                 });
-                // 선택된 링크의 색상을 변경합니다.
                 this.style.color = 'blue';
                 this.style.fontSize = '18px';
             });

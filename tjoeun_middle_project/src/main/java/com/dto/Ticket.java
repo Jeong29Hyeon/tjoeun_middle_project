@@ -2,7 +2,7 @@ package com.dto;
 
 public class Ticket {
     private String id;
-    private String movieInfo;
+    private String titleInfo;
     private String hallInfo;
     private String dayInfo;
     private String timeInfo;
@@ -10,9 +10,9 @@ public class Ticket {
     public Ticket() {
     }
 
-    public Ticket(String id, String movieInfo, String hallInfo, String dayInfo, String timeInfo) {
+    public Ticket(String id, String titleInfo, String hallInfo, String dayInfo, String timeInfo) {
         this.id = id;
-        this.movieInfo = movieInfo;
+        this.titleInfo = titleInfo;
         this.hallInfo = hallInfo;
         this.dayInfo = dayInfo;
         this.timeInfo = timeInfo;
@@ -26,12 +26,12 @@ public class Ticket {
         this.id = id;
     }
 
-    public String getMovieInfo() {
-        return movieInfo;
+    public String getTitleInfo() {
+        return titleInfo;
     }
 
-    public void setMovieInfo(String movieInfo) {
-        this.movieInfo = movieInfo;
+    public void setTitleInfo(String titleInfo) {
+        this.titleInfo = titleInfo;
     }
 
     public String getHallInfo() {
