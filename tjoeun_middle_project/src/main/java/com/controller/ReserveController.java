@@ -2,6 +2,7 @@ package com.controller;
 
 import com.dto.Movie;
 //import com.dto.Ticket;
+import com.dto.Ticket;
 import com.service.HallService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -35,22 +36,19 @@ public class ReserveController {
         return "/movie/movieRoom";
     }
 
-//    @PostMapping("/movieRoom")
-//    public String movieRoom(Model model, Ticket ticket,
-//                            String movieInfo,String hallInfo, String dayInfo, String timeInfo) {
-//        System.out.println(movieInfo);
-//        System.out.println(hallInfo);
-//        System.out.println(dayInfo);
-//        System.out.println(timeInfo);
-//
-//        System.out.println(ticket.getMovieInfo());      // 가져옴
-//        return "/movie/movieRoom";
-//    }
+    @PostMapping("/movieRoom")
+    public String movieRoom(Model model, Ticket ticket,
+                            String titleInfo,String hallInfo, String dayInfo, String timeInfo) {
+        System.out.println(titleInfo);
+        System.out.println(hallInfo);
+        System.out.println(dayInfo);
+        System.out.println(timeInfo);
+        model.addAttribute("ticket",ticket);
+        return "/movie/movieRoom";
+    }
 
     @RequestMapping(value = "/movieSelect", method = RequestMethod.GET)
     public String selectTime(Model model, String seq, Movie m) throws IOException {
-        System.out.println(m.getSeq());
-        System.out.println(m.getTitle());
         if (seq == null) {
             String currentMovieUrl = "http://www.cgv.co.kr/movies/";
             Document doc = Jsoup.connect(currentMovieUrl).get();
@@ -75,7 +73,9 @@ public class ReserveController {
             }
             model.addAttribute("movies", movies);
         } else {
-            model.addAttribute("NotNullMovies", m);
+            System.out.println(m.getSeq());
+            System.out.println(m.getTitle());
+            model.addAttribute("movie", m);
         }
         model.addAttribute("hallList", hallMapper.selectAll());
 
