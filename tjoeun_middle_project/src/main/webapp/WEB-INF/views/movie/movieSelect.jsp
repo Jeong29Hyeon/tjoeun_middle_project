@@ -104,7 +104,6 @@
         <button class="container btn-close-white" type="submit">좌석 확인 하러가기</button>
     </div>
 </form>
-</div>
 <br>
 서버로 인원수 영화제목 관 시간 넘겨서 좌석보여주기<br>
 정현 요구사항 - > 인풋텍스트 히든 처리하고 자바스크립트로 선택한거 강조되게 처리하고 <br>

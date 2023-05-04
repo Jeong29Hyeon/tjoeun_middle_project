@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -21,25 +22,25 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class ReserveController {
 
-    @GetMapping("/movieRoom")
-    public String movieRoom() {
-        return "/movie/movieRoom";
-    }
-
     @PostMapping("/movieRoom")
-    public String movieRoom(Model model, Ticket ticket,
-        String titleInfo, String hallInfo, String dayInfo, String timeInfo) {
-        System.out.println(titleInfo);
-        System.out.println(hallInfo);
-        System.out.println(dayInfo);
-        System.out.println(timeInfo);
+    public String movieRoom(Model model, Ticket ticket) {
         model.addAttribute("ticket", ticket);
         return "/movie/movieRoom";
     }
+
+
+    @PostMapping("/ticketing")
+    @ResponseBody
+    public String ticketing(Ticket ticket){
+
+        return "";
+    }
+
 
     @RequestMapping(value = "/movieSelect", method = RequestMethod.GET)
     public String selectTime(Model model, Integer seq,String title) throws IOException {

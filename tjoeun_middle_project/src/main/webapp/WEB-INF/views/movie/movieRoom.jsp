@@ -23,13 +23,13 @@
         <div class="col-4">
             <h3>선택하신 영화 정보</h3><br>
             결제할때 disable 풀어줘야댐
-            <input type="text" class="form-control-plaintext" name="titleInfo"
+            <input type="text" class="form-control-plaintext" name="titleInfo" id="titleInfo"
                    value="${ticket.titleInfo}" disabled>
-            <input type="text" class="form-control-plaintext" name="hallInfo"
+            <input type="text" class="form-control-plaintext" name="hallInfo" id="hallInfo"
                    value="${ticket.hallInfo}" disabled>
-            <input type="text" class="form-control-plaintext" name="dayInfo"
+            <input type="text" class="form-control-plaintext" name="dayInfo" id="dayInfo"
                    value="${ticket.dayInfo}" disabled>
-            <input type="text" class="form-control-plaintext" name="timeInfo"
+            <input type="text" class="form-control-plaintext" name="timeInfo" id="timeInfo"
                    value="${ticket.timeInfo}" disabled>
         </div>
         <div class="col-4">
@@ -59,36 +59,33 @@
 </div>
 <h1 style="text-align: center; background-color: grey" class="mb-5 mt-3">스크린</h1>
 
-<form>
-    <div class="form-group">
-        <div class="container">
-            <div class="row mb-3">
-                <%
-                    for (int i = 65; i < 75; i++) {
-                %>
-                <div class="col-md-2 mt-3">
-                    <button type="button" class="btn btn-outline-secondary btn-block" disabled>
-                        <%=(char) i%>열
-                    </button>
-                </div>
-                <c:forEach var="num" begin="1" end="10">
-                    <div class="col-md-1 mt-3 mx-auto" id="num">
-                        <button type="button" name="<%=(char)i%>${num}" id="<%=(char)i%>${num}"
-                                class="btn btn-outline-secondary btn-block">${num}</button>
-                    </div>
-                </c:forEach>
-                <%
-                    }
-                %>
-            </div>
+<div class="container">
+    <div class="row mb-3">
+        <%
+            for (int i = 65; i < 75; i++) {
+        %>
+        <div class="col-md-2 mt-3">
+            <button type="button" class="btn btn-outline-secondary btn-block" disabled>
+                <%=(char) i%>열
+            </button>
         </div>
+        <c:forEach var="num" begin="1" end="10">
+            <div class="col-md-1 mt-3 mx-auto" id="num">
+                <button type="button" name="<%=(char)i%>${num}" id="<%=(char)i%>${num}"
+                        class="btn btn-outline-secondary btn-block">${num}</button>
+            </div>
+        </c:forEach>
+        <%
+            }
+        %>
     </div>
-    <div class="container form-check-reverse">
-        <button type="submit" class="btn btn-primary">선택완료</button>
-        <a href="<c:url value="javascript:history.back();"/>">
-            <button type="button" class="btn btn-primary">뒤로가기</button>
-        </a>
-    </div>
+</div>
+<div class="container form-check-reverse">
+    <button id="btnSelect" class="btn btn-primary">선택완료</button>
+    <a href="<c:url value="javascript:history.back();"/>">
+        <button type="button" class="btn btn-primary">뒤로가기</button>
+    </a>
+</div>
 </form>
 <%@ include file="../footer.jsp" %>
 <script>
@@ -104,7 +101,8 @@
       if (duplicateCheck !== -1) {
         seatsList.splice(duplicateCheck, 1);
       } else {
-        if(Number($('#numberOfAdult').val()) + Number($('#numberOfTeen').val()) < seatsList.length+1){
+        if (Number($('#numberOfAdult').val()) + Number($('#numberOfTeen').val()) < seatsList.length
+            + 1) {
           alert('인원수를 확인해주세요');
           return;
         }
@@ -126,6 +124,32 @@
     <%
                 }
             %>
+
+    $('#btnSelect').on('click', function () {
+      if (Number($('#numberOfAdult').val()) + Number($('#numberOfTeen').val()) === 0 || seatsList.length === 0) {
+        alert('인원수와 선택한 좌석을 확인해주세요');
+        return;
+      }
+      $.ajax({
+        url:'/ticketing',
+        type:'post',
+        data:{
+          'titleInfo':$('#titleInfo').val(),
+          'dayInfo':$('#dayInfo').val(),
+          'hallInfo':$('#hallInfo').val(),
+          'timeInfo':$('#timeInfo').val(),
+          'numberOfAdult':$('#numberOfAdult').val(),
+          'numberOfTeen':$('#numberOfTeen').val(),
+          'seats':$('#seatsInput').val()
+        },
+        success:function (result){
+          
+        },
+        error:function (){
+          alert('비동기통신 에러');
+        }
+      })
+    })
   });
 </script>
 </body>
