@@ -1,6 +1,8 @@
 package com.controller;
 
 import com.dto.User;
+import com.mapper.TicketMapper;
+import com.service.TicketService;
 import com.service.UserService;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -18,9 +20,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/user")
 public class UserController {
     UserService userService;
+    TicketService ticketService;
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, TicketService ticketService) {
         this.userService = userService;
+        this.ticketService = ticketService;
     }
 
     @GetMapping("/join")
@@ -101,5 +105,11 @@ public class UserController {
         }
         return "success";
     }
-
+    @GetMapping("/ticketHistory")
+    public String ticketHistory(HttpServletRequest request, Model model){
+        User user = (User)request.getSession().getAttribute("user");
+        System.out.println(user.getId());
+        model.addAttribute("historyList",ticketService.selectById(user.getId()));
+        return "movie/ticketHistory";
+    }
 }
