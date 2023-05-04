@@ -17,8 +17,8 @@
         <form action="" method="post">
             <div class="row">
                 <!-- 디테일 뷰 -->
-                <div class="col-md-5">
-                        <a href="#"><img src="${movie.img}" class="img-thumbnail" style="width:50%;height: 100%" alt="..."></a>
+                <div class="col-md-2 ">
+                        <a href="#"><img src="${movie.img}" class="img-thumbnail rounded mx-auto d-block" style="width:100%;height: 100%" alt="..."></a>
                 </div>
                 <div class="col-md-6">
                     <p class="card-title fw-bold mb-0"
@@ -29,22 +29,37 @@
                             class="text-muted">예매율 ${movie.rateInfo}</small></p>
                     <p class="card-text" style="font-size:10px"><small
                             class="text-muted">${movie.openingDate}</small></p>
-                    <p>${movie.story}</p>
+                    감독 : 신카이 마코토,이제희<br>
+                    주연 : 스즈메, 소타
+<%--                    영화 연출 정보도 받아와야할거같아요--%>
                 </div>
             </div>
-            <div class="row">
-                <p>test</p>
-            </div>
+
             <!-- 서버로 넘길 영화 데이터 input hidden -->
         </form>
     </div>
+<%--    탭 추가 20230504.이제희--%>
+    <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="story-tab" data-bs-toggle="tab" data-bs-target="#story" type="button" role="tab" aria-controls="story" aria-selected="true">줄거리</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="review-tab" data-bs-toggle="tab" data-bs-target="#review" type="button" role="tab" aria-controls="review" aria-selected="false">평점/리뷰</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="trailer-tab" data-bs-toggle="tab" data-bs-target="#trailer" type="button" role="tab" aria-controls="trailer" aria-selected="false">트레일러</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="stillcut-tab" data-bs-toggle="tab" data-bs-target="#stillcut" type="button" role="tab" aria-controls="stillcut" aria-selected="false">스틸컷</button>
+        </li>
+    </ul>
+    <div class="tab-content justify-content-center" id="myTabContent">
+        <div class="container tab-pane fade show active text-center" id="story" role="tabpanel" aria-labelledby="story-tab"> <p>${movie.story}</p></div>
+        <div class="tab-pane fade text-center" id="review" role="tabpanel" aria-labelledby="review-tab">다이진이 귀여우요^^ 별정 5개 드립니다 ★★★★★★</div>
+        <div class="tab-pane fade text-center" id="trailer" role="tabpanel" aria-labelledby="trailer-tab">트레일러 유튜브 링크 딱 걸면? 딱!</div>
+        <div class="tab-pane fade text-center" id="stillcut" role="tabpanel" aria-labelledby="stillcut-tab"> 스틸컷 가져와서 넣자</div>
+    </div>
 
-    <div class="container">
-        여기다가 뭐 주요 정보 트레일러 평점/리뷰 탭 만들어주고
-    </div>
-    <div class="container">
-        요기에는 각ㄱㄱ 탭에 맞는 정보를 보여준다면?
-    </div>
 </c:if>
 <%@include file="footer.jsp" %>
 </body>

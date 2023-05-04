@@ -21,17 +21,17 @@ public class DetailController {
     public String index(Model model,String seq) throws IOException {
         Document doc = Jsoup.connect("http://www.cgv.co.kr/movies/detail-view/?midx="+seq).get(); //url설정
         Elements imgs = doc.select("span.thumb-image > img"); //포스터 이미지
-//        Elements ranks = doc.select(".rank"); //영화 순위
+        Elements ranks = doc.select(".rank"); //영화 순위
         Elements titles = doc.select("div.title strong"); //제목
-//        Elements rateInfos = doc.select(".percent span"); //
+        Elements rateInfos = doc.select(".percent span"); //
 //        Elements openDateInfos = doc.select("span.txt-info > strong");
         Elements story = doc.select("div.sect-story-movie");    //줄거리
         //디테일이니까 하나만 가져오고 싶은데
         Movie movie = new Movie();
         movie.setImg(imgs.get(0).attr("src"));
-//        movie.setRank(ranks.text());
+        movie.setRank(ranks.text());
         movie.setTitle(titles.get(0).text());
-//        movie.setRateInfo(rateInfos.text());
+        movie.setRateInfo(rateInfos.text());
 //        movie.setOpeningDate(openDateInfos.text());
         movie.setStory(story.get(0).text());
 
