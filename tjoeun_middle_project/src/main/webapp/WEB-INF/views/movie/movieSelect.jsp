@@ -111,6 +111,62 @@
         </button>
     </div>
 </form>
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginHeader"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="loginHeader">로그인</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form name="loginForm" class="row g-3" action="<c:url value='/user/login'/>"
+                      method="post">
+                    <div class="row mt-md-3">
+                        <div class="col-md-12">
+                            <label for="id" class="form-label">아이디</label>
+                            <input type="text" id="id" name="id" class="form-control"
+                                   value="${cookie.id.value}" placeholder="아이디입력">
+                        </div>
+                    </div>
+                    <div class="row mt-md-3">
+                        <div class="col-md-12">
+                            <label for="password" class="form-label">비밀번호</label>
+                            <input class="form-control" type="password" id="password"
+                                   name="password" placeholder="비밀번호입력">
+                        </div>
+                    </div>
+                    <div class="row mt-md-3">
+                        <div class="col">
+                            <input id="saveId" type="checkbox"
+                                   name="saveId" ${empty cookie.id ? '':'checked'}>아이디
+                            저장
+                        </div>
+                        <div class="col">
+                            <a href="<c:url value="#"/>"
+                               style="text-decoration: none; font-size: 12px">아이디 혹은 비밀번호를 잊으셨나요?</a>
+                        </div>
+                    </div>
+                    <div class="row mt-md-4 text-center">
+                        <div class="col">
+                            <input type="hidden" name="toUrl" value="${param.toUrl}"/>
+                            <input type="button" class="btn btn-primary" value="로그인하기"
+                                   onclick="checkLogin()">
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-primary">
+                                <a href="<c:url value="/user/join"/>"
+                                   style="color:white; text-decoration: none">회원가입</a>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <br>
 서버로 인원수 영화제목 관 시간 넘겨서 좌석보여주기<br>
 정현 요구사항 - > 인풋텍스트 히든 처리하고 자바스크립트로 선택한거 강조되게 처리하고 <br>
@@ -300,7 +356,47 @@
             alert('시간을 선택해주세요!')
             return;
         }
-        document.getElementById('movieSelectForm').submit();
+        if(${empty sessionScope.user}) {
+            $('#loginModal').modal('show');
+        }else{
+            document.getElementById('movieSelectForm').submit();
+        }
+    }
+
+    var form = document.loginForm;
+    function checkLogin() {
+        if (form.id.value === "") {
+            alert("아이디를 입력해주세요.");
+            form.id.select();
+            return;
+        } else if (form.password.value === "") {
+            alert("비밀번호를 입력해주세요.")
+            form.password.select();
+            return;
+        }
+        let id = $('#id').val();
+        let password = $('#password').val();
+        let saveId = $('#saveId').val();
+        $.ajax({
+            type: "post",
+            url: "/user/loginModal",
+            data: {
+                'id': id,
+                'password': password,
+                'saveId': saveId
+            },
+            success: function (result) {
+                if (result === 'success') {
+                    //로그인 되었을때 로직추가
+                    document.getElementById('movieSelectForm').submit();
+                } else {
+                    alert('아이디 혹은 비밀번호가 일치하지 않습니다.');
+                }
+            },
+            error: function () {
+                alert('비동기 통신 실패');
+            }
+        });
     }
 </script>
 </body>
