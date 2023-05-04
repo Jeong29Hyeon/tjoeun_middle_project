@@ -51,16 +51,16 @@ public class DetailController {
         movie.setOpeningDate(openDateInfos.text());
         movie.setStory(story.get(0).text());
 
-        List<Review> reviews = new ArrayList<>();
+        List<Review> reviewList = new ArrayList<>();
         try {
-            reviews = reviewService.selectAllBySeq(seq);
+            reviewList = reviewService.selectAllBySeq(seq);
         } catch (Exception e) {
             e.printStackTrace();
             //에러 잡아야함
         }
         //댓글들 다 가져오고
         model.addAttribute("movie", movie);
-        model.addAttribute("comments", reviews);
+        model.addAttribute("reviewList", reviewList);
         return "detail";
     }
 

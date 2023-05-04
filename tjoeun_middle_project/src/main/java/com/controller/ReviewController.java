@@ -19,9 +19,9 @@ public class ReviewController {
 
     @PostMapping("/write")
     @ResponseBody
-    public String writeComment(Review review){
+    public String writeReview(Review review){
         try {
-            reviewService.insertComment(review);
+            reviewService.insertReview(review);
         } catch (Exception e) {
             e.printStackTrace();
             return "fail";
@@ -31,9 +31,9 @@ public class ReviewController {
 
     @PostMapping("/edit")
     @ResponseBody
-    public String editComment(Review review){
+    public String editReview(Review review){
         try {
-            reviewService.updateComment(review);
+            reviewService.updateReview(review);
         } catch (Exception e) {
             return "fail";
         }
@@ -41,10 +41,11 @@ public class ReviewController {
     }
     @PostMapping("/delete")
     @ResponseBody
-    public String deleteComment(Integer rno){
+    public String deleteReview(Integer rno){
         try {
-            reviewService.deleteComment(rno);
+            reviewService.deleteReview(rno);
         } catch (Exception e) {
+            e.printStackTrace();
             return "fail";
         }
         return "success";

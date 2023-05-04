@@ -108,23 +108,23 @@
         <table class="table caption-top mt-md-3">
             <caption>댓글 (${commentCnt})</caption>
             <tbody>
-            <c:forEach var="comment" items="${comments}">
+            <c:forEach var="review" items="${comments}">
                 <tr>
-                    <td style="width: 15%" hidden>${comment.cno}</td>
-                    <td style="width: 15%">${comment.writer}</td>
+                    <td style="width: 15%" hidden>${review.cno}</td>
+                    <td style="width: 15%">${review.writer}</td>
                     <td style="width:55%" class="pt-1"><input class="form-control-plaintext pt-0"
-                                                              type="text" name="commentEditContent" id="commentEditContent${comment.cno}" value="${comment.content}"
+                                                              type="text" name="commentEditContent" id="commentEditContent${review.cno}" value="${review.content}"
                                                               readonly></td>
-                    <td style="width:15%" align="right"><fmt:formatDate value="${comment.reg_date}"
+                    <td style="width:15%" align="right"><fmt:formatDate value="${review.reg_date}"
                                                                         type="both"
                                                                         pattern="MM-dd HH시 mm분"/></td>
                     <td style="width:15%" align="right">
                         <div class="btn-group" role="group" aria-label="Basic outlined example">
-                            <button type="button" id="commentEdit${comment.cno}"
-                                    class="btn btn-outline-warning text-decoration-none" ${sessionScope.userDto.id eq comment.writer ? "" : "hidden"}
+                            <button type="button" id="commentEdit${review.cno}"
+                                    class="btn btn-outline-warning text-decoration-none" ${sessionScope.userDto.id eq review.writer ? "" : "hidden"}
                             >수정</button>
-                            <button type="button" id="commentRemove${comment.cno}"
-                                    class="btn btn-outline-danger text-decoration-none" ${sessionScope.userDto.id eq comment.writer ? "" : "hidden"}
+                            <button type="button" id="commentRemove${review.cno}"
+                                    class="btn btn-outline-danger text-decoration-none" ${sessionScope.userDto.id eq review.writer ? "" : "hidden"}
                             >삭제</button>
                         </div>
                     </td>
@@ -203,26 +203,26 @@
           });
         });
 
-        <c:forEach var="comment" items="${comments}">
-        $("#commentEdit${comment.cno}").on("click", function () {
-          if($("#commentEdit${comment.cno}").text()==="수정"){
-            $("#commentEditContent${comment.cno}").attr('readonly',false).focus();
-            $("#commentEdit${comment.cno}").html("등록");
-            $("#commentRemove${comment.cno}").html("취소");
+        <c:forEach var="review" items="${comments}">
+        $("#commentEdit${review.cno}").on("click", function () {
+          if($("#commentEdit${review.cno}").text()==="수정"){
+            $("#commentEditContent${review.cno}").attr('readonly',false).focus();
+            $("#commentEdit${review.cno}").html("등록");
+            $("#commentRemove${review.cno}").html("취소");
             return;
           }
 
-          if($('#commentEditContent${comment.cno}').val() === ""){
+          if($('#commentEditContent${review.cno}').val() === ""){
             alert("댓글을 입력해주세요");
-            $('#commentEditContent${comment.cno}').select();
+            $('#commentEditContent${review.cno}').select();
             return;
           }
           $.ajax({
             url:"<c:url value="/comment/edit"/>",
             type :'POST',
             data:{
-              'content':$('#commentEditContent${comment.cno}').val(),
-              'cno':${comment.cno}},
+              'content':$('#commentEditContent${review.cno}').val(),
+              'cno':${review.cno}},
             success: function (result){
               if(result === "success"){
                 location.reload(); // 로케이션 리로드 하면 페이지 스크롤 상태가 그대로임
@@ -237,8 +237,8 @@
           });
         });
 
--       $("#commentRemove${comment.cno}").on("click", function () {
-          if($("#commentRemove${comment.cno}").text()==="취소"){
+-       $("#commentRemove${review.cno}").on("click", function () {
+          if($("#commentRemove${review.cno}").text()==="취소"){
             location.reload();
           }else{
             if (!confirm("정말로 삭제하시겠습니까?")) return;
@@ -246,7 +246,7 @@
               url:'<c:url value="/comment/delete"/>',
               type:'POST',
               dataType:'text',
-              data:{'cno':${comment.cno}},
+              data:{'cno':${review.cno}},
               success: function (result){
                 if(result === "success"){
                   location.reload(); // 로케이션 리로드 하면 페이지 스크롤 상태가 그대로임

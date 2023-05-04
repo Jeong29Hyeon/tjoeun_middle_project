@@ -15,21 +15,21 @@ public class ReviewService {
         this.reviewMapper = reviewMapper;
     }
 
-    public void insertComment(Review reviewDto) throws Exception {
+    public void insertReview(Review reviewDto) throws Exception {
         int result = reviewMapper.insertReview(reviewDto);
         if(result == 0){
             throw new Exception("댓글작성 실패");
         }
     }
 
-    public void updateComment(Review reviewDto) throws Exception {
+    public void updateReview(Review reviewDto) throws Exception {
         int result = reviewMapper.updateReview(reviewDto);
         if(result == 0){
             throw new Exception("댓글 수정 실패");
         }
     }
 
-    public void deleteComment(Integer rno) throws Exception {
+    public void deleteReview(Integer rno) throws Exception {
         int result = reviewMapper.deleteReview(rno);
         if(result == 0){
             throw new Exception("댓글 삭제 실패");

@@ -82,31 +82,31 @@
                 <div class="row">
                     댓글 (${commentCnt})
                 </div>
-                <c:forEach var="comment" items="${comments}">
+                <c:forEach var="review" items="${reviewList}">
                     <div class="row g-3 my-2">
-                        <div hidden>${comment.rno}</div>
+                        <div hidden>${review.rno}</div>
                         <div class="col-md-2">
-                                ${comment.id}
+                                ${review.id}
                         </div>
                         <div class="col-md-7">
                             <input class="form-control-plaintext pt-0"
                                    type="text" name="commentEditContent"
-                                   id="commentEditContent${comment.rno}"
-                                   value="${comment.content}"
+                                   id="commentEditContent${review.rno}"
+                                   value="${review.content}"
                                    readonly>
                         </div>
                         <div class="col-md-1 text-end">
-                            <fmt:formatDate value="${comment.reg_date}"
+                            <fmt:formatDate value="${review.reg_date}"
                                             type="both"
                                             pattern="MM-dd HH시 mm분"/>
                         </div>
                         <div class="col-md-2 text-end">
                             <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                <button type="button" id="commentEdit${comment.rno}"
-                                        class="btn btn-outline-warning text-decoration-none" ${sessionScope.user.id eq comment.id ? '' : 'hidden'}
+                                <button type="button" id="commentEdit${review.rno}"
+                                        class="btn btn-outline-warning text-decoration-none" ${sessionScope.user.id eq review.id ? '' : 'hidden'}
                                 >수정</button>
-                                <button type="button" id="commentRemove${comment.rno}"
-                                        class="btn btn-outline-danger text-decoration-none" ${sessionScope.user.id eq comment.id ? '' : 'hidden'}
+                                <button type="button" id="commentRemove${review.rno}"
+                                        class="btn btn-outline-danger text-decoration-none" ${sessionScope.user.id eq review.id ? '' : 'hidden'}
                                 >삭제</button>
                             </div>
                         </div>
@@ -158,26 +158,26 @@
         });
     });
 
-    <c:forEach var="comment" items="${comments}">
-    $("#commentEdit${comment.rno}").on("click", function () {
-        if ($("#commentEdit${comment.rno}").text() === "수정") {
-            $("#commentEditContent${comment.rno}").attr('readonly', false).focus();
-            $("#commentEdit${comment.rno}").html("등록");
-            $("#commentRemove${comment.rno}").html("취소");
+    <c:forEach var="review" items="${reviewList}">
+    $("#commentEdit${review.rno}").on("click", function () {
+        if ($("#commentEdit${review.rno}").text() === "수정") {
+            $("#commentEditContent${review.rno}").attr('readonly', false).focus();
+            $("#commentEdit${review.rno}").html("등록");
+            $("#commentRemove${review.rno}").html("취소");
             return;
         }
 
-        if ($('#commentEditContent${comment.rno}').val() === "") {
+        if ($('#commentEditContent${review.rno}').val() === "") {
             alert("댓글을 입력해주세요");
-            $('#commentEditContent${comment.rno}').select();
+            $('#commentEditContent${review.rno}').select();
             return;
         }
         $.ajax({
-            url: "<c:url value="/comment/edit"/>",
+            url: "<c:url value="/review/edit"/>",
             type: 'POST',
             data: {
-                'content': $('#commentEditContent${comment.rno}').val(),
-                'cno':${comment.rno}
+                'content': $('#commentEditContent${review.rno}').val(),
+                'rno':${review.rno}
             },
             success: function (result) {
                 if (result === "success") {
@@ -193,16 +193,15 @@
         });
     });
 
-    $("#commentRemove${comment.rno}").on("click", function () {
-        if ($("#commentRemove${comment.rno}").text() === "취소") {
+    $("#commentRemove${review.rno}").on("click", function () {
+        if ($("#commentRemove${review.rno}").text() === "취소") {
             location.reload();
         } else {
             if (!confirm("정말로 삭제하시겠습니까?")) return;
             $.ajax({
-                url: '<c:url value="/comment/delete"/>',
+                url: '<c:url value="/review/delete"/>',
                 type: 'POST',
-                dataType: 'text',
-                data: {'cno':${comment.rno}},
+                data: {'rno':${review.rno}},
                 success: function (result) {
                     if (result === "success") {
                         location.reload(); // 로케이션 리로드 하면 페이지 스크롤 상태가 그대로임
