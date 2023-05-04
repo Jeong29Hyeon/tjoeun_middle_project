@@ -5,6 +5,9 @@ import com.mapper.TicketMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class TicketService {
     TicketMapper ticketMapper;
@@ -18,5 +21,10 @@ public class TicketService {
         if(result != 1){
             throw new Exception("티켓 생성 에러");
         }
+    }
+    public List<Ticket> selectById(String id){
+        ArrayList<Ticket> list = new ArrayList<>();
+        list = (ArrayList<Ticket>)ticketMapper.selectAllById(id);
+        return list;
     }
 }
