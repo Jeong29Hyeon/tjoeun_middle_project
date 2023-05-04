@@ -219,8 +219,6 @@
                             + value.playStartTime + "~" + value.playEndTime + '</a><br>');
                     }
                 });
-                if ($('#timeWrap').html().trim() === '') {
-                }
             }
         });
     }
@@ -275,7 +273,7 @@
 
         <c:forEach var="day" items="${dayList}">
         $('#selectDay${day}').on('click', function () {
-            $('#dayInfo').val($('#selectDay${day}').text());
+          $('#dayInfo').val($('#selectDay${day}').text());
             $('#hall').html("");
             $('#hallInfo').val("");
             $('#timeInfo').val("");
@@ -295,8 +293,8 @@
                     this.style.fontSize = '18px';
                 });
             });
-            let selectedDay = $('#selectDay${day}').text().replace(/[^0-9]/g, "");
-            let date = new Date();
+          let selectedDay = $('#selectDay${day}').text().replace(/[^0-9]/g, "");
+          let date = new Date();
             let dateFormat = date.getFullYear() + "" + ((date.getMonth() + 1) <= 9 ? "0"
                 + (date.getMonth() + 1) : (date.getMonth() + 1)) + "" + ((selectedDay) <= 9 ? "0"
                 + (selectedDay) : (selectedDay));
@@ -354,6 +352,12 @@
         if(${empty sessionScope.user}) {
             $('#loginModal').modal('show');
         }else{
+          let selectedDay = $('#dayInfo').val().replace(/[^0-9]/g, "");
+          let date = new Date();
+          let dateFormat = date.getFullYear() + "-" + ((date.getMonth() + 1) <= 9 ? "0" + (date.getMonth()
+              + 1) : (date.getMonth() + 1)) + "-" + ((selectedDay) <= 9 ? "0" + (selectedDay)
+              : (selectedDay));
+          $('#dayInfo').attr('value',dateFormat);
             document.getElementById('movieSelectForm').submit();
         }
     }

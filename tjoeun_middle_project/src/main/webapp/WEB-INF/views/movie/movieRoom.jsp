@@ -138,12 +138,14 @@
     </div>
 </div>
 <!-- 예약 후 티켓 관련 모달띄우기 -->
-<div class="modal fade" id="successTicketModal" aria-labelledby="successTicketHeader" aria-hidden="true">
+<div class="modal fade" id="successTicketModal" aria-labelledby="successTicketHeader"
+     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="successTicketHeader">예약 완료</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form name="successTicketForm" action="/">
@@ -184,9 +186,9 @@
                             </div>
                         </div>
                         <div class="row center-block mt-3">
-<%--                        <div class="container mt-3">--%>
+                            <%--                        <div class="container mt-3">--%>
                             <input type="submit" value="홈으로">
-<%--                        </div>--%>
+                            <%--                        </div>--%>
                         </div>
                     </div>
                 </form>
@@ -196,121 +198,134 @@
 </div>
 <%@ include file="../footer.jsp" %>
 <script>
-    let seatsList = [];
-    $(document).ready(function () {
-        <%
-                   for (int i = 65; i < 75; i++) {
-               %>
-        <c:forEach var="num" begin="1" end="10">
-        $("#<%=(char)i%>${num}").on('click', function () {
+  let seatsList = [];
+  $(document).ready(function () {
+    <!-- 선택된 좌석 disabled 처리 -->
+    <c:forEach var="seatNum" items="${choiceSeats}">
+    $('#${seatNum}').attr('disabled', true);
+    $('#${seatNum}').removeClass('btn-outline-secondary');
+    $('#${seatNum}').addClass('btn-secondary');
+    </c:forEach>
 
-            let duplicateCheck = seatsList.indexOf('<%=(char)i%>' + $("#<%=(char)i%>${num}").text());
-            if (duplicateCheck !== -1) {
-                seatsList.splice(duplicateCheck, 1);
-            } else {
-                if (Number($('#numberOfAdult').val()) + Number($('#numberOfTeen').val()) < seatsList.length
-                    + 1) {
-                    alert('인원수를 확인해주세요');
-                    return;
+    <!-- 각 좌석 버튼에 대한 이벤트 생성 -->
+    <%
+               for (int i = 65; i < 75; i++) {
+           %>
+    <c:forEach var="num" begin="1" end="10">
+    $("#<%=(char)i%>${num}").on('click', function () {
+
+      let duplicateCheck = seatsList.indexOf('<%=(char)i%>' + $("#<%=(char)i%>${num}").text());
+      if (duplicateCheck !== -1) {
+        seatsList.splice(duplicateCheck, 1);
+      } else {
+        if (Number($('#numberOfAdult').val()) + Number($('#numberOfTeen').val()) < seatsList.length
+            + 1) {
+          alert('인원수를 확인해주세요');
+          return;
+        }
+        seatsList.push('<%=(char)i%>' + $("#<%=(char)i%>${num}").text());
+      }
+      seatsList.sort();
+
+      if ($("#<%=(char)i%>${num}").hasClass('btn-primary')) {
+        $("#<%=(char)i%>${num}").addClass('btn-outline-secondary');
+        $("#<%=(char)i%>${num}").removeClass('btn-primary');
+      } else {
+        $("#<%=(char)i%>${num}").removeClass('btn-outline-secondary');
+        $("#<%=(char)i%>${num}").addClass('btn-primary');
+      }
+      $('#seatsInput').attr('value', seatsList);
+      console.log(seatsList);
+    });
+    </c:forEach>
+    <%
                 }
-                seatsList.push('<%=(char)i%>' + $("#<%=(char)i%>${num}").text());
-            }
-            seatsList.sort();
+            %>
 
-            if ($("#<%=(char)i%>${num}").hasClass('btn-primary')) {
-                $("#<%=(char)i%>${num}").addClass('btn-outline-secondary');
-                $("#<%=(char)i%>${num}").removeClass('btn-primary');
-            } else {
-                $("#<%=(char)i%>${num}").removeClass('btn-outline-secondary');
-                $("#<%=(char)i%>${num}").addClass('btn-primary');
-            }
-            $('#seatsInput').attr('value', seatsList);
-            console.log(seatsList);
-        });
-        </c:forEach>
-        <%
-                    }
-                %>
-        $("#selectNumber").on('click', function () {
-            var priceOfAdult = Number($('#numberOfAdult').val() * 14000);
-            var priceOfTeen = Number($('#numberOfTeen').val() * 12000);
-            $('#priceInput').attr('value',
-                (priceOfAdult + priceOfTeen).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
-        })
-
-
-        $('#btnTicketing').on('click', function () {
-            if (Number($('#numberOfAdult').val()) + Number($('#numberOfTeen').val()) === 0
-                || seatsList.length === 0) {
-                alert('인원수와 선택한 좌석을 확인해주세요');
-                return;
-            }
-            $.ajax({
-                url: '/ticketing',
-                type: 'post',
-                data: {
-                    'id': '${sessionScope.user.id}',
-                    'titleInfo': $('#titleInfo').val(),
-                    'dayInfo': $('#dayInfo').val(),
-                    'hallInfo': $('#hallInfo').val(),
-                    'timeInfo': $('#timeInfo').val(),
-                    'numberOfAdult': $('#numberOfAdult').val(),
-                    'numberOfTeen': $('#numberOfTeen').val(),
-                    'seats': $('#seatsInput').val(),
-                    'price': $('#priceInput').val().replace(/[^0-9]/g, "")
-                },
-                success: function (result) {
-                    if (${empty sessionScope.user}) {
-                        $('#loginModal').modal('show');
-                    } else {
-                        if (result === 'success') {
-                            $('#successTicketModal').modal('show');
-                        }
-                    }
-                },
-                error: function () {
-                    alert('비동기통신 에러');
-                }
-            })
-        })
+    <!-- 인원수에 대한 가격 표시 -->
+    $("#selectNumber").on('click', function () {
+      var priceOfAdult = Number($('#numberOfAdult').val() * 14000);
+      var priceOfTeen = Number($('#numberOfTeen').val() * 12000);
+      $('#priceInput').attr('value',
+          (priceOfAdult + priceOfTeen).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
     });
 
-    var form = document.loginForm;
+    <!-- 좌석선택 버튼 비동기 통신 -->
+    $('#btnTicketing').on('click', function () {
+      if ((Number($('#numberOfAdult').val()) + Number($('#numberOfTeen').val())) === 0
+          || seatsList.length === 0 || (Number($('#numberOfAdult').val()) + Number(
+              $('#numberOfTeen').val())) !== seatsList.length) {
+        alert('인원수와 선택한 좌석을 다시 확인해주세요');
+        return;
+      }
 
-    function checkLogin() {
-        if (form.id.value === "") {
-            alert("아이디를 입력해주세요.");
-            form.id.select();
-            return;
-        } else if (form.password.value === "") {
-            alert("비밀번호를 입력해주세요.")
-            form.password.select();
-            return;
-        }
-        let id = $('#id').val();
-        let password = $('#password').val();
-        let saveId = $('#saveId').val();
-        $.ajax({
-            type: "post",
-            url: "/user/loginModal",
-            data: {
-                'id': id,
-                'password': password,
-                'saveId': saveId
-            },
-            success: function (result) {
-                if (result === 'success') {
-                    alert("로그인 완료!좌석을 다시 선택해주세요!")
-                    location.reload();
-                } else {
-                    alert('아이디 혹은 비밀번호가 일치하지 않습니다.');
-                }
-            },
-            error: function () {
-                alert('비동기 통신 실패');
+      $.ajax({
+        url: '/ticketing',
+        type: 'post',
+        data: {
+          'id': '${sessionScope.user.id}',
+          'titleInfo': $('#titleInfo').val(),
+          'dayInfo': $('#dayInfo').val(),
+          'hallInfo': $('#hallInfo').val(),
+          'timeInfo': $('#timeInfo').val(),
+          'numberOfAdult': $('#numberOfAdult').val(),
+          'numberOfTeen': $('#numberOfTeen').val(),
+          'seats': $('#seatsInput').val(),
+          'price': $('#priceInput').val().replace(/[^0-9]/g, "")
+        },
+        success: function (result) {
+          if (result === 'ID_NULL_ERR') {
+            $('#loginModal').modal('show');
+          } else {
+            if (result === 'success') {
+              $('#successTicketModal').modal('show');
             }
-        });
+          }
+        },
+        error: function () {
+          alert('비동기통신 에러');
+        }
+      })
+    })
+  });
+
+  <!-- 로그인 ID/PW 널 체크 -->
+  var form = document.loginForm;
+
+  function checkLogin() {
+    if (form.id.value === "") {
+      alert("아이디를 입력해주세요.");
+      form.id.select();
+      return;
+    } else if (form.password.value === "") {
+      alert("비밀번호를 입력해주세요.")
+      form.password.select();
+      return;
     }
+    let id = $('#id').val();
+    let password = $('#password').val();
+    let saveId = $('#saveId').val();
+    $.ajax({
+      type: "post",
+      url: "/user/loginModal",
+      data: {
+        'id': id,
+        'password': password,
+        'saveId': saveId
+      },
+      success: function (result) {
+        if (result === 'success') {
+          alert("로그인 완료!좌석을 다시 선택해주세요!")
+          location.reload();
+        } else {
+          alert('아이디 혹은 비밀번호가 일치하지 않습니다.');
+        }
+      },
+      error: function () {
+        alert('비동기 통신 실패');
+      }
+    });
+  }
 </script>
 </body>
 </html>

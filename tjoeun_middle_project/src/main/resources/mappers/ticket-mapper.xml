@@ -10,4 +10,7 @@
         insert into Ticket(id, titleInfo, hallInfo, dayInfo, timeInfo, numberOfAdult, numberOfTeen, seats, price)
         VALUES(#{id},#{titleInfo},#{hallInfo},#{dayInfo},#{timeInfo},#{numberOfAdult},#{numberOfTeen},#{seats},#{price});
     </insert>
+    <select id="selectChoiceSeats" parameterType="java.util.Map" resultType="String">
+        select seats from Ticket where hallInfo=#{hallInfo} and dayInfo=#{dayInfo} and timeInfo =#{timeInfo};
+    </select>
 </mapper>
