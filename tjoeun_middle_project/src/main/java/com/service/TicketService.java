@@ -39,4 +39,7 @@ public class TicketService {
         map.put("timeInfo",timeInfo);
         return ticketMapper.selectChoiceSeats(map);
     }
+    public void deleteTicket(Ticket ticket){
+        ticketMapper.deleteTicket(ticket);
+    }
 }

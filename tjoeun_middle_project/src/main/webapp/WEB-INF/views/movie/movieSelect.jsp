@@ -386,7 +386,12 @@
             },
             success: function (result) {
                 if (result === 'success') {
-                    //로그인 되었을때 로직추가
+                    let selectedDay = $('#dayInfo').val().replace(/[^0-9]/g, "");
+                    let date = new Date();
+                    let dateFormat = date.getFullYear() + "-" + ((date.getMonth() + 1) <= 9 ? "0" + (date.getMonth()
+                        + 1) : (date.getMonth() + 1)) + "-" + ((selectedDay) <= 9 ? "0" + (selectedDay)
+                        : (selectedDay));
+                    $('#dayInfo').attr('value',dateFormat);
                     document.getElementById('movieSelectForm').submit();
                 } else {
                     alert('아이디 혹은 비밀번호가 일치하지 않습니다.');

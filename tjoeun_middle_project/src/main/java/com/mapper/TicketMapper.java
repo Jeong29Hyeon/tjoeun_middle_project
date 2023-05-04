@@ -9,6 +9,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface TicketMapper {
     int insertTicket(Ticket ticket);
     List<Ticket> selectAllById(String id);
-
     List<String> selectChoiceSeats(Map<String,String> map);
+    void deleteTicket(Ticket ticket);
 }
