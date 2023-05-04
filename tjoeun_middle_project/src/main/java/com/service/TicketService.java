@@ -9,6 +9,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class TicketService {
     TicketMapper ticketMapper;
@@ -24,12 +27,19 @@ public class TicketService {
             throw new Exception("티켓 생성 에러");
         }
     }
-
+    public List<Ticket> selectById(String id) {
+        ArrayList<Ticket> list = new ArrayList<>();
+        list = (ArrayList<Ticket>) ticketMapper.selectAllById(id);
+        return list;
+    }
     public List<String> selectChoiceSeats(String hallInfo, String dayInfo, String timeInfo)throws Exception {
         Map<String,String> map = new HashMap<>();
         map.put("hallInfo",hallInfo);
         map.put("dayInfo",dayInfo);
         map.put("timeInfo",timeInfo);
         return ticketMapper.selectChoiceSeats(map);
+    }
+    public void deleteTicket(Ticket ticket){
+        ticketMapper.deleteTicket(ticket);
     }
 }

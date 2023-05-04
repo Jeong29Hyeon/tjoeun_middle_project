@@ -3,6 +3,7 @@ package com.controller;
 import com.dto.Movie;
 //import com.dto.Ticket;
 import com.dto.Ticket;
+import com.dto.User;
 import com.service.HallService;
 import com.service.TicketService;
 import java.util.Arrays;
@@ -114,5 +115,11 @@ public class ReserveController {
         model.addAttribute("dayList", weekOfDays);
 
         return "/movie/movieSelect";
+    }
+
+    @RequestMapping(value = "/deleteTicket", method = {RequestMethod.GET,RequestMethod.POST})
+    public String deleteTicket(Ticket ticket){
+        ticketService.deleteTicket(ticket);
+        return "redirect:/user/ticketHistory";
     }
 }
