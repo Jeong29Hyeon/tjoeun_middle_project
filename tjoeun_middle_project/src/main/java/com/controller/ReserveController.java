@@ -4,6 +4,7 @@ import com.dto.Movie;
 //import com.dto.Ticket;
 import com.dto.Ticket;
 import com.service.HallService;
+import com.service.TicketService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -27,6 +28,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class ReserveController {
 
+    TicketService ticketService;
+    @Autowired
+    public ReserveController(TicketService ticketService) {
+        this.ticketService = ticketService;
+    }
+
     @PostMapping("/movieRoom")
     public String movieRoom(Model model, Ticket ticket) {
         model.addAttribute("ticket", ticket);
@@ -37,8 +44,16 @@ public class ReserveController {
     @PostMapping("/ticketing")
     @ResponseBody
     public String ticketing(Ticket ticket){
-
-        return "";
+        System.out.println(ticket.toString());
+        if(ticket.getId() == null){
+            return "ID_NULL_ERR";
+        }
+        try {
+            ticketService.insertTicket(ticket);
+        } catch (Exception e) {
+            return "TICKET_INSERT_ERR";
+        }
+        return "success";
     }
 
 

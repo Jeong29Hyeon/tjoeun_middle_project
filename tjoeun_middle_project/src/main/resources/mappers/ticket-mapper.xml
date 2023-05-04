@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.TicketMapper">
+    <select id="selectAllById" parameterType="String" resultType="Ticket">
+        select * from Ticket where id=#{id};
+    </select>
+    <insert id="insertTicket" parameterType="Ticket">
+        insert into Ticket(id, titleInfo, hallInfo, dayInfo, timeInfo, numberOfAdult, numberOfTeen, seats, price)
+        VALUES(#{id},#{titleInfo},#{hallInfo},#{dayInfo},#{timeInfo},#{numberOfAdult},#{numberOfTeen},#{seats},#{price});
+    </insert>
+</mapper>

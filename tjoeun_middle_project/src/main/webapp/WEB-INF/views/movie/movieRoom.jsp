@@ -1,12 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: USER
-  Date: 2023-05-01
-  Time: 오후 7:54
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 
@@ -26,16 +19,16 @@
             <input type="text" class="form-control-plaintext" name="titleInfo" id="titleInfo"
                    value="${ticket.titleInfo}" disabled>
             <input type="text" class="form-control-plaintext" name="hallInfo" id="hallInfo"
-                   value="${ticket.hallInfo}" disabled>
+                    value="${ticket.hallInfo}" disabled>
             <input type="text" class="form-control-plaintext" name="dayInfo" id="dayInfo"
                    value="${ticket.dayInfo}" disabled>
             <input type="text" class="form-control-plaintext" name="timeInfo" id="timeInfo"
                    value="${ticket.timeInfo}" disabled>
         </div>
-        <div class="col-4">
+        <div class="col-4" id="selectNumber">
             <h3>인원수</h3><br>
             성인
-            <select class="form-select form-select-sm" name="numberOfAdult" id="numberOfAdult">
+            <select class="form-select form-select-sm mb-3" name="numberOfAdult" id="numberOfAdult">
                 <option value="0">0</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -51,9 +44,10 @@
         </div>
         <div class="col-4">
             <h3>선택한 좌석</h3><br>
-            <input type="text" size="8" name="seats" id="seatsInput" value=""
-                   class="input-group-text mb-1"/>
-            PRICE:
+            <input type="text" size="30" name="seats" id="seatsInput" value=""
+                   class="input-group-text mb-3 mt-3"/>
+            PRICE <input type="text" size="15" name="price" id="priceInput" value=""
+                         class="input-group-text "/>
         </div>
     </div>
 </div>
@@ -81,12 +75,11 @@
     </div>
 </div>
 <div class="container form-check-reverse">
-    <button id="btnSelect" class="btn btn-primary">선택완료</button>
+    <button type="button" id="btnTicketing" class="btn btn-primary">선택완료</button>
     <a href="<c:url value="javascript:history.back();"/>">
         <button type="button" class="btn btn-primary">뒤로가기</button>
     </a>
 </div>
-</form>
 <%@ include file="../footer.jsp" %>
 <script>
   let seatsList = [];
@@ -124,32 +117,45 @@
     <%
                 }
             %>
+    $("#selectNumber").on('click', function () {
+      var priceOfAdult = Number($('#numberOfAdult').val() * 14000);
+      var priceOfTeen = Number($('#numberOfTeen').val() * 12000);
+      $('#priceInput').attr('value',
+          (priceOfAdult + priceOfTeen).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+    })
 
-    $('#btnSelect').on('click', function () {
-      if (Number($('#numberOfAdult').val()) + Number($('#numberOfTeen').val()) === 0 || seatsList.length === 0) {
+
+    $('#btnTicketing').on('click', function () {
+      if (Number($('#numberOfAdult').val()) + Number($('#numberOfTeen').val()) === 0
+          || seatsList.length === 0) {
         alert('인원수와 선택한 좌석을 확인해주세요');
         return;
       }
       $.ajax({
-        url:'/ticketing',
-        type:'post',
-        data:{
-          'titleInfo':$('#titleInfo').val(),
-          'dayInfo':$('#dayInfo').val(),
-          'hallInfo':$('#hallInfo').val(),
-          'timeInfo':$('#timeInfo').val(),
-          'numberOfAdult':$('#numberOfAdult').val(),
-          'numberOfTeen':$('#numberOfTeen').val(),
-          'seats':$('#seatsInput').val()
+        url: '/ticketing',
+        type: 'post',
+        data: {
+          'id' : '${sessionScope.user.id}',
+          'titleInfo': $('#titleInfo').val(),
+          'dayInfo': $('#dayInfo').val(),
+          'hallInfo': $('#hallInfo').val(),
+          'timeInfo': $('#timeInfo').val(),
+          'numberOfAdult': $('#numberOfAdult').val(),
+          'numberOfTeen': $('#numberOfTeen').val(),
+          'seats': $('#seatsInput').val(),
+          'price':$('#priceInput').val().replace(/[^0-9]/g, "")
         },
-        success:function (result){
-          
+        success: function (result) {
+            if(result === 'success'){
+                location.href='/';
+            }
         },
-        error:function (){
+        error: function () {
           alert('비동기통신 에러');
         }
       })
     })
+
   });
 </script>
 </body>
