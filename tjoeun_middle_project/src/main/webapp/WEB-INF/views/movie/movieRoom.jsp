@@ -138,12 +138,14 @@
     </div>
 </div>
 <!-- 예약 후 티켓 관련 모달띄우기 -->
-<div class="modal fade" id="successTicketModal" aria-labelledby="successTicketHeader" aria-hidden="true">
+<div class="modal fade" id="successTicketModal" aria-labelledby="successTicketHeader"
+     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="successTicketHeader">예약 완료</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form name="successTicketForm" action="/">
@@ -200,7 +202,7 @@
   $(document).ready(function () {
     <!-- 선택된 좌석 disabled 처리 -->
     <c:forEach var="seatNum" items="${choiceSeats}">
-    $('#${seatNum}').attr('disabled',true);
+    $('#${seatNum}').attr('disabled', true);
     $('#${seatNum}').removeClass('btn-outline-secondary');
     $('#${seatNum}').addClass('btn-secondary');
     </c:forEach>
@@ -248,14 +250,15 @@
           (priceOfAdult + priceOfTeen).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
     });
 
-
     <!-- 좌석선택 버튼 비동기 통신 -->
     $('#btnTicketing').on('click', function () {
-      if (Number($('#numberOfAdult').val()) + Number($('#numberOfTeen').val()) === 0
-          || seatsList.length === 0) {
-        alert('인원수와 선택한 좌석을 확인해주세요');
+      if ((Number($('#numberOfAdult').val()) + Number($('#numberOfTeen').val())) === 0
+          || seatsList.length === 0 || (Number($('#numberOfAdult').val()) + Number(
+              $('#numberOfTeen').val())) !== seatsList.length) {
+        alert('인원수와 선택한 좌석을 다시 확인해주세요');
         return;
       }
+
       $.ajax({
         url: '/ticketing',
         type: 'post',
@@ -271,7 +274,7 @@
           'price': $('#priceInput').val().replace(/[^0-9]/g, "")
         },
         success: function (result) {
-          if (${empty sessionScope.user}) {
+          if (result === 'ID_NULL_ERR') {
             $('#loginModal').modal('show');
           } else {
             if (result === 'success') {
@@ -288,6 +291,7 @@
 
   <!-- 로그인 ID/PW 널 체크 -->
   var form = document.loginForm;
+
   function checkLogin() {
     if (form.id.value === "") {
       alert("아이디를 입력해주세요.");
