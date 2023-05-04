@@ -23,8 +23,7 @@
         <div class="col-4">
             <h3>선택하신 영화 정보</h3><br>
             결제할때 disable 풀어줘야댐
-            <input type="text" class="form-control-plaintext" name="titleInfo"
-                   value="${ticket.titleInfo}" disabled>
+            <input type="text" class="form-control-plaintext" name="titleInfo" value="${ticket.titleInfo}" disabled>
             <input type="text" class="form-control-plaintext" name="hallInfo"
                    value="${ticket.hallInfo}" disabled>
             <input type="text" class="form-control-plaintext" name="dayInfo"
@@ -32,10 +31,10 @@
             <input type="text" class="form-control-plaintext" name="timeInfo"
                    value="${ticket.timeInfo}" disabled>
         </div>
-        <div class="col-4">
+        <div class="col-4" id="selectNumber">
             <h3>인원수</h3><br>
             성인
-            <select class="form-select form-select-sm" name="numberOfAdult" id="numberOfAdult">
+            <select class="form-select form-select-sm mb-3" name="numberOfAdult" id="numberOfAdult">
                 <option value="0">0</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -51,9 +50,8 @@
         </div>
         <div class="col-4">
             <h3>선택한 좌석</h3><br>
-            <input type="text" size="8" name="seats" id="seatsInput" value=""
-                   class="input-group-text mb-1"/>
-            PRICE:
+            <input type="text" size="30" name="seats" id="seatsInput" value="" class="input-group-text mb-3 mt-3"/>
+            PRICE <input type="text" size="15" name="price" id="priceInput" value="" class="input-group-text "/>
         </div>
     </div>
 </div>
@@ -126,6 +124,11 @@
     <%
                 }
             %>
+      $("#selectNumber").on('click',function () {
+          var priceOfAdult = Number($('#numberOfAdult').val()*14000);
+          var priceOfTeen = Number($('#numberOfTeen').val()*12000);
+          $('#priceInput').attr('value', (priceOfAdult+priceOfTeen).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+"원");
+      })
   });
 </script>
 </body>
