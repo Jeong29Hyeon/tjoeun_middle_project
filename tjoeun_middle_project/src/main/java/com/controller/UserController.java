@@ -70,7 +70,7 @@ public class UserController {
             ra.addFlashAttribute("msg",user.getName()+"님 환영합니다!");
         } catch (Exception e) {
             ra.addFlashAttribute("msg","ID/PW가 일치하지 않습니다.");
-            return "redirect:/";
+            return "redirect:/user/login";
         }
         Cookie cookie = new Cookie("id", id);
         if(saveId) {
@@ -83,6 +83,23 @@ public class UserController {
         return "redirect:"+(toUrl == null || toUrl.equals("") ? '/' : toUrl.replace("-","&"));
     }
 
-
+    @PostMapping("/loginModal")
+    @ResponseBody
+    public String loginModal(String id, String password,boolean saveId,HttpServletRequest request,HttpServletResponse response){
+        try {
+            User user = userService.login(id,password);
+            request.getSession().setAttribute("user",user);
+            Cookie cookie = new Cookie("id", id);
+            if(saveId) {
+                response.addCookie(cookie);
+            }else{
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
+            }
+        } catch (Exception e) {
+            return "fail";
+        }
+        return "success";
+    }
 
 }
