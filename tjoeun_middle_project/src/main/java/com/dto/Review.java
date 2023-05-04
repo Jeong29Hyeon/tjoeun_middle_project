@@ -3,40 +3,39 @@ package com.dto;
 import java.util.Date;
 
 public class Review {                // 영화 넘버링에 pk fk 해서 리뷰작성
-    private int movie_num;           // 영화 테이블 참조 
-    private String movie_name;       // 영화 이름
+    private int seq;           // 영화 테이블 참조
+    private int rno;                //리뷰 번호
+    private String content;           // 리뷰 본문
     private String id;               // User id
-    private String review;           // 리뷰 본문
-    private Date reg_day;            // 리뷰 등록시간 now()
-        
+    private Date reg_date;            // 리뷰 등록시간 now()
     private int like_hit;            // 리뷰 기능 자체에 좋아요 싫어요
     private int hate_hit;
     public Review(){}
 
-    public Review(int movie_num, String movie_name, String id, String review, Date reg_day, int like_hit, int hate_hit) {
-        this.movie_num = movie_num;
-        this.movie_name = movie_name;
+    public Review(int seq, int rno, String content, String id, Date reg_date, int like_hit, int hate_hit) {
+        this.seq = seq;
+        this.rno = rno;
+        this.content = content;
         this.id = id;
-        this.review = review;
-        this.reg_day = reg_day;
+        this.reg_date = reg_date;
         this.like_hit = like_hit;
         this.hate_hit = hate_hit;
     }
 
-    public int getMovie_num() {
-        return movie_num;
+    public int getRno() {
+        return rno;
     }
 
-    public void setMovie_num(int movie_num) {
-        this.movie_num = movie_num;
+    public void setRno(int rno) {
+        this.rno = rno;
     }
 
-    public String getMovie_name() {
-        return movie_name;
+    public int getSeq() {
+        return seq;
     }
 
-    public void setMovie_name(String movie_name) {
-        this.movie_name = movie_name;
+    public void setSeq(int seq) {
+        this.seq = seq;
     }
 
     public String getId() {
@@ -47,20 +46,20 @@ public class Review {                // 영화 넘버링에 pk fk 해서 리뷰�
         this.id = id;
     }
 
-    public String getReview() {
-        return review;
+    public String getContent() {
+        return content;
     }
 
-    public void setReview(String review) {
-        this.review = review;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public Date getReg_day() {
-        return reg_day;
+    public Date getReg_date() {
+        return reg_date;
     }
 
-    public void setReg_day(Date reg_day) {
-        this.reg_day = reg_day;
+    public void setReg_date(Date reg_date) {
+        this.reg_date = reg_date;
     }
 
     public int getLike_hit() {
