@@ -19,7 +19,7 @@
             <input type="text" class="form-control-plaintext" name="titleInfo" id="titleInfo"
                    value="${ticket.titleInfo}" disabled>
             <input type="text" class="form-control-plaintext" name="hallInfo" id="hallInfo"
-                    value="${ticket.hallInfo}" disabled>
+                   value="${ticket.hallInfo}" disabled>
             <input type="text" class="form-control-plaintext" name="dayInfo" id="dayInfo"
                    value="${ticket.dayInfo}" disabled>
             <input type="text" class="form-control-plaintext" name="timeInfo" id="timeInfo"
@@ -80,83 +80,237 @@
         <button type="button" class="btn btn-primary">뒤로가기</button>
     </a>
 </div>
+<!-- 세션 지나고 예약하려고 할때 모달띄우기 -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginHeader"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="loginHeader">로그인</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form name="loginForm" class="row g-3" action="<c:url value='/user/login'/>"
+                      method="post">
+                    <div class="row mt-md-3">
+                        <div class="col-md-12">
+                            <label for="id" class="form-label">아이디</label>
+                            <input type="text" id="id" name="id" class="form-control"
+                                   value="${cookie.id.value}" placeholder="아이디입력">
+                        </div>
+                    </div>
+                    <div class="row mt-md-3">
+                        <div class="col-md-12">
+                            <label for="password" class="form-label">비밀번호</label>
+                            <input class="form-control" type="password" id="password"
+                                   name="password" placeholder="비밀번호입력">
+                        </div>
+                    </div>
+                    <div class="row mt-md-3">
+                        <div class="col">
+                            <input id="saveId" type="checkbox"
+                                   name="saveId" ${empty cookie.id ? '':'checked'}>아이디
+                            저장
+                        </div>
+                        <div class="col">
+                            <a href="<c:url value="#"/>"
+                               style="text-decoration: none; font-size: 12px">아이디 혹은 비밀번호를
+                                잊으셨나요?</a>
+                        </div>
+                    </div>
+                    <div class="row mt-md-4 text-center">
+                        <div class="col">
+                            <input type="hidden" name="toUrl" value="${param.toUrl}"/>
+                            <input type="button" class="btn btn-primary" value="로그인하기"
+                                   onclick="checkLogin()">
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-primary">
+                                <a href="<c:url value="/user/join"/>"
+                                   style="color:white; text-decoration: none">회원가입</a>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 예약 후 티켓 관련 모달띄우기 -->
+<div class="modal fade" id="successTicketModal" aria-labelledby="successTicketHeader" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="successTicketHeader">예약 완료</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form name="successTicketForm" action="/">
+                    <div class="container mt-1">
+                        예매가 완료 되었습니다.<br><br>
+                        <h5>예약 정보</h5><br>
+                        <div class="row">
+                            <div class="col-4">
+                                예매자 성함:
+                            </div>
+                            <div class="col-8">
+                                ${sessionScope.user.name}<br>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                영화 제목:
+                            </div>
+                            <div class="col-8">
+                                ${ticket.titleInfo}<br>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                영화 관:<br>
+
+                            </div>
+                            <div class="col-8">
+                                ${ticket.hallInfo}<br>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                영화 날짜&시간:
+                            </div>
+                            <div class="col-8">
+                                ${ticket.dayInfo}&${ticket.timeInfo}<br>
+                            </div>
+                        </div>
+                        <div class="row center-block mt-3">
+<%--                        <div class="container mt-3">--%>
+                            <input type="submit" value="홈으로">
+<%--                        </div>--%>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <%@ include file="../footer.jsp" %>
 <script>
-  let seatsList = [];
-  $(document).ready(function () {
-    <%
-               for (int i = 65; i < 75; i++) {
-           %>
-    <c:forEach var="num" begin="1" end="10">
-    $("#<%=(char)i%>${num}").on('click', function () {
+    let seatsList = [];
+    $(document).ready(function () {
+        <%
+                   for (int i = 65; i < 75; i++) {
+               %>
+        <c:forEach var="num" begin="1" end="10">
+        $("#<%=(char)i%>${num}").on('click', function () {
 
-      let duplicateCheck = seatsList.indexOf('<%=(char)i%>' + $("#<%=(char)i%>${num}").text());
-      if (duplicateCheck !== -1) {
-        seatsList.splice(duplicateCheck, 1);
-      } else {
-        if (Number($('#numberOfAdult').val()) + Number($('#numberOfTeen').val()) < seatsList.length
-            + 1) {
-          alert('인원수를 확인해주세요');
-          return;
-        }
-        seatsList.push('<%=(char)i%>' + $("#<%=(char)i%>${num}").text());
-      }
-      seatsList.sort();
-
-      if ($("#<%=(char)i%>${num}").hasClass('btn-primary')) {
-        $("#<%=(char)i%>${num}").addClass('btn-outline-secondary');
-        $("#<%=(char)i%>${num}").removeClass('btn-primary');
-      } else {
-        $("#<%=(char)i%>${num}").removeClass('btn-outline-secondary');
-        $("#<%=(char)i%>${num}").addClass('btn-primary');
-      }
-      $('#seatsInput').attr('value', seatsList);
-      console.log(seatsList);
-    });
-    </c:forEach>
-    <%
+            let duplicateCheck = seatsList.indexOf('<%=(char)i%>' + $("#<%=(char)i%>${num}").text());
+            if (duplicateCheck !== -1) {
+                seatsList.splice(duplicateCheck, 1);
+            } else {
+                if (Number($('#numberOfAdult').val()) + Number($('#numberOfTeen').val()) < seatsList.length
+                    + 1) {
+                    alert('인원수를 확인해주세요');
+                    return;
                 }
-            %>
-    $("#selectNumber").on('click', function () {
-      var priceOfAdult = Number($('#numberOfAdult').val() * 14000);
-      var priceOfTeen = Number($('#numberOfTeen').val() * 12000);
-      $('#priceInput').attr('value',
-          (priceOfAdult + priceOfTeen).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
-    })
-
-
-    $('#btnTicketing').on('click', function () {
-      if (Number($('#numberOfAdult').val()) + Number($('#numberOfTeen').val()) === 0
-          || seatsList.length === 0) {
-        alert('인원수와 선택한 좌석을 확인해주세요');
-        return;
-      }
-      $.ajax({
-        url: '/ticketing',
-        type: 'post',
-        data: {
-          'id' : '${sessionScope.user.id}',
-          'titleInfo': $('#titleInfo').val(),
-          'dayInfo': $('#dayInfo').val(),
-          'hallInfo': $('#hallInfo').val(),
-          'timeInfo': $('#timeInfo').val(),
-          'numberOfAdult': $('#numberOfAdult').val(),
-          'numberOfTeen': $('#numberOfTeen').val(),
-          'seats': $('#seatsInput').val(),
-          'price':$('#priceInput').val().replace(/[^0-9]/g, "")
-        },
-        success: function (result) {
-            if(result === 'success'){
-                location.href='/';
+                seatsList.push('<%=(char)i%>' + $("#<%=(char)i%>${num}").text());
             }
-        },
-        error: function () {
-          alert('비동기통신 에러');
-        }
-      })
-    })
+            seatsList.sort();
 
-  });
+            if ($("#<%=(char)i%>${num}").hasClass('btn-primary')) {
+                $("#<%=(char)i%>${num}").addClass('btn-outline-secondary');
+                $("#<%=(char)i%>${num}").removeClass('btn-primary');
+            } else {
+                $("#<%=(char)i%>${num}").removeClass('btn-outline-secondary');
+                $("#<%=(char)i%>${num}").addClass('btn-primary');
+            }
+            $('#seatsInput').attr('value', seatsList);
+            console.log(seatsList);
+        });
+        </c:forEach>
+        <%
+                    }
+                %>
+        $("#selectNumber").on('click', function () {
+            var priceOfAdult = Number($('#numberOfAdult').val() * 14000);
+            var priceOfTeen = Number($('#numberOfTeen').val() * 12000);
+            $('#priceInput').attr('value',
+                (priceOfAdult + priceOfTeen).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+        })
+
+
+        $('#btnTicketing').on('click', function () {
+            if (Number($('#numberOfAdult').val()) + Number($('#numberOfTeen').val()) === 0
+                || seatsList.length === 0) {
+                alert('인원수와 선택한 좌석을 확인해주세요');
+                return;
+            }
+            $.ajax({
+                url: '/ticketing',
+                type: 'post',
+                data: {
+                    'id': '${sessionScope.user.id}',
+                    'titleInfo': $('#titleInfo').val(),
+                    'dayInfo': $('#dayInfo').val(),
+                    'hallInfo': $('#hallInfo').val(),
+                    'timeInfo': $('#timeInfo').val(),
+                    'numberOfAdult': $('#numberOfAdult').val(),
+                    'numberOfTeen': $('#numberOfTeen').val(),
+                    'seats': $('#seatsInput').val(),
+                    'price': $('#priceInput').val().replace(/[^0-9]/g, "")
+                },
+                success: function (result) {
+                    if (${empty sessionScope.user}) {
+                        $('#loginModal').modal('show');
+                    } else {
+                        if (result === 'success') {
+                            $('#successTicketModal').modal('show');
+                        }
+                    }
+                },
+                error: function () {
+                    alert('비동기통신 에러');
+                }
+            })
+        })
+    });
+
+    var form = document.loginForm;
+
+    function checkLogin() {
+        if (form.id.value === "") {
+            alert("아이디를 입력해주세요.");
+            form.id.select();
+            return;
+        } else if (form.password.value === "") {
+            alert("비밀번호를 입력해주세요.")
+            form.password.select();
+            return;
+        }
+        let id = $('#id').val();
+        let password = $('#password').val();
+        let saveId = $('#saveId').val();
+        $.ajax({
+            type: "post",
+            url: "/user/loginModal",
+            data: {
+                'id': id,
+                'password': password,
+                'saveId': saveId
+            },
+            success: function (result) {
+                if (result === 'success') {
+                    alert("로그인 완료!좌석을 다시 선택해주세요!")
+                    location.reload();
+                } else {
+                    alert('아이디 혹은 비밀번호가 일치하지 않습니다.');
+                }
+            },
+            error: function () {
+                alert('비동기 통신 실패');
+            }
+        });
+    }
 </script>
 </body>
 </html>
