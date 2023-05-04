@@ -84,6 +84,14 @@
 <script>
   let seatsList = [];
   $(document).ready(function () {
+    <!-- 선택된 좌석 disabled 처리 -->
+    <c:forEach var="seatNum" items="${choiceSeats}">
+        $('#${seatNum}').attr('disabled',true);
+        $('#${seatNum}').removeClass('btn-outline-secondary');
+        $('#${seatNum}').addClass('btn-secondary');
+    </c:forEach>
+
+    <!-- 각 좌석 버튼에 대한 이벤트 생성 -->
     <%
                for (int i = 65; i < 75; i++) {
            %>
@@ -117,14 +125,16 @@
     <%
                 }
             %>
+
+    <!-- 인원수에 대한 가격 표시 -->
     $("#selectNumber").on('click', function () {
       var priceOfAdult = Number($('#numberOfAdult').val() * 14000);
       var priceOfTeen = Number($('#numberOfTeen').val() * 12000);
       $('#priceInput').attr('value',
           (priceOfAdult + priceOfTeen).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
-    })
+    });
 
-
+    <!-- 좌석선택 버튼 비동기 통신 -->
     $('#btnTicketing').on('click', function () {
       if (Number($('#numberOfAdult').val()) + Number($('#numberOfTeen').val()) === 0
           || seatsList.length === 0) {

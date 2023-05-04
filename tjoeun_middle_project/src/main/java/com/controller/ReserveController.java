@@ -5,6 +5,9 @@ import com.dto.Movie;
 import com.dto.Ticket;
 import com.service.HallService;
 import com.service.TicketService;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -24,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class ReserveController {
@@ -35,8 +39,24 @@ public class ReserveController {
     }
 
     @PostMapping("/movieRoom")
-    public String movieRoom(Model model, Ticket ticket) {
+    public String movieRoom(Model model, Ticket ticket, RedirectAttributes ra) {
         model.addAttribute("ticket", ticket);
+        try {
+            List<String> choiceSeatList = ticketService.selectChoiceSeats(ticket.getHallInfo(),ticket.getDayInfo(),ticket.getTimeInfo());
+            if(choiceSeatList.isEmpty()){
+                return "/movie/movieRoom";
+            }
+            Collections.sort(choiceSeatList);
+            StringBuilder temp = new StringBuilder();
+            for(String s : choiceSeatList){
+                temp.append(s);
+            }
+            String[] choiceSeats = temp.toString().split(",");
+            model.addAttribute("choiceSeats",choiceSeats);
+        } catch (Exception e) {
+            ra.addFlashAttribute("msg","좌석 선택 에러가 발생했습니다. 잠시 후 다시 시도해주세요.");
+            return "redirect:/"; //에러가 발생했을때 에러창을 보여줘야함
+        }
         return "/movie/movieRoom";
     }
 
