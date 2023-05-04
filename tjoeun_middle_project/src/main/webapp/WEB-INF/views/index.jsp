@@ -78,7 +78,7 @@
                                       class="position-absolute top-50 start-50 translate-middle text-center" hidden>
                                     <a href="<c:url value="/movies/detail-view?seq=${movie.seq}"/>">
                                     <button id="btnDetail${movie.seq}" type="button" class="btn btn-sm btn-light mb-md-2">상세보기</button></a>
-                                    <a href="<c:url value="/movieSelect?seq=${movie.seq}&title=${movie.title}" />">
+                                    <a href="<c:url value="/movieSelect?seq=${movie.seq}&title=${movie.title}"/>">
                                     <button id="btnReserve${movie.seq}" type="button" class="btn btn-sm btn-danger">예매하기</button></a>
 <%--                                    수정예정--%>
                                 </div>
