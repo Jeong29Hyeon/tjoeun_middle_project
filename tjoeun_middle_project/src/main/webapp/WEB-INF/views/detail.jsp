@@ -12,29 +12,40 @@
 </head>
 <body>
 <%@include file="header.jsp" %>
-일단 띄우자
 <c:if test="${not empty movie}">
-        <div class="col">
-            <form action="" method="post">
-                <div class="card mb-3">
-                    <!-- 디테일 뷰 -->
-                    <a href="#"><img src="${movie.img}" class="card-img-top" alt="..."></a>
-                    <div class="card-body text-center">
-                        <p class="card-title fw-bold mb-0"
-                           style="font-size: 12px">${movie.rank}</p>
-                        <p class="card-title fw-bold mb-0"
-                           style="font-size: 12px">${movie.title}</p>
-                        <p class="card-text my-0" style="font-size:10px;"><small
-                                class="text-muted">예매율 ${movie.rateInfo}</small></p>
-                        <p class="card-text" style="font-size:10px"><small
-                                class="text-muted">${movie.openingDate}</small></p>
-                        <p>${movie.story}</p>
-                        <button id="btnReserve" class="btn btn-outline-primary btn-sm">예매하기</button>
-                    </div>
+    <div class="container">
+        <form action="" method="post">
+            <div class="row">
+                <!-- 디테일 뷰 -->
+                <div class="col-md-5">
+                        <a href="#"><img src="${movie.img}" class="img-thumbnail" style="width:50%;height: 100%" alt="..."></a>
                 </div>
-                <!-- 서버로 넘길 영화 데이터 input hidden -->
-            </form>
-        </div>
+                <div class="col-md-6">
+                    <p class="card-title fw-bold mb-0"
+                       style="font-size: 12px">${movie.rank}</p>
+                    <p class="card-title fw-bold mb-0"
+                       style="font-size: 40px">${movie.title}</p>
+                    <p class="card-text my-0" style="font-size:10px;"><small
+                            class="text-muted">예매율 ${movie.rateInfo}</small></p>
+                    <p class="card-text" style="font-size:10px"><small
+                            class="text-muted">${movie.openingDate}</small></p>
+                    <p>${movie.story}</p>
+                </div>
+            </div>
+            <div class="row">
+                <p>test</p>
+            </div>
+            <!-- 서버로 넘길 영화 데이터 input hidden -->
+        </form>
+    </div>
+
+    <div class="container">
+        여기다가 뭐 주요 정보 트레일러 평점/리뷰 탭 만들어주고
+    </div>
+    <div class="container">
+        요기에는 각ㄱㄱ 탭에 맞는 정보를 보여준다면?
+    </div>
 </c:if>
+<%@include file="footer.jsp" %>
 </body>
 </html>
