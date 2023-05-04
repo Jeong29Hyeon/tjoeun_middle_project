@@ -51,14 +51,9 @@
                     </c:forEach>
                 </div>
             </c:when>
-            <c:when test="${empty movies}">
-                <div class="col">
-                    <div class="container mb-2" style="text-align: left">
-                        <a href="#" style="text-decoration-line: none; color: black" class="mt-3"
-                           id="selectTitle${NotNullMovies.seq}">${NotNullMovies.title}</a>
-                    </div>
-                </div>
-            </c:when>
+            <c:otherwise>
+                <p>상영중인 영화가 없습니다.</p>
+            </c:otherwise>
         </c:choose>
         <div class="col">
             <div id="dayWrap" hidden>

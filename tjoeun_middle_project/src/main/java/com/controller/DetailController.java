@@ -1,7 +1,6 @@
 package com.controller;
 
 import com.dto.Movie;
-import com.dto.Poster;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
