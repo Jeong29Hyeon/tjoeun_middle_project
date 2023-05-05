@@ -16,4 +16,7 @@
     <delete id="deleteTicket" parameterType="Ticket">
         delete from Ticket where hallInfo=#{hallInfo} and dayInfo=#{dayInfo} and timeInfo =#{timeInfo} and seats=#{seats};
     </delete>
+    <select id="existSeat" parameterType="Ticket" resultType="Ticket">
+        select * from Ticket where hallInfo=#{hallInfo} and dayInfo=#{dayInfo} and timeInfo =#{timeInfo} and seats like concat('%',#{seats},'%');
+    </select>
 </mapper>
