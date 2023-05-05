@@ -1,6 +1,8 @@
 package com.controller;
 
 import com.dto.User;
+import com.mapper.TicketMapper;
+import com.service.TicketService;
 import com.service.UserService;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -18,9 +20,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/user")
 public class UserController {
     UserService userService;
+    TicketService ticketService;
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, TicketService ticketService) {
         this.userService = userService;
+        this.ticketService = ticketService;
     }
 
     @GetMapping("/join")
@@ -70,7 +74,7 @@ public class UserController {
             ra.addFlashAttribute("msg",user.getName()+"님 환영합니다!");
         } catch (Exception e) {
             ra.addFlashAttribute("msg","ID/PW가 일치하지 않습니다.");
-            return "redirect:/";
+            return "redirect:/user/login";
         }
         Cookie cookie = new Cookie("id", id);
         if(saveId) {
@@ -83,5 +87,29 @@ public class UserController {
         return "redirect:"+(toUrl == null || toUrl.equals("") ? '/' : toUrl.replace("-","&"));
     }
 
-
+    @PostMapping("/loginModal")
+    @ResponseBody
+    public String loginModal(String id, String password,boolean saveId,HttpServletRequest request,HttpServletResponse response){
+        try {
+            User user = userService.login(id,password);
+            request.getSession().setAttribute("user",user);
+            Cookie cookie = new Cookie("id", id);
+            if(saveId) {
+                response.addCookie(cookie);
+            }else{
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
+            }
+        } catch (Exception e) {
+            return "fail";
+        }
+        return "success";
+    }
+    @GetMapping("/ticketHistory")
+    public String ticketHistory(HttpServletRequest request, Model model){
+        User user = (User)request.getSession().getAttribute("user");
+        System.out.println(user.getId());
+        model.addAttribute("historyList",ticketService.selectById(user.getId()));
+        return "movie/ticketHistory";
+    }
 }
