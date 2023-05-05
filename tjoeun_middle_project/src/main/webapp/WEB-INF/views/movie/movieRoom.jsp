@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>영화 예약</title>
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 </head>
 
 <body>
@@ -15,7 +16,6 @@
     <div class="row mb-3">
         <div class="col-4">
             <h3>선택하신 영화 정보</h3><br>
-            결제할때 disable 풀어줘야댐
             <input type="text" class="form-control-plaintext" name="titleInfo" id="titleInfo"
                    value="${ticket.titleInfo}" disabled>
             <input type="text" class="form-control-plaintext" name="hallInfo" id="hallInfo"
@@ -148,7 +148,7 @@
                         aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form name="successTicketForm" action="/">
+                <form name="successTicketForm" action="<c:url value="/"/>">
                     <div class="container mt-1">
                         예매가 완료 되었습니다.<br><br>
                         <h5>예약 정보</h5><br>
@@ -258,7 +258,6 @@
         alert('인원수와 선택한 좌석을 다시 확인해주세요');
         return;
       }
-
       $.ajax({
         url: '/ticketing',
         type: 'post',
@@ -270,23 +269,60 @@
           'timeInfo': $('#timeInfo').val(),
           'numberOfAdult': $('#numberOfAdult').val(),
           'numberOfTeen': $('#numberOfTeen').val(),
-          'seats': $('#seatsInput').val(),
+          'seats': $('#seatsInput').val()+",",
           'price': $('#priceInput').val().replace(/[^0-9]/g, "")
         },
         success: function (result) {
           if (result === 'ID_NULL_ERR') {
             $('#loginModal').modal('show');
-          } else {
-            if (result === 'success') {
-              $('#successTicketModal').modal('show');
-            }
+          } else if (result ==='SEATS_DUPLICATE_ERR'){
+            alert('이미 선택된 좌석입니다. 좌석을 다시 선택해주세요.');
+            location.reload();
+          } else if (result === 'success') {
+            var IMP = window.IMP;
+            IMP.init('imp11028147');
+            IMP.request_pay({
+              pg: 'kakaopay',
+              merchant_uid: 'merchant_' + new Date().getTime(),
+              name: '더조은 시네마 - 영화예매',
+              amount: $('#priceInput').val().replace(/[^0-9]/g, ""),
+            }, function (rsp) {
+              console.log(rsp);
+              if (rsp.success) {
+                $('#successTicketModal').modal('show');
+                // msg += '고유ID : ' + rsp.imp_uid;
+                // msg += '상점 거래ID : ' + rsp.merchant_uid;
+                // msg += '결제 금액 : ' + rsp.paid_amount;
+              } else {
+                $.ajax({
+                  type:'post',
+                  url:'/payFail',
+                  data:{
+                    'dayInfo': $('#dayInfo').val(),
+                    'hallInfo': $('#hallInfo').val(),
+                    'timeInfo': $('#timeInfo').val(),
+                    'seats': $('#seatsInput').val()+","
+                  },
+                  error:function (){
+                    alert("결제실패 비동기통신 에러");
+                    location.reload();
+                  }
+                });
+                var msg = '결제에 실패하였습니다.';
+                msg += '에러내용 : ' + rsp.error_msg;
+                alert(msg);
+                location.reload();
+              }
+            });
           }
         },
         error: function () {
-          alert('비동기통신 에러');
+          alert('티켓팅 비동기통신 에러');
         }
-      })
-    })
+      });
+
+    });
+
   });
 
   <!-- 로그인 ID/PW 널 체크 -->
