@@ -70,17 +70,17 @@
 
             <div class="container mt-md-3">
                 <div class="row g-3 d-flex justify-content-center align-items-center">
-                    <div id="commentWriter" class="col-md-2 text-center">${sessionScope.user.id}</div>
+                    <div id="reviewWriter" class="col-md-2 text-center">${sessionScope.user.id}</div>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="commentContent" name="commentContent">
+                        <input type="text" class="form-control" id="reviewContent" name="reviewContent">
                     </div>
                     <div class="col-md-2 d-grid gap-2">
-                        <button class="btn btn-outline-dark" type="button" id="commentWrite">댓글작성
+                        <button class="btn btn-outline-dark" type="button" id="reviewWrite">댓글작성
                         </button>
                     </div>
                 </div>
                 <div class="row">
-                    댓글 (${commentCnt})
+                    댓글 (${reviewCnt})
                 </div>
                 <c:forEach var="review" items="${reviewList}">
                     <div class="row g-3 my-2">
@@ -90,8 +90,8 @@
                         </div>
                         <div class="col-md-7">
                             <input class="form-control-plaintext pt-0"
-                                   type="text" name="commentEditContent"
-                                   id="commentEditContent${review.rno}"
+                                   type="text" name="reviewEditContent"
+                                   id="reviewEditContent${review.rno}"
                                    value="${review.content}"
                                    readonly>
                         </div>
@@ -102,10 +102,10 @@
                         </div>
                         <div class="col-md-2 text-end">
                             <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                <button type="button" id="commentEdit${review.rno}"
+                                <button type="button" id="reviewEdit${review.rno}"
                                         class="btn btn-outline-warning text-decoration-none" ${sessionScope.user.id eq review.id ? '' : 'hidden'}
                                 >수정</button>
-                                <button type="button" id="commentRemove${review.rno}"
+                                <button type="button" id="reviewRemove${review.rno}"
                                         class="btn btn-outline-danger text-decoration-none" ${sessionScope.user.id eq review.id ? '' : 'hidden'}
                                 >삭제</button>
                             </div>
@@ -126,10 +126,10 @@
 </c:if>
 <%@include file="footer.jsp" %>
 <script>
-    $("#commentWrite").on('click', function () {
-        if ($('#commentContent').val() === "") {
+    $("#reviewWrite").on('click', function () {
+        if ($('#reviewContent').val() === "") {
             alert("내용을 작성해주세요.");
-            $('#commentContent').focus();
+            $('#reviewContent').focus();
             return;
         }
         if (${empty sessionScope.user}) {
@@ -140,8 +140,8 @@
             url: '<c:url value="/review/write"/>',
             type: 'POST',
             data: {
-                'content': $('#commentContent').val(),
-                'id': $('#commentWriter').text(),
+                'content': $('#reviewContent').val(),
+                'id': $('#reviewWriter').text(),
                 'seq':${movie.seq}
             },
             success: function (result) {
@@ -159,24 +159,24 @@
     });
 
     <c:forEach var="review" items="${reviewList}">
-    $("#commentEdit${review.rno}").on("click", function () {
-        if ($("#commentEdit${review.rno}").text() === "수정") {
-            $("#commentEditContent${review.rno}").attr('readonly', false).focus();
-            $("#commentEdit${review.rno}").html("등록");
-            $("#commentRemove${review.rno}").html("취소");
+    $("#reviewEdit${review.rno}").on("click", function () {
+        if ($("#reviewEdit${review.rno}").text() === "수정") {
+            $("#reviewEditContent${review.rno}").attr('readonly', false).focus();
+            $("#reviewEdit${review.rno}").html("등록");
+            $("#reviewRemove${review.rno}").html("취소");
             return;
         }
 
-        if ($('#commentEditContent${review.rno}').val() === "") {
+        if ($('#reviewEditContent${review.rno}').val() === "") {
             alert("댓글을 입력해주세요");
-            $('#commentEditContent${review.rno}').select();
+            $('#reviewEditContent${review.rno}').select();
             return;
         }
         $.ajax({
             url: "<c:url value="/review/edit"/>",
             type: 'POST',
             data: {
-                'content': $('#commentEditContent${review.rno}').val(),
+                'content': $('#reviewEditContent${review.rno}').val(),
                 'rno':${review.rno}
             },
             success: function (result) {
@@ -193,8 +193,8 @@
         });
     });
 
-    $("#commentRemove${review.rno}").on("click", function () {
-        if ($("#commentRemove${review.rno}").text() === "취소") {
+    $("#reviewRemove${review.rno}").on("click", function () {
+        if ($("#reviewRemove${review.rno}").text() === "취소") {
             location.reload();
         } else {
             if (!confirm("정말로 삭제하시겠습니까?")) return;
