@@ -66,7 +66,7 @@ public class TicketService {
         map.put("timeInfo",timeInfo);
         return ticketMapper.selectChoiceSeats(map);
     }
-    public void deleteTicket(int tno){
+    public void deleteTicket(Integer tno){
         ticketMapper.deleteTicket(tno);
     }
 }

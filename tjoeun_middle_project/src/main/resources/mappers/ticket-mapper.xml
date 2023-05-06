@@ -9,7 +9,7 @@
     <select id="pastTicketById" parameterType="String" resultType="Ticket">
         SELECT *
         from Ticket
-        where id = #{id} and date_format(now(),'%Y-%m-%d') >= dayInfo and date_format(now(), '%H:%m') > timeInfo
+        where id = #{id} and date_format(now(),'%Y-%m-%d') >= dayInfo and date_format(now(), '%H:%i') > timeInfo
         order by dayInfo;
     </select>
     <select id="futureTicketById" parameterType="String" resultType="Ticket">
