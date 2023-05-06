@@ -125,12 +125,7 @@
                         </div>
                     </div>
                     <div class="row mt-md-3">
-                        <div class="col">
-                            <input id="saveId" type="checkbox"
-                                   name="saveId" ${empty cookie.id ? '':'checked'}>아이디
-                            저장
-                        </div>
-                        <div class="col">
+                        <div class="col offset-6">
                             <a href="<c:url value="#"/>"
                                style="text-decoration: none; font-size: 12px">아이디 혹은 비밀번호를
                                 잊으셨나요?</a>
@@ -376,8 +371,7 @@
       url: "/user/loginModal",
       data: {
         'id': id,
-        'password': password,
-        'saveId': saveId
+        'password': password
       },
       success: function (result) {
         if (result === 'success') {
