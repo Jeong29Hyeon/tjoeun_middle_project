@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.dto.Ticket;
 import com.dto.User;
 import com.mapper.TicketMapper;
 import com.service.TicketService;
@@ -108,8 +109,11 @@ public class UserController {
     @GetMapping("/ticketHistory")
     public String ticketHistory(HttpServletRequest request, Model model){
         User user = (User)request.getSession().getAttribute("user");
-        System.out.println(user.getId());
-        model.addAttribute("historyList",ticketService.selectById(user.getId()));
+        System.out.println("과거: "+ticketService.pastTicketById(user.getId()).get(0).getTitleInfo());
+        System.out.println("미래: "+ticketService.futureTicketById(user.getId()).get(0).getTitleInfo());
+        model.addAttribute("pastTicketList",ticketService.pastTicketById(user.getId()));
+        model.addAttribute("currentTicketList",ticketService.currentTicketById(user.getId()));
+        model.addAttribute("futureTicketList",ticketService.futureTicketById(user.getId()));
         return "movie/ticketHistory";
     }
 }
