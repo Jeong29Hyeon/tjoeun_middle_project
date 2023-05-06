@@ -41,6 +41,7 @@ public class ReserveController {
 
     @PostMapping("/movieRoom")
     public String movieRoom(Model model, Ticket ticket, RedirectAttributes ra) {
+        System.out.println(ticket.toString());
         model.addAttribute("ticket", ticket);
         try {
             List<String> choiceSeatList = ticketService.selectChoiceSeats(ticket.getHallInfo(),ticket.getDayInfo(),ticket.getTimeInfo());
@@ -72,7 +73,8 @@ public class ReserveController {
         try {
             ticketService.insertTicket(ticket);
         } catch (Exception e) {
-            return "TICKET_INSERT_ERR";
+            e.printStackTrace();
+            return "SEATS_DUPLICATE_ERR";
         }
         return "success";
     }
@@ -121,5 +123,12 @@ public class ReserveController {
     public String deleteTicket(Ticket ticket){
         ticketService.deleteTicket(ticket);
         return "redirect:/user/ticketHistory";
+    }
+
+    @PostMapping("/payFail")
+    @ResponseBody
+    public String payFail(Ticket ticket){
+        ticketService.deleteTicket(ticket);
+        return "success";
     }
 }

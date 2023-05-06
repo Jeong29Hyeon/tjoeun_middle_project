@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TicketService {
@@ -21,7 +22,18 @@ public class TicketService {
     }
 
     public void insertTicket(Ticket ticket) throws Exception {
-        ticket.setSeats(ticket.getSeats()+",");
+        String[] eachSeats = ticket.getSeats().split(",");
+        Ticket checkTicket = new Ticket();
+        checkTicket.setHallInfo(ticket.getHallInfo());
+        checkTicket.setDayInfo(ticket.getDayInfo());
+        checkTicket.setTimeInfo(ticket.getTimeInfo());
+        for(String str : eachSeats){
+            checkTicket.setSeats(str);
+            Ticket duplicateSeat = ticketMapper.existSeat(checkTicket);
+            if(duplicateSeat != null){
+                throw new Exception("이미 선택된 좌석");
+            }
+        }
         int result = ticketMapper.insertTicket(ticket);
         if(result != 1){
             throw new Exception("티켓 생성 에러");

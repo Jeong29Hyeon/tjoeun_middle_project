@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.ReviewMapper">
+  <insert id="insertReview" parameterType="Review">
+    insert into Review(seq,content,id,reg_date) values (#{seq},#{content},#{id},now());
+  </insert>
+  <update id="updateReview" parameterType="Review">
+    update Review set content = #{content} where rno = #{rno};
+  </update>
+  <delete id="deleteReview" parameterType="Integer">
+    delete from Review where rno=#{rno};
+  </delete>
+  <select id="selectAllBySeq" parameterType="Integer" resultType="Review">
+    select * from Review where seq = #{seq};
+  </select>
+</mapper>

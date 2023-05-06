@@ -19,6 +19,15 @@ public class Movie {
     private String title; //영화 제목
     private String rateInfo; //예매율
     private String openingDate; //개봉일
+    private String[] stillCut;
+
+    public String[] getStillCut() {
+        return stillCut;
+    }
+
+    public void setStillCut(String[] stillCut) {
+        this.stillCut = stillCut;
+    }
 
     public Movie() {
     }

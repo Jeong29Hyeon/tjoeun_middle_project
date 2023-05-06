@@ -11,4 +11,5 @@ public interface TicketMapper {
     List<Ticket> selectAllById(String id);
     List<String> selectChoiceSeats(Map<String,String> map);
     void deleteTicket(Ticket ticket);
+    Ticket existSeat(Ticket ticket);
 }
