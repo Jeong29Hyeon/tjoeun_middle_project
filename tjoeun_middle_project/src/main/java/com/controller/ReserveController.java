@@ -9,6 +9,8 @@ import com.service.TicketService;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -64,18 +66,23 @@ public class ReserveController {
 
     @PostMapping("/ticketing")
     @ResponseBody
-    public String ticketing(Ticket ticket){
+    public Map<String,Object> ticketing(Ticket ticket){
         System.out.println(ticket.toString());
+        Map<String,Object> map = new HashMap<>();
         if(ticket.getId() == null){
-            return "ID_NULL_ERR";
+            map.put("msg","ID_NULL_ERR");
+            return map;
         }
         try {
             ticketService.insertTicket(ticket);
+            map.put("msg","success");
+            map.put("tno",ticket.getTno());
         } catch (Exception e) {
             e.printStackTrace();
-            return "SEATS_DUPLICATE_ERR";
+            map.put("msg","SEATS_DUPLICATE_ERR");
+            return map;
         }
-        return "success";
+        return map;
     }
 
 
@@ -133,7 +140,7 @@ public class ReserveController {
 
     @PostMapping("/payFail")
     @ResponseBody
-    public String payFail(int tno){
+    public String payFail(Integer tno){
         ticketService.deleteTicket(tno);
         return "success";
     }
