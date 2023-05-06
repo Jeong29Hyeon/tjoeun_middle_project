@@ -44,6 +44,21 @@ public class TicketService {
         list = (ArrayList<Ticket>) ticketMapper.selectAllById(id);
         return list;
     }
+    public List<Ticket> pastTicketById(String id) {
+        ArrayList<Ticket> list = new ArrayList<>();
+        list = (ArrayList<Ticket>) ticketMapper.pastTicketById(id);
+        return list;
+    }
+    public List<Ticket> futureTicketById(String id) {
+        ArrayList<Ticket> list = new ArrayList<>();
+        list = (ArrayList<Ticket>) ticketMapper.futureTicketById(id);
+        return list;
+    }
+    public List<Ticket> currentTicketById(String id) {
+        ArrayList<Ticket> list = new ArrayList<>();
+        list = (ArrayList<Ticket>) ticketMapper.currentTicketById(id);
+        return list;
+    }
     public List<String> selectChoiceSeats(String hallInfo, String dayInfo, String timeInfo)throws Exception {
         Map<String,String> map = new HashMap<>();
         map.put("hallInfo",hallInfo);
@@ -51,7 +66,7 @@ public class TicketService {
         map.put("timeInfo",timeInfo);
         return ticketMapper.selectChoiceSeats(map);
     }
-    public void deleteTicket(Ticket ticket){
-        ticketMapper.deleteTicket(ticket);
+    public void deleteTicket(int tno){
+        ticketMapper.deleteTicket(tno);
     }
 }

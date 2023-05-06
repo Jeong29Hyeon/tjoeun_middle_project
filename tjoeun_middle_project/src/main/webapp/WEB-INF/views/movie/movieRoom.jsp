@@ -298,10 +298,7 @@
                   type:'post',
                   url:'/payFail',
                   data:{
-                    'dayInfo': $('#dayInfo').val(),
-                    'hallInfo': $('#hallInfo').val(),
-                    'timeInfo': $('#timeInfo').val(),
-                    'seats': $('#seatsInput').val()+","
+                      'tno': $('#tno').val()
                   },
                   error:function (){
                     alert("결제실패 비동기통신 에러");

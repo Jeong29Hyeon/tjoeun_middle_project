@@ -29,7 +29,6 @@ import java.util.Calendar;
 import java.util.List;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 @Controller
 public class ReserveController {
 
@@ -119,16 +118,23 @@ public class ReserveController {
         return "/movie/movieSelect";
     }
 
-    @RequestMapping(value = "/deleteTicket", method = {RequestMethod.GET,RequestMethod.POST})
-    public String deleteTicket(Ticket ticket){
-        ticketService.deleteTicket(ticket);
-        return "redirect:/user/ticketHistory";
+    @PostMapping("/deleteTicket")
+    @ResponseBody
+    public String deleteTicket(Integer tno){
+        try {
+            ticketService.deleteTicket(tno);
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
+//        return "redirect:/user/ticketHistory";
+        return "success";
     }
 
     @PostMapping("/payFail")
     @ResponseBody
-    public String payFail(Ticket ticket){
-        ticketService.deleteTicket(ticket);
+    public String payFail(int tno){
+        ticketService.deleteTicket(tno);
         return "success";
     }
 }
