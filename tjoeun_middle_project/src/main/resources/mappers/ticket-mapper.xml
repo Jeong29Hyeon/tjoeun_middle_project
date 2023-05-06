@@ -16,9 +16,9 @@
         SELECT * from Ticket where id =#{id} and dayInfo > date_format(now(),'%Y-%m-%d') order by dayInfo;
     </select>
     <select id="currentTicketById" parameterType="String" resultType="Ticket">
-        SELECT * from Ticket where id =#{id} and dayInfo = DATE_FORMAT(now(),'%Y-%m-%d') and timeInfo > date_format(now(), '%H:%m') order by dayInfo;
+        SELECT * from Ticket where id =#{id} and dayInfo = DATE_FORMAT(now(),'%Y-%m-%d') and timeInfo > date_format(now(), '%H:%i') order by dayInfo;
     </select>
-    <insert id="insertTicket" parameterType="Ticket">
+    <insert id="insertTicket" parameterType="Ticket" keyProperty="tno" useGeneratedKeys="true">
         insert into Ticket(id, titleInfo, hallInfo, dayInfo, timeInfo, numberOfAdult, numberOfTeen, seats, price)
         VALUES(#{id},#{titleInfo},#{hallInfo},#{dayInfo},#{timeInfo},#{numberOfAdult},#{numberOfTeen},#{seats},#{price});
     </insert>
