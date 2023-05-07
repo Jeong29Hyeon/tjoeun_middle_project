@@ -10,6 +10,9 @@ public interface TicketMapper {
     int insertTicket(Ticket ticket);
     List<Ticket> selectAllById(String id);
     List<String> selectChoiceSeats(Map<String,String> map);
-    void deleteTicket(Ticket ticket);
+    void deleteTicket(Integer tno);
     Ticket existSeat(Ticket ticket);
+    List<Ticket> pastTicketById(String id);
+    List<Ticket> futureTicketById(String id);
+    List<Ticket> currentTicketById(String id);
 }

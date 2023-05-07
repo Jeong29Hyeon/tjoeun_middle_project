@@ -9,6 +9,8 @@ import com.service.TicketService;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -29,7 +31,6 @@ import java.util.Calendar;
 import java.util.List;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 @Controller
 public class ReserveController {
 
@@ -65,18 +66,23 @@ public class ReserveController {
 
     @PostMapping("/ticketing")
     @ResponseBody
-    public String ticketing(Ticket ticket){
+    public Map<String,Object> ticketing(Ticket ticket){
         System.out.println(ticket.toString());
+        Map<String,Object> map = new HashMap<>();
         if(ticket.getId() == null){
-            return "ID_NULL_ERR";
+            map.put("msg","ID_NULL_ERR");
+            return map;
         }
         try {
             ticketService.insertTicket(ticket);
+            map.put("msg","success");
+            map.put("tno",ticket.getTno());
         } catch (Exception e) {
             e.printStackTrace();
-            return "SEATS_DUPLICATE_ERR";
+            map.put("msg","SEATS_DUPLICATE_ERR");
+            return map;
         }
-        return "success";
+        return map;
     }
 
 
@@ -119,16 +125,23 @@ public class ReserveController {
         return "/movie/movieSelect";
     }
 
-    @RequestMapping(value = "/deleteTicket", method = {RequestMethod.GET,RequestMethod.POST})
-    public String deleteTicket(Ticket ticket){
-        ticketService.deleteTicket(ticket);
-        return "redirect:/user/ticketHistory";
+    @PostMapping("/deleteTicket")
+    @ResponseBody
+    public String deleteTicket(Integer tno){
+        try {
+            ticketService.deleteTicket(tno);
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
+//        return "redirect:/user/ticketHistory";
+        return "success";
     }
 
     @PostMapping("/payFail")
     @ResponseBody
-    public String payFail(Ticket ticket){
-        ticketService.deleteTicket(ticket);
+    public String payFail(Integer tno){
+        ticketService.deleteTicket(tno);
         return "success";
     }
 }

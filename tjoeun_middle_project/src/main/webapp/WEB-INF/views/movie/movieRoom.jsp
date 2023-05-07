@@ -108,12 +108,7 @@
                         </div>
                     </div>
                     <div class="row mt-md-3">
-                        <div class="col">
-                            <input id="saveId" type="checkbox"
-                                   name="saveId" ${empty cookie.id ? '':'checked'}>아이디
-                            저장
-                        </div>
-                        <div class="col">
+                        <div class="col offset-6">
                             <a href="<c:url value="#"/>"
                                style="text-decoration: none; font-size: 12px">아이디 혹은 비밀번호를
                                 잊으셨나요?</a>
@@ -272,13 +267,15 @@
           'seats': $('#seatsInput').val()+",",
           'price': $('#priceInput').val().replace(/[^0-9]/g, "")
         },
+        dataType:'JSON',
         success: function (result) {
-          if (result === 'ID_NULL_ERR') {
+          console.log(result);
+          if (result.msg === 'ID_NULL_ERR') {
             $('#loginModal').modal('show');
-          } else if (result ==='SEATS_DUPLICATE_ERR'){
+          } else if (result.msg ==='SEATS_DUPLICATE_ERR'){
             alert('이미 선택된 좌석입니다. 좌석을 다시 선택해주세요.');
             location.reload();
-          } else if (result === 'success') {
+          } else if (result.msg === 'success') {
             var IMP = window.IMP;
             IMP.init('imp11028147');
             IMP.request_pay({
@@ -298,19 +295,14 @@
                   type:'post',
                   url:'/payFail',
                   data:{
-                    'dayInfo': $('#dayInfo').val(),
-                    'hallInfo': $('#hallInfo').val(),
-                    'timeInfo': $('#timeInfo').val(),
-                    'seats': $('#seatsInput').val()+","
+                      'tno': result.tno
                   },
                   error:function (){
                     alert("결제실패 비동기통신 에러");
                     location.reload();
                   }
                 });
-                var msg = '결제에 실패하였습니다.';
-                msg += '에러내용 : ' + rsp.error_msg;
-                alert(msg);
+                alert(rsp.error_msg);
                 location.reload();
               }
             });
@@ -340,14 +332,12 @@
     }
     let id = $('#id').val();
     let password = $('#password').val();
-    let saveId = $('#saveId').val();
     $.ajax({
       type: "post",
       url: "/user/loginModal",
       data: {
         'id': id,
-        'password': password,
-        'saveId': saveId
+        'password': password
       },
       success: function (result) {
         if (result === 'success') {

@@ -1,9 +1,11 @@
 package com.controller;
 
+import com.dto.Ticket;
 import com.dto.User;
 import com.mapper.TicketMapper;
 import com.service.TicketService;
 import com.service.UserService;
+import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -90,6 +92,7 @@ public class UserController {
     @PostMapping("/loginModal")
     @ResponseBody
     public String loginModal(String id, String password,boolean saveId,HttpServletRequest request,HttpServletResponse response){
+        System.out.println("로그인 모달 요청값: " + id + password + saveId);
         try {
             User user = userService.login(id,password);
             request.getSession().setAttribute("user",user);
@@ -108,8 +111,9 @@ public class UserController {
     @GetMapping("/ticketHistory")
     public String ticketHistory(HttpServletRequest request, Model model){
         User user = (User)request.getSession().getAttribute("user");
-        System.out.println(user.getId());
-        model.addAttribute("historyList",ticketService.selectById(user.getId()));
+        model.addAttribute("pastTicketList", ticketService.pastTicketById(user.getId()));
+        model.addAttribute("currentTicketList",ticketService.currentTicketById(user.getId()));
+        model.addAttribute("futureTicketList",ticketService.futureTicketById(user.getId()));
         return "movie/ticketHistory";
     }
 }

@@ -23,7 +23,9 @@
         <a class="navbar-brand mx-auto" href="<c:url value="/"/>"><i class="fa-solid fa-hurricane"></i>TJOEUN CINEMA</a>
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
                 aria-controls="offcanvasNavbar">
-            <i class="fa-solid fa-grip fa-lg"></i>
+<%--            <i class="fa-house fa-sm"></i>--%>
+            <i class="fa-solid fa-bounce fa-house"></i>
+<%--            <i class="fa-solid fa-grip fa-lg"></i>--%>
         </button>
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header">
