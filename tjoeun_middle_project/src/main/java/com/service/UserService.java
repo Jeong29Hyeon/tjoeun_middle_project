@@ -68,29 +68,30 @@ public class UserService {
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=e765b37b419e417d6a4d99f777b7eac2");
             sb.append("&redirect_uri=http://localhost:8080/user/kakaoAuth");
-            sb.append("&code="+authorizeCode);
+            sb.append("&code=").append(authorizeCode);
             bw.write(sb.toString());
             bw.flush();
 
             int responseCode = conn.getResponseCode(); //200이면 성공
             System.out.println("responseCode = " + responseCode);
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String line = "";
-            StringBuilder result = new StringBuilder();
+            if(responseCode == 200){
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String line = "";
+                StringBuilder result = new StringBuilder();
 
-            while((line = br.readLine())!=null){
-                result.append(line);
+                while((line = br.readLine())!=null){
+                    result.append(line);
+                }
+                System.out.println("response body= " + result);
+
+                JSONParser parser = new JSONParser();
+                JSONObject obj = (JSONObject) parser.parse(String.valueOf(result));
+                accessToken = obj.get("access_token").toString();
+                refreshToken = obj.get("refresh_token").toString();
+                System.out.println("accessToken = " + accessToken);
+                System.out.println("refreshToken = " + refreshToken);
+                br.close();
             }
-            System.out.println("response body= " + result);
-
-            JSONParser parser = new JSONParser();
-            JSONObject obj = (JSONObject) parser.parse(String.valueOf(result));
-            accessToken = obj.get("access_token").toString();
-            refreshToken = obj.get("refresh_token").toString();
-            System.out.println("accessToken = " + accessToken);
-            System.out.println("refreshToken = " + refreshToken);
-
-            br.close();
             bw.close();
         } catch (IOException | ParseException e) {
             throw new RuntimeException(e);
