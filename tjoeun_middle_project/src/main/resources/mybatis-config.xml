@@ -8,5 +8,6 @@
     <typeAlias type="com.dto.User" alias="User"/>
     <typeAlias type="com.dto.Hall" alias="Hall"/>
     <typeAlias type="com.dto.Review" alias="Review"/>
+    <typeAlias type="com.dto.Like" alias="Like"/>
   </typeAliases>
 </configuration>

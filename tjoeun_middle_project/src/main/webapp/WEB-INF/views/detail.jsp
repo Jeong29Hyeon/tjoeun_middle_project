@@ -108,6 +108,22 @@
                                 <button type="button" id="reviewRemove${review.rno}"
                                         class="btn btn-outline-danger text-decoration-none" ${sessionScope.user.id eq review.id ? '' : 'hidden'}
                                 >삭제</button>
+<%--                                <button type="button" id="likehit${review.rno}"--%>
+<%--                                        ${sessionScope.user.id eq review.id ? 'hidden' : ''}--%>
+<%--                                >좋</button>--%>
+                                <%-- 로그인된사람의 댓글에는 좋아요 버튼이 안보이게 하고싶습니다--%>
+<%--                                    <c:choose>--%>
+<%--                                        <c:when test="${ltlike ==0}">--%>
+<%--                                            <button type="button" class="btn btn-light" id="likebtn">좋아요</button>--%>
+<%--                                            <input type="hidden" id="likecheck" value="${ltlike}">--%>
+<%--                                        </c:when>--%>
+<%--                                        <c:when test="${ltlike ==1}">--%>
+<%--                                            <button type="button" class="btn btn-danger" id="likebtn">좋아요</button>--%>
+<%--                                            <input type="hidden" id="likecheck" value="${ltlike}">--%>
+<%--                                        </c:when>--%>
+<%--                                    </c:choose>--%>
+
+
                             </div>
                         </div>
 

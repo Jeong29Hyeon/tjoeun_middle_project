@@ -1,8 +1,10 @@
 package com.controller;
 
+import com.dto.Like;
 import com.dto.Movie;
 import com.dto.Review;
 import com.mapper.ReviewMapper;
+import com.service.LikeService;
 import com.service.ReviewService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -22,12 +24,13 @@ import java.util.List;
 public class DetailController {
 
     ReviewService reviewService;
+    LikeService likeService;
 
     @Autowired
-    public DetailController(ReviewService reviewService) {
+    public DetailController(ReviewService reviewService, LikeService likeService) {
         this.reviewService = reviewService;
+        this.likeService = likeService;
     }
-
 
 
     //일단 테스트로 다 긁어옴
@@ -61,6 +64,38 @@ public class DetailController {
         //댓글들 다 가져오고
         model.addAttribute("movie", movie);
         model.addAttribute("reviewList", reviewList);
+
+        //좋아요 컨트롤러 추가
+        List<Like> likeList = new ArrayList<>();
+        for (Review review : reviewList) {
+            Like like = new Like();
+
+            like.setReviewno(review.getRno());       //rno 가져와야되는데 방법 생각하기
+            like.setUserid(review.getId());         //유저 아이디도 가져와야하는데 여기가 아닌가?
+
+            int ltlike = 0;
+
+            try {
+                int check = likeService.ltlikecount(like);
+
+                if (check == 0) {
+
+                    likeService.likeinsert(like);
+
+                } else if (check == 1) {
+
+                    ltlike = likeService.ltlikegetinfo(like);
+                    like.setItlike(ltlike);
+
+                }
+            } catch (Exception ignored) {
+            }
+            likeList.add(like);
+        }
+        model.addAttribute("ltlike", likeList);
+        //좋아요 컨트롤러
+
+
         return "detail";
     }
 

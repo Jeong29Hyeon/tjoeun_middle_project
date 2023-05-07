@@ -51,4 +51,6 @@ public class ReviewController {
         return "success";
     }
 
+    //댓글 좋아요 컨트롤러가 따로필요한가? 여기다 하면 안되나?
+
 }
