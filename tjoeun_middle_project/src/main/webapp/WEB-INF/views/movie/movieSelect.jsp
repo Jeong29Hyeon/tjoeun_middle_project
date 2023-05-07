@@ -144,6 +144,13 @@
                             </button>
                         </div>
                     </div>
+                    <div class="row text-center mt-md-4">
+                        <div class="col">
+                            <a href="<c:url value="/user/kakaoLogin"/>">
+                                <img src="<c:url value="/resources/img/kakao_login_medium_wide.png"/>" alt="로그인">
+                            </a>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

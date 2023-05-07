@@ -42,7 +42,7 @@ public class ReserveController {
 
     @PostMapping("/movieRoom")
     public String movieRoom(Model model, Ticket ticket, RedirectAttributes ra) {
-        System.out.println(ticket.toString());
+        System.out.println("movieRoom ticket: "+ticket.toString());
         model.addAttribute("ticket", ticket);
         try {
             List<String> choiceSeatList = ticketService.selectChoiceSeats(ticket.getHallInfo(),ticket.getDayInfo(),ticket.getTimeInfo());
@@ -67,7 +67,7 @@ public class ReserveController {
     @PostMapping("/ticketing")
     @ResponseBody
     public Map<String,Object> ticketing(Ticket ticket){
-        System.out.println(ticket.toString());
+        System.out.println("ticketing controller : "+ticket.toString());
         Map<String,Object> map = new HashMap<>();
         if(ticket.getId() == null){
             map.put("msg","ID_NULL_ERR");
