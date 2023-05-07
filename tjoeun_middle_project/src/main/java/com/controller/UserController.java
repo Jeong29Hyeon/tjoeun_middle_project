@@ -135,14 +135,18 @@ public class UserController {
 
     @GetMapping("/kakaoLogout")
     public String kakaoLogout(HttpSession session){
-        String accessToken = (String) session.getAttribute("accessToken");
-        userService.kakaoLogout(accessToken);
+//        String accessToken = (String) session.getAttribute("accessToken");
+//        userService.kakaoLogout(accessToken);
         session.invalidate();
         return "redirect:/";
     }
 
     @GetMapping("/kakaoAuth")
-    public String kakaoAuth(@RequestParam(value = "code",required = false)String code, HttpSession session){
+    public String kakaoAuth(@RequestParam(value = "code",required = false)String code, HttpSession session,RedirectAttributes ra){
+        if(code==null){
+            ra.addFlashAttribute("msg","카카오 로그인을 취소하였습니다.");
+            return "redirect:/";
+        }
         System.out.println("code = " + code);
         String accessToken = userService.getAccessToken(code);
         System.out.println("accessToken = " + accessToken);
