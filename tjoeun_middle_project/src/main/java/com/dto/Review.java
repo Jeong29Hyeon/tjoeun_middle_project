@@ -3,7 +3,7 @@ package com.dto;
 import java.util.Date;
 
 public class Review {                // 영화 넘버링에 pk fk 해서 리뷰작성
-    private int seq;           // 영화 테이블 참조
+    private String seq;           // 영화 테이블 참조
     private int rno;                //리뷰 번호
     private String content;           // 리뷰 본문
     private String id;               // User id
@@ -12,7 +12,8 @@ public class Review {                // 영화 넘버링에 pk fk 해서 리뷰�
     private int hate_hit;
     public Review(){}
 
-    public Review(int seq, int rno, String content, String id, Date reg_date, int likeCount, int hate_hit) {
+    public Review(String seq, int rno, String content, String id, Date reg_date, int like_hit,
+        int hate_hit) {
         this.seq = seq;
         this.rno = rno;
         this.content = content;
@@ -30,11 +31,11 @@ public class Review {                // 영화 넘버링에 pk fk 해서 리뷰�
         this.rno = rno;
     }
 
-    public int getSeq() {
+    public String getSeq() {
         return seq;
     }
 
-    public void setSeq(int seq) {
+    public void setSeq(String seq) {
         this.seq = seq;
     }
 

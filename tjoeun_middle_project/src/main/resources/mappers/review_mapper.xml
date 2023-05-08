@@ -12,7 +12,7 @@
   <delete id="deleteReview" parameterType="Integer">
     delete from Review where rno=#{rno};
   </delete>
-  <select id="selectAllBySeq" parameterType="Integer" resultType="Review">
+  <select id="selectAllBySeq" parameterType="String" resultType="Review">
     select * from Review where seq = #{seq};
   </select>
 

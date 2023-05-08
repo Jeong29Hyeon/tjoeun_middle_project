@@ -1,17 +1,17 @@
 package com.dto;
 
+import java.util.Arrays;
 import java.util.Date;
 
 public class Movie {
-    private int seq; //포스터 seq
-    private String category;                // 카테고리 스릴러 코믹 섹스
-    private String actor;                   // 배우 및 감독 ( 이제희 감독 정민규 조연 이정현 조연)   이미지 삽입시 고민 해야댐
-    private int cumulativeUser;            // 누적 관객수
+    private String seq; //포스터 seq
+    private String category;                // 카테고리에 상영시간 포함됨
+    private String actor;                   //  감독 ( 이제희 감독 정민규 조연 이정현 조연)   이미지 삽입시 고민 해야댐
+    private String director;
+    private String cumulativeUser;            // 누적 관객수
     private String ageRating;              // 영화 관람 등급 12세 15세 청불
     private String runningTime;            // 상영시간
-    private String nation;                  // 국가
     private String story;                   // 짧은 한줄 스토리
-    private Date regDay;                   // 개봉일자
     private String star;                    // 리뷰 -> 평점기능
 
     private String img; //크롤링 포스터 이미지
@@ -21,22 +21,14 @@ public class Movie {
     private String openingDate; //개봉일
     private String[] stillCut;
 
-    public String[] getStillCut() {
-        return stillCut;
-    }
-
-    public void setStillCut(String[] stillCut) {
-        this.stillCut = stillCut;
-    }
-
     public Movie() {
     }
 
-    public int getSeq() {
+    public String getSeq() {
         return seq;
     }
 
-    public void setSeq(int seq) {
+    public void setSeq(String seq) {
         this.seq = seq;
     }
 
@@ -56,11 +48,19 @@ public class Movie {
         this.actor = actor;
     }
 
-    public int getCumulativeUser() {
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public String getCumulativeUser() {
         return cumulativeUser;
     }
 
-    public void setCumulativeUser(int cumulativeUser) {
+    public void setCumulativeUser(String cumulativeUser) {
         this.cumulativeUser = cumulativeUser;
     }
 
@@ -80,28 +80,12 @@ public class Movie {
         this.runningTime = runningTime;
     }
 
-    public String getNation() {
-        return nation;
-    }
-
-    public void setNation(String nation) {
-        this.nation = nation;
-    }
-
     public String getStory() {
         return story;
     }
 
     public void setStory(String story) {
         this.story = story;
-    }
-
-    public Date getRegDay() {
-        return regDay;
-    }
-
-    public void setRegDay(Date regDay) {
-        this.regDay = regDay;
     }
 
     public String getStar() {
@@ -150,5 +134,34 @@ public class Movie {
 
     public void setOpeningDate(String openingDate) {
         this.openingDate = openingDate;
+    }
+
+    public String[] getStillCut() {
+        return stillCut;
+    }
+
+    public void setStillCut(String[] stillCut) {
+        this.stillCut = stillCut;
+    }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+            "seq='" + seq + '\'' +
+            ", category='" + category + '\'' +
+            ", actor='" + actor + '\'' +
+            ", director='" + director + '\'' +
+            ", cumulativeUser='" + cumulativeUser + '\'' +
+            ", ageRating='" + ageRating + '\'' +
+            ", runningTime='" + runningTime + '\'' +
+            ", story='" + story + '\'' +
+            ", star='" + star + '\'' +
+            ", img='" + img + '\'' +
+            ", rank='" + rank + '\'' +
+            ", title='" + title + '\'' +
+            ", rateInfo='" + rateInfo + '\'' +
+            ", openingDate='" + openingDate + '\'' +
+            ", stillCut=" + Arrays.toString(stillCut) +
+            '}';
     }
 }

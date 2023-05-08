@@ -37,7 +37,7 @@ public class ReviewService {
         }
     }
 
-    public List<Review> selectAllBySeq(Integer seq) throws Exception{
+    public List<Review> selectAllBySeq(String seq) throws Exception{
         return reviewMapper.selectAllBySeq(seq);
     }
     //좋아요 기능 수정중

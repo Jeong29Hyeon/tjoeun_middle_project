@@ -3,27 +3,18 @@ package com.controller;
 import com.dto.Movie;
 //import com.dto.Ticket;
 import com.dto.Ticket;
-import com.dto.User;
-import com.service.HallService;
+import com.service.MovieService;
 import com.service.TicketService;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,9 +26,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ReserveController {
 
     TicketService ticketService;
+    MovieService movieService;
     @Autowired
-    public ReserveController(TicketService ticketService) {
+    public ReserveController(TicketService ticketService, MovieService movieService) {
         this.ticketService = ticketService;
+        this.movieService = movieService;
     }
 
     @PostMapping("/movieRoom")
@@ -87,22 +80,11 @@ public class ReserveController {
 
 
     @RequestMapping(value = "/movieSelect", method = RequestMethod.GET)
-    public String selectTime(Model model, Integer seq,String title) throws IOException {
+    public String selectTime(Model model, String seq,String title) throws IOException {
         List<Movie> movies = new ArrayList<>();
         if(seq == null || title == null){
-            String currentMovieUrl = "http://www.cgv.co.kr/movies/";
-            Document doc = Jsoup.connect(currentMovieUrl).get();
-            Elements titles = doc.select("div.box-contents strong.title"); //제목
-            Elements imgs = doc.select("span.thumb-image > img"); //포스터 이미지
-            for (int i = 0; i < 10; i++) {
-                Movie movie = new Movie();
-                String url = imgs.get(i).attr("src");   //url자를려고 넣었음 ㅎㅎ
-                String[] urlParts = url.split("/");     ///기준으로 잘랐는데 7번째가 영화 코드임 ^^
-                movie.setSeq(Integer.parseInt(urlParts[7]));
-                movie.setTitle(titles.get(i).text());
-                movies.add(movie);
-            }
-            model.addAttribute("movies", movies);
+            movies = movieService.getMovies();
+            model.addAttribute("movies",movies);
         }else{ // INDEX 페이지에서 각 영화의 예매하기 버튼을 눌렀을 때의 동작
             Movie movie = new Movie();
             movie.setSeq(seq);

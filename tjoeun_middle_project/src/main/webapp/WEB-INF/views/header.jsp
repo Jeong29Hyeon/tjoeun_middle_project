@@ -21,11 +21,17 @@
 <nav class="navbar bg-light">
     <div class="container-fluid">
         <a class="navbar-brand mx-auto" href="<c:url value="/"/>"><i class="fa-solid fa-hurricane"></i>TJOEUN CINEMA</a>
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNavbar"
                 aria-controls="offcanvasNavbar">
-<%--            <i class="fa-house fa-sm"></i>--%>
-            <i class="fa-solid fa-bounce fa-house"></i>
-<%--            <i class="fa-solid fa-grip fa-lg"></i>--%>
+            <c:choose>
+                <c:when test="${empty sessionScope.user}">
+                    <i class="fa-solid fa-bounce fa-house"></i>
+                </c:when>
+                <c:when test="${not empty sessionScope.user}">
+                    <i class="fa-solid fa-house"></i>
+                </c:when>
+            </c:choose>
         </button>
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header">
@@ -35,8 +41,10 @@
             </div>
             <div class="offcanvas-body">
                 <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 mb-auto">
-                    <li class="nav-item dropdown mb-3" >
-                        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#reserveTap" aria-controls="reserveTap" aria-expanded="false" aria-label="Toggle navigation">
+                    <li class="nav-item dropdown mb-3">
+                        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#reserveTap" aria-controls="reserveTap" aria-expanded="false"
+                                aria-label="Toggle navigation">
                             <span>예매</span>
                         </button>
                         <div class="navbar-collapse collapse show" id="reserveTap" style="">
@@ -51,7 +59,9 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown mb-3">
-                        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#movieTap" aria-controls="movieTap" aria-expanded="false" aria-label="Toggle navigation">
+                        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#movieTap" aria-controls="movieTap" aria-expanded="false"
+                                aria-label="Toggle navigation">
                             <span>영화</span>
                         </button>
                         <div class="navbar-collapse collapse show" id="movieTap" style="">
