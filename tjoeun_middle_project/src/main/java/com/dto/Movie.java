@@ -6,11 +6,13 @@ import java.util.Date;
 public class Movie {
     private String seq; //포스터 seq
     private String category;                // 카테고리에 상영시간 포함됨
-    private String actor;                   //  감독 ( 이제희 감독 정민규 조연 이정현 조연)   이미지 삽입시 고민 해야댐
-    private String director;
+//    private String actor;                   //  감독 ( 이제희 감독 정민규 조연 이정현 조연)   이미지 삽입시 고민 해야댐
+//    private String director;
     private String cumulativeUser;            // 누적 관객수
-    private String ageRating;              // 영화 관람 등급 12세 15세 청불
-    private String runningTime;            // 상영시간
+//    private String ageRating;              // 영화 관람 등급 12세 15세 청불
+//    private String runningTime;            // 상영시간
+
+    private String detailInfo;
     private String story;                   // 짧은 한줄 스토리
     private String star;                    // 리뷰 -> 평점기능
 
@@ -22,6 +24,14 @@ public class Movie {
     private String[] stillCut;
 
     public Movie() {
+    }
+
+    public String getDetailInfo() {
+        return detailInfo;
+    }
+
+    public void setDetailInfo(String detailInfo) {
+        this.detailInfo = detailInfo;
     }
 
     public String getSeq() {
@@ -40,21 +50,6 @@ public class Movie {
         this.category = category;
     }
 
-    public String getActor() {
-        return actor;
-    }
-
-    public void setActor(String actor) {
-        this.actor = actor;
-    }
-
-    public String getDirector() {
-        return director;
-    }
-
-    public void setDirector(String director) {
-        this.director = director;
-    }
 
     public String getCumulativeUser() {
         return cumulativeUser;
@@ -64,21 +59,6 @@ public class Movie {
         this.cumulativeUser = cumulativeUser;
     }
 
-    public String getAgeRating() {
-        return ageRating;
-    }
-
-    public void setAgeRating(String ageRating) {
-        this.ageRating = ageRating;
-    }
-
-    public String getRunningTime() {
-        return runningTime;
-    }
-
-    public void setRunningTime(String runningTime) {
-        this.runningTime = runningTime;
-    }
 
     public String getStory() {
         return story;
@@ -149,11 +129,7 @@ public class Movie {
         return "Movie{" +
             "seq='" + seq + '\'' +
             ", category='" + category + '\'' +
-            ", actor='" + actor + '\'' +
-            ", director='" + director + '\'' +
             ", cumulativeUser='" + cumulativeUser + '\'' +
-            ", ageRating='" + ageRating + '\'' +
-            ", runningTime='" + runningTime + '\'' +
             ", story='" + story + '\'' +
             ", star='" + star + '\'' +
             ", img='" + img + '\'' +

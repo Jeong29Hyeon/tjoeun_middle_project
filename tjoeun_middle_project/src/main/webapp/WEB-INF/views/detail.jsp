@@ -30,7 +30,7 @@
                     <p class="card-text my-0" style="font-size:10px;"><small
                             class="text-muted">예매율 ${movie.rateInfo}</small></p>
                     <p class="card-text" style="font-size:15px"><small
-                            class="text-muted">${movie.openingDate}</small></p>
+                            class="text-muted">${movie.detailInfo}</small></p>
                         <%--                    영화 연출 정보도 받아와야할거같아요--%>
                 </div>
             </div>

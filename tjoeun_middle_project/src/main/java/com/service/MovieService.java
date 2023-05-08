@@ -51,7 +51,6 @@ public class MovieService {
             }
             JSONParser jsonParser = new JSONParser();
             JSONObject obj = (JSONObject) jsonParser.parse(result.toString());
-            System.out.println(obj);
             JSONArray movieList = (JSONArray) obj.get("movieList");
             for(Object o : movieList){
                 JSONObject eachMovie = (JSONObject) o;
@@ -109,7 +108,6 @@ public class MovieService {
                     movie.setTitle(eachMovie.get("movieNm").toString());
                     movie.setRateInfo(eachMovie.get("boxoBokdRt").toString());
                     movie.setOpeningDate(eachMovie.get("rfilmDe").toString());
-                    movie.setAgeRating(eachMovie.get("admisClassNm").toString());
                     break;
                 }
             }
@@ -125,19 +123,11 @@ public class MovieService {
                 .data("rpstMovieNo",movie.getSeq()).post();
             String movieStory = doc.select("div.inner-wrap div.movie-summary div.txt").text();
             System.out.println("movieStory = " + movieStory);
-            String categoryAndRunningTime = doc.select("div.inner-wrap div.movie-info div.line p:nth-child(2)").text();
-            String[] categoryAndRunningTimes = categoryAndRunningTime.split("/");
-            String director = doc.select("div.inner-wrap div.movie-info div.line p:nth-child(1)").text();
-            String actor = doc.select("div.inner-wrap div.movie-info :nth-child(3)").text();
-            int idx = actor.indexOf("출");
-            String realActor = actor.substring(idx);
+            String detailInfo = doc.select("div.inner-wrap div.movie-info div.line").text();
             String su = doc.select("div.inner-wrap div.movie-graph div:nth-child(3) dd.font-roboto").text();
             movie.setStory(movieStory);
-            movie.setCategory(categoryAndRunningTimes[0]);
-            movie.setRunningTime(categoryAndRunningTimes[1]);
-            movie.setDirector(director);
-            movie.setActor(realActor);
             movie.setCumulativeUser(su);
+            movie.setDetailInfo(detailInfo);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
