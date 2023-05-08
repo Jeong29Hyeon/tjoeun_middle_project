@@ -7,16 +7,36 @@
         select * from Ticket where id=#{id} order by dayInfo;
     </select>
     <select id="pastTicketById" parameterType="String" resultType="Ticket">
-        SELECT *
-        from Ticket
-        where id = #{id} and date_format(now(),'%Y-%m-%d') >= dayInfo and date_format(now(), '%H:%i') > timeInfo
+        SELECT
+            tno,
+            titleInfo,
+            TRIM(TRAILING ',' FROM seats) AS seats,
+            hallInfo,
+            dayInfo,
+            timeInfo
+        FROM Ticket
+        where id = #{id} and date_format(now(), '%Y-%m-%d %H:%i') >= CONCAT(dayInfo, ' ', timeInfo)
         order by dayInfo;
     </select>
     <select id="futureTicketById" parameterType="String" resultType="Ticket">
-        SELECT * from Ticket where id =#{id} and dayInfo > date_format(now(),'%Y-%m-%d') order by dayInfo;
+        SELECT tno,
+               titleInfo,
+               TRIM(TRAILING ',' FROM seats) AS seats,
+               hallInfo,
+               dayInfo,
+               timeInfo
+        FROM Ticket
+        where id =#{id} and dayInfo > date_format(now(),'%Y-%m-%d') order by dayInfo;
     </select>
     <select id="currentTicketById" parameterType="String" resultType="Ticket">
-        SELECT * from Ticket where id =#{id} and dayInfo = DATE_FORMAT(now(),'%Y-%m-%d') and timeInfo > date_format(now(), '%H:%i') order by dayInfo;
+        SELECT tno,
+               titleInfo,
+               TRIM(TRAILING ',' FROM seats) AS seats,
+               hallInfo,
+               dayInfo,
+               timeInfo
+        FROM Ticket
+        where id =#{id} and dayInfo = DATE_FORMAT(now(),'%Y-%m-%d') and timeInfo > date_format(now(), '%H:%i') order by dayInfo;
     </select>
     <insert id="insertTicket" parameterType="Ticket" keyProperty="tno" useGeneratedKeys="true">
         insert into Ticket(id, titleInfo, hallInfo, dayInfo, timeInfo, numberOfAdult, numberOfTeen, seats, price)
