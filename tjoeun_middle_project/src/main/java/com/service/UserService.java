@@ -126,11 +126,16 @@ public class UserService {
                 JSONObject obj = (JSONObject) parser.parse(result.toString());
                 JSONObject properties = (JSONObject) obj.get("properties");
                 JSONObject kakao_account = (JSONObject) obj.get("kakao_account");
+                boolean email_needs_agreement = (boolean) kakao_account.get("email_needs_agreement");
                 String nickname = properties.get("nickname").toString();
-                String email = kakao_account.get("email").toString();
-
                 userInfo.put("name", nickname);
-                userInfo.put("id", email);
+                if(!email_needs_agreement){//이메일 동의가 필요한가 -> false 면 이메일이 있음
+                    String email = kakao_account.get("email").toString();
+                    userInfo.put("id", email);
+                }else{
+                    String id = obj.get("id").toString();
+                    userInfo.put("id",id);
+                }
             }
         } catch (IOException | ParseException e) {
             e.printStackTrace();
