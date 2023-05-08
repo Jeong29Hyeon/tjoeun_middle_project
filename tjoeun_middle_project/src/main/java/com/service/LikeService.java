@@ -16,33 +16,62 @@ public class LikeService {
     }
 
 
-    public int ltlikecount(Like like) throws Exception {
-        int result = likeMapper.ltlikecount(like);
-        if(result == 0){
-            throw new Exception("좋아요 count 실패");
+    //    public int ltlikecount(Like like) throws Exception {
+//        int result = likeMapper.ltlikecount(like);
+//        if(result == 0){
+//            throw new Exception("좋아요 count 실패");
+//        }
+//        return result;
+//    }
+    public int ltlikecount(Like like) {
+        try {
+            return likeMapper.ltlikecount(like);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return result;
+        return 0;
     }
 
-    public int ltlikegetinfo(Like like) throws Exception{
-        int result =  likeMapper.ltlikegetinfo(like);
-        if(result == 0){
-            throw new Exception("좋아요 getinfo 실패");
+    //    public int ltlikegetinfo(Like like) throws Exception {
+//        int result = likeMapper.ltlikegetinfo(like);
+//        if (result == 0) {
+//            throw new Exception("좋아요 getinfo 실패");
+//        }
+//        return result;
+//    }
+    public int ltlikegetinfo(Like like) {
+        try {
+
+            return likeMapper.ltlikegetinfo(like);
+        } catch (Exception e) {
+            System.out.println("getInfo fail");
+            e.printStackTrace();
         }
-        return result;
+
+        return 0;
     }
 
-    public void likeinsert(Like like) throws Exception{
+    public void likeinsert(Like like) throws Exception {
         int result = likeMapper.likeinsert(like);
-        if(result == 0){
+        if (result == 0) {
             throw new Exception("좋아요 insert실패");
         }
     }
 
-    public void likeupdate(Like like) throws Exception{
-        int result = likeMapper.likeupdate(like);
-        if(result == 0){
-            throw new Exception("좋아요 update실패");
+    //    public void likeupdate(Like like) throws Exception{
+//        int result = likeMapper.likeupdate(like);
+//        if(result == 0){
+//            throw new Exception("좋아요 update실패");
+//        }
+//    }
+    public void likeupdate(Like like) {
+        try {
+
+            likeMapper.likeupdate(like);
+        } catch (Exception e) {
+            System.out.println("update fail");
+            e.printStackTrace();
         }
     }
 }

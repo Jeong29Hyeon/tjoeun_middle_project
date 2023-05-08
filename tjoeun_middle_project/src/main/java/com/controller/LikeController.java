@@ -26,8 +26,7 @@ public class LikeController {
     @ResponseBody
     public Map<String,String> likeupdate(Like like){
 //        logger.info("likeupdate");    //이게머임??
-
-        Map<String,String> map = new HashMap<String, String>();
+        Map<String,String> map = new HashMap<>();
 
         try {
             likeService.likeupdate(like);

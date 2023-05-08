@@ -19,19 +19,19 @@
     </select>
 
     <update id="likeupdate" parameterType="Like">
-        update likehit
-        set <include refid="cal"/>
-        where reviewno=#{reviewno} and userid=#{userid}
+        update likehit set <include refid="cal"/> where reviewno=#{reviewno} and userid=#{userid}
     </update>
-
     <sql id="cal">
-        <if test="count == 1">
-            ltlike = 0
-        </if>
-
-        <if test="count == 0">
-            ltlike = ltlike + 1
-        </if>
+        ltlike = ltlike + 1
     </sql>
+    <!--    <sql id="cal">-->
+    <!--        <if test="count == 1">-->
+    <!--            ltlike = 0-->
+    <!--        </if>-->
+
+    <!--        <if test="count == 0">-->
+    <!--            ltlike = ltlike + 1-->
+    <!--        </if>-->
+    <!--    </sql>-->
 
 </mapper>

@@ -45,7 +45,6 @@ public class DetailController {
         Elements story = doc.select("div.sect-story-movie");    //줄거리
         //디테일이니까 하나만 가져오고 싶은데
         Movie movie = new Movie();
-        System.out.println(openDateInfos.text());
         movie.setImg(imgs.get(0).attr("src"));
         movie.setSeq(seq);
         movie.setRank(ranks.text());
@@ -76,23 +75,22 @@ public class DetailController {
             int ltlike = 0;
 
             try {
-                int check = likeService.ltlikecount(like);
-
-                if (check == 0) {
-
+                int check = likeService.ltlikecount(like);      //댓글에 대한 테이블이 있는지 확인
+                if (check == 0) {       //없으면 insert
                     likeService.likeinsert(like);
 
-                } else if (check == 1) {
+                } else if (check == 1) {    //있음 정보가져오기
 
                     ltlike = likeService.ltlikegetinfo(like);
                     like.setItlike(ltlike);
 
                 }
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                e.printStackTrace();
             }
             likeList.add(like);
         }
-        model.addAttribute("ltlike", likeList);
+        model.addAttribute("likeList", likeList);
         //좋아요 컨트롤러
 
 
