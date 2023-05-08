@@ -81,7 +81,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    댓글 (${reviewCnt})
+                    댓글 (${reviewList.size()})
                 </div>
                 <c:forEach var="review" items="${reviewList}">
                     <div class="row g-3 my-2">
@@ -96,7 +96,7 @@
                                    value="${review.content}"
                                    readonly>
                         </div>
-                        <div class="col-md-1 text-end">
+                        <div class="col-md-1 text-end" style="font-size: 71%">
                             <fmt:formatDate value="${review.reg_date}"
                                             type="both"
                                             pattern="MM-dd HH시 mm분"/>

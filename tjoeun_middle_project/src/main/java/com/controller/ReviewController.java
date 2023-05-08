@@ -64,7 +64,6 @@ public class ReviewController {
 
         try {
             reviewService.likeupdate(review);
-            reviewService.likegetinfo(review);
             map.put("result", "success");
 
         }catch(Exception e) {
