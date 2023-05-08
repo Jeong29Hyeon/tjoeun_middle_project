@@ -69,4 +69,7 @@ public class TicketService {
     public void deleteTicket(Integer tno){
         ticketMapper.deleteTicket(tno);
     }
+    public Integer sumPrice(String id){
+        return ticketMapper.sumPrice(id);
+    }
 }

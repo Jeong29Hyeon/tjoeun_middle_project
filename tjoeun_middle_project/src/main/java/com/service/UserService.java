@@ -47,11 +47,11 @@ public class UserService {
         return "duplicate";
     }
 
-    public void editInfo(User editUser) throws Exception {
-        if (userMapper.updateUser(editUser) == 0) {
-            throw new Exception("수정 안됨");
-        }
-    }
+//    public void editInfo(User editUser) throws Exception {
+//        if (userMapper.updateUser(editUser) == 0) {
+//            throw new Exception("수정 안됨");
+//        }
+//    }
 
     public String getAccessToken(String authorizeCode) {
         String accessToken = "";
@@ -159,6 +159,19 @@ public class UserService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+    public User searchIdPw(User user){
+        System.out.println("service:"+user.getName());
+        try {
+            userMapper.searchIdPw(user);
+            return userMapper.searchIdPw(user);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;  //이름 생일 불일치
+        }
+    }
 
+    public void updateInfo(User newUser) {
+        userMapper.updateUser(newUser);
     }
 }

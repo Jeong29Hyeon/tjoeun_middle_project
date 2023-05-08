@@ -15,4 +15,5 @@ public interface TicketMapper {
     List<Ticket> pastTicketById(String id);
     List<Ticket> futureTicketById(String id);
     List<Ticket> currentTicketById(String id);
+    Integer sumPrice(String id);
 }
