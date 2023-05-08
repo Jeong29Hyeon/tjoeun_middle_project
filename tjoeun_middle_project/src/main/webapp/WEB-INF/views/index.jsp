@@ -89,7 +89,7 @@
                                 <p class="card-title fw-bold mb-0 mx-auto"
                                    style="font-size: 12px">${movie.title}</p>
                                 <p class="card-text my-0" style="font-size:10px;"><small
-                                        class="text-muted">예매율 ${movie.rateInfo}</small></p>
+                                        class="text-muted">예매율 ${movie.rateInfo}%</small></p>
                                 <p class="card-text" style="font-size:10px"><small
                                         class="text-muted">${movie.openingDate}</small></p>
                             </div>

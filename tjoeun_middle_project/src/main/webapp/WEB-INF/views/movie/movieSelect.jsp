@@ -90,6 +90,9 @@
             <div class="col">
                 <input type="text" id="timeInfo" name="timeInfo" value="" hidden>
             </div>
+            <dic class="col">
+                <input type="text" id="ageInfo" name="ageInfo" value="" hidden>
+            </dic>
         </div>
     </div>
     <div class="container mt-5">
@@ -195,18 +198,19 @@
       data: {
         "masterType": "brch",
         "detailType": "area",
-        "brchNo": "1372",
+        "brchNo": "1351",
         "firstAt": "Y",
-        "brchNo1": "1372",
+        "brchNo1": "1351",
         "playDe": dateFormat
       },
       success: function (result) {
         const str = JSON.stringify(result);
         const obj = JSON.parse(str);
         const movieList = obj.megaMap.movieFormList;
+        console.log(movieList);
         $.each(movieList, function (key, value) {
-          if (value.movieNm.substring(0, 2).trim() === $('#titleInfo').val().substring(0, 2).trim()
-              && $('#hallInfo').val().trim() === value.theabExpoNm.trim()) {
+          if (value.movieNm === $('#titleInfo').val()
+              && $('#hallInfo').val() === value.theabExpoNm) {
             console.log(value.playStartTime + "~" + value.playEndTime);
             $('#timeWrap').append(
                 '<a onclick="timeClick(this)" id="selectTime' + value.playStartTime
@@ -299,9 +303,9 @@
         data: {
           "masterType": "brch",
           "detailType": "area",
-          "brchNo": "1372",
+          "brchNo": "1351",
           "firstAt": "Y",
-          "brchNo1": "1372",
+          "brchNo1": "1351",
           "playDe": dateFormat
         },
         success: function (result) {
@@ -310,8 +314,7 @@
           const obj = JSON.parse(str);
           const movieList = obj.megaMap.movieFormList;
           $.each(movieList, function (key, value) {
-            if (value.movieNm.substring(0, 2).trim() === $('#titleInfo').val().substring(0,
-                2).trim()) {
+            if (value.movieNm === $('#titleInfo').val()) {
               console.log(value.playStartTime + "~" + value.playEndTime);
               if (addedTheabExpoNm.indexOf(value.theabExpoNm) === -1) {
                 $('#hall').append('<a onclick="hallClick(this)" id="hall' + value.theabNo

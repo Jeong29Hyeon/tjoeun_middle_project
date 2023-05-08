@@ -10,6 +10,6 @@ public interface ReviewMapper {
     int insertReview(Review reviewDto);
     int updateReview(Review reviewDto);
     int deleteReview(Integer rno);
-    List<Review> selectAllBySeq(Integer seq);
+    List<Review> selectAllBySeq(String seq);
 //    int selectAll();
 }
