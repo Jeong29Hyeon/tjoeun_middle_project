@@ -28,17 +28,9 @@
                        style="font-size: 12px">${movie.rank}위</p>
                     <p class="card-text my-0" style="font-size:10px;"><small
                             class="text-muted">예매율 ${movie.rateInfo}%</small></p>
-                    <p>${movie.ageRating}
-                    <p>${movie.runningTime}
                     <p>누적관객 ${movie.cumulativeUser}명
-                    <p>${movie.director}
-                    <p>${movie.actor}
-                    <p>${movie.category}
-
-
                     <p class="card-text" style="font-size:15px"><small
                             class="text-muted">${movie.detailInfo}</small></p>
-                        <%--                    영화 연출 정보도 받아와야할거같아요--%>
                 </div>
             </div>
 
