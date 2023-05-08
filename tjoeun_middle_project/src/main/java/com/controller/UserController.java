@@ -135,8 +135,6 @@ public class UserController {
 
     @GetMapping("/kakaoLogout")
     public String kakaoLogout(HttpSession session){
-//        String accessToken = (String) session.getAttribute("accessToken");
-//        userService.kakaoLogout(accessToken);
         session.invalidate();
         return "redirect:/";
     }
