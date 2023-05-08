@@ -51,4 +51,7 @@
     <select id="existSeat" parameterType="Ticket" resultType="Ticket">
         select * from Ticket where hallInfo=#{hallInfo} and dayInfo=#{dayInfo} and timeInfo =#{timeInfo} and seats like concat('%',#{seats},'%');
     </select>
+    <select id="sumPrice" parameterType="String" resultType="Integer">
+        select SUM(price) from Ticket where id=#{id};
+    </select>
 </mapper>

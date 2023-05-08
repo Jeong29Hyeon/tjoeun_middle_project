@@ -13,6 +13,9 @@
     update User set password=#{password}, name=#{name}, birth=#{birth}, gender=#{gender},
                            email=#{email}, phone=#{phone} where id =#{id};
   </update>
+  <select id="searchIdPw" parameterType="User" resultType="User">
+    select * from User where  birth=#{birth} and name=#{name};
+  </select>
   <delete id="deleteById" parameterType="String">
     <!-- 나중에 추가 예정 -->
   </delete>

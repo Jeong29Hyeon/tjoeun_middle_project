@@ -77,17 +77,16 @@
                     </li>
                 </ul>
             </div>
-
             <c:set var="joinOrNotLink" value="${sessionScope.user.id==null ? '/user/join' : ''}"/>
             <c:set var="logInOrOutLink" value="${sessionScope.user.id==null ? '/user/login' : '/user/logout'}"/>
             <c:set var="logInOrOut" value="${sessionScope.user.id==null ? 'Sign In' : 'Sign Out'}"/>
             <c:set var="joinOrId" value="${sessionScope.user.id==null ? '회원가입' : ''}"/>
             <c:set var="logInOrName" value="${sessionScope.user.id==null ? '로그인후 이용해주세요' : sessionScope.user.name}"/>
-            <c:set var="profileLink" value="${sessionScope.user.id==null ? '' : '#'}"/>
+            <c:set var="profileLink" value="${sessionScope.user.id==null ? '' : '/user/profile'}"/>
             <c:set var="profile" value="${sessionScope.user.id==null ? '' : 'Profile'}"/>
             <c:set var="Reservation" value="${sessionScope.user.id==null ? '' : '/user/ticketHistory'}"/>
             <c:set var="ReservationInfo" value="${sessionScope.user.id==null ? '' : 'Reservation'}"/>
-            <c:set var="searchIdPwLink" value="${sessionScope.user.id==null ? '#' : ''}"/>
+            <c:set var="searchIdPwLink" value="${sessionScope.user.id==null ? '/user/searchIdPw' : ''}"/>
             <c:set var="searchIdPw" value="${sessionScope.user.id==null ? 'SEARCH ID&PW' : ''}"/>
 
             <div class="dropup ms-3 mb-3">

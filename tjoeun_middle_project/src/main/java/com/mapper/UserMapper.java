@@ -9,8 +9,9 @@ public interface UserMapper {
 
     User selectById(String id);
 
-    int updateUser(User user);
+    void updateUser(User user);
 
     int deleteById(String id);
 
+    User searchIdPw(User user);
 }
