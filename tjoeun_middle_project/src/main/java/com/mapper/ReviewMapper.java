@@ -8,8 +8,12 @@ import java.util.List;
 @Mapper
 public interface ReviewMapper {
     int insertReview(Review reviewDto);
+
     int updateReview(Review reviewDto);
+
     int deleteReview(Integer rno);
+    void likeupdate(Review review);
+    int likegetinfo(Review review);
     List<Review> selectAllBySeq(String seq);
 //    int selectAll();
 }

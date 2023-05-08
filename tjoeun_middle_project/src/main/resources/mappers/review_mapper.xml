@@ -15,4 +15,23 @@
   <select id="selectAllBySeq" parameterType="String" resultType="Review">
     select * from Review where seq = #{seq};
   </select>
+
+
+
+<!--  <select id="ltlikecount" resultType="Integer" parameterType="Like">-->
+<!--    select count(ltlike) from likehit where reviewno=#{reviewno} and userid=#{userid}-->
+<!--  </select>-->
+
+<!--  <insert id="likeinsert" parameterType="Like">-->
+<!--    insert into likehit(reviewno,userid)-->
+<!--    values (#{reviewno},#{userid})-->
+<!--  </insert>-->
+
+  <select id="likegetinfo" resultType="Integer" parameterType="Review">
+    select like from Review where rno=#{rno} and id=#{id}
+  </select>
+
+  <update id="likeupdate" parameterType="Review">
+    update Review set likecount = likecount + 1 where rno=#{rno} and id=#{id}
+  </update>
 </mapper>

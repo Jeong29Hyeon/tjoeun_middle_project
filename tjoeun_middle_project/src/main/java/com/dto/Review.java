@@ -8,7 +8,7 @@ public class Review {                // 영화 넘버링에 pk fk 해서 리뷰�
     private String content;           // 리뷰 본문
     private String id;               // User id
     private Date reg_date;            // 리뷰 등록시간 now()
-    private int like_hit;            // 리뷰 기능 자체에 좋아요 싫어요
+    private int likeCount;            // 리뷰 기능 자체에 좋아요 싫어요
     private int hate_hit;
     public Review(){}
 
@@ -19,7 +19,7 @@ public class Review {                // 영화 넘버링에 pk fk 해서 리뷰�
         this.content = content;
         this.id = id;
         this.reg_date = reg_date;
-        this.like_hit = like_hit;
+        this.likeCount = likeCount;
         this.hate_hit = hate_hit;
     }
 
@@ -63,12 +63,12 @@ public class Review {                // 영화 넘버링에 pk fk 해서 리뷰�
         this.reg_date = reg_date;
     }
 
-    public int getLike_hit() {
-        return like_hit;
+    public int getLikeCount() {
+        return likeCount;
     }
 
-    public void setLike_hit(int like_hit) {
-        this.like_hit = like_hit;
+    public void setLikeCount(int likeCount) {
+        this.likeCount = likeCount;
     }
 
     public int getHate_hit() {

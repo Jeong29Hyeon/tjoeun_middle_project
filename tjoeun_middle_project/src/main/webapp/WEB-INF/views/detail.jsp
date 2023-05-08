@@ -18,17 +18,24 @@
         <form action="" method="post">
             <div class="row">
                 <!-- 디테일 뷰 -->
-                <div class="col-md-2 ">
-                    <a href="#"><img src="${movie.img}" class="img-thumbnail rounded mx-auto d-block"
-                                     style="width:100%;height: 100%" alt="..."></a>
+                <div class="col-md-3 ">
+                    <a href="#"><img src="${movie.img}" class="img-thumbnail rounded mx-auto d-block" alt="..."></a>
                 </div>
-                <div class="col-md-6">
-                    <p class="card-title fw-bold mb-0"
-                       style="font-size: 12px">${movie.rank}</p>
+                <div class="col-md-4">
                     <p class="card-title fw-bold mb-0"
                        style="font-size: 40px">${movie.title}</p>
+                    <p class="card-title fw-bold mb-0"
+                       style="font-size: 12px">${movie.rank}위</p>
                     <p class="card-text my-0" style="font-size:10px;"><small
-                            class="text-muted">예매율 ${movie.rateInfo}</small></p>
+                            class="text-muted">예매율 ${movie.rateInfo}%</small></p>
+                    <p>${movie.ageRating}
+                    <p>${movie.runningTime}
+                    <p>누적관객 ${movie.cumulativeUser}명
+                    <p>${movie.director}
+                    <p>${movie.actor}
+                    <p>${movie.category}
+
+
                     <p class="card-text" style="font-size:15px"><small
                             class="text-muted">${movie.detailInfo}</small></p>
                         <%--                    영화 연출 정보도 받아와야할거같아요--%>
@@ -66,11 +73,12 @@
         <div class="container tab-pane fade  text-center" id="story" role="tabpanel"
              aria-labelledby="story-tab"><p>${movie.story}</p></div>
 
-        <div class="container tab-pane fade show active text-center" id="review" role="tabpanel" aria-labelledby="review-tab">
+        <div class="container tab-pane fade show active text-center" id="review" role="tabpanel"
+             aria-labelledby="review-tab">
 
             <div class="container mt-md-3">
                 <div class="row g-3 d-flex justify-content-center align-items-center">
-                    <div id="reviewWriter" class="col-md-2 text-center">${sessionScope.user.id}</div>
+                    <div id="reviewWriter" class="col-md-2 text-center">${not empty sessionScope.user.id ? sessionScope.user.id : '로그인 후 이용해주세요'}</div>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="reviewContent" name="reviewContent">
                     </div>
@@ -80,7 +88,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    댓글 (${reviewCnt})
+                    댓글 (${reviewList.size()})
                 </div>
                 <c:forEach var="review" items="${reviewList}">
                     <div class="row g-3 my-2">
@@ -95,36 +103,27 @@
                                    value="${review.content}"
                                    readonly>
                         </div>
-                        <div class="col-md-1 text-end">
+                        <div class="col-md-1 text-end" style="font-size: 71%">
                             <fmt:formatDate value="${review.reg_date}"
                                             type="both"
                                             pattern="MM-dd HH시 mm분"/>
                         </div>
-                        <div class="col-md-2 text-end">
+                        <div class="col-md-2 text-center">
                             <div class="btn-group" role="group" aria-label="Basic outlined example">
                                 <button type="button" id="reviewEdit${review.rno}"
                                         class="btn btn-outline-warning text-decoration-none" ${sessionScope.user.id eq review.id ? '' : 'hidden'}
-                                >수정</button>
+                                >수정
+                                </button>
                                 <button type="button" id="reviewRemove${review.rno}"
                                         class="btn btn-outline-danger text-decoration-none" ${sessionScope.user.id eq review.id ? '' : 'hidden'}
-                                >삭제</button>
-<%--                                <button type="button" id="likehit${review.rno}"--%>
-<%--                                        ${sessionScope.user.id eq review.id ? 'hidden' : ''}--%>
-<%--                                >좋</button>--%>
-                                <%-- 로그인된사람의 댓글에는 좋아요 버튼이 안보이게 하고싶습니다--%>
-<%--                                    <c:choose>--%>
-<%--                                        <c:when test="${ltlike ==0}">--%>
-<%--                                            <button type="button" class="btn btn-light" id="likebtn">좋아요</button>--%>
-<%--                                            <input type="hidden" id="likecheck" value="${ltlike}">--%>
-<%--                                        </c:when>--%>
-<%--                                        <c:when test="${ltlike ==1}">--%>
-<%--                                            <button type="button" class="btn btn-danger" id="likebtn">좋아요</button>--%>
-<%--                                            <input type="hidden" id="likecheck" value="${ltlike}">--%>
-<%--                                        </c:when>--%>
-<%--                                    </c:choose>--%>
-
-
+                                >삭제
+                                </button>
+                                <p id="likecount${review.rno}">  ${review.likeCount}</p>
                             </div>
+                            <button type="button" id="likebtn${review.rno}"
+                                    class="btn btn-outline-danger text-decoration-none"${sessionScope.user.id eq review.id ? 'hidden' : ''} >♥</button>
+
+                            <input type="hidden" id="likecheck${review.rno}" value="${review.likeCount}">
                         </div>
 
                     </div>
@@ -233,6 +232,50 @@
         }
     });
     </c:forEach>
+
+    <c:forEach var="review" items="${reviewList}">
+    $('#likebtn${review.rno}').click(function () {
+        // var root = getContextPath(),
+        //     likeurl = "/like/update",
+        <%--count = $('#likecheck${review.rno}').val(),--%>
+
+        $.ajax({
+            url: '<c:url value="/review/update"/>',
+            type: 'POST',
+            data: {
+                'rno': ${review.rno},
+                'id': '${review.id}'
+            },
+            success: function (result) {
+                $('#likecheck${review.rno}').val(1);
+
+                let i = $('#likecount${review.rno}').text()
+                $('#likecount${review.rno}').html(parseInt(i)+1)
+                $('#likebtn${review.rno}').attr('hidden',true)
+                // location.reload();
+                <%--if (count == 1) {--%>
+                <%--    console.log("좋아요 취소");--%>
+                <%--    $('#likecheck${review.rno}').val(0);--%>
+                <%--    $('#likebtn${review.rno}').attr('class', 'btn btn-light');--%>
+                <%--} else if (count == 0) {--%>
+                <%--    console.log("좋아요!");--%>
+                <%--    $('#likecheck${review.rno}').val(1);--%>
+                <%--    $('#likebtn${review.rno}').attr('class', 'btn btn-danger');--%>
+                <%--}--%>
+            }, error: function (result) {
+                console.log("에러" + result.result)
+            }
+
+        });
+
+    });
+
+    </c:forEach>
+
+    function getContextPath() {
+        var hostIndex = location.href.indexOf(location.host) + location.host.length;
+        return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
+    }
 </script>
 </body>
 </html>
