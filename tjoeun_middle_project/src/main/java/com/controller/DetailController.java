@@ -65,33 +65,6 @@ public class DetailController {
         model.addAttribute("reviewList", reviewList);
 
         //좋아요 컨트롤러 추가
-        List<Like> likeList = new ArrayList<>();
-        for (Review review : reviewList) {
-            Like like = new Like();
-
-            like.setReviewno(review.getRno());       //rno 가져와야되는데 방법 생각하기
-            like.setUserid(review.getId());         //유저 아이디도 가져와야하는데 여기가 아닌가?
-
-            int ltlike = 0;
-
-            try {
-                int check = likeService.ltlikecount(like);      //댓글에 대한 테이블이 있는지 확인
-                if (check == 0) {       //없으면 insert
-                    likeService.likeinsert(like);
-
-                } else if (check == 1) {    //있음 정보가져오기
-
-                    ltlike = likeService.ltlikegetinfo(like);
-                    like.setItlike(ltlike);
-
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            likeList.add(like);
-        }
-        model.addAttribute("likeList", likeList);
-        //좋아요 컨트롤러
 
 
         return "detail";

@@ -1,5 +1,6 @@
 package com.service;
 
+import com.dto.Like;
 import com.dto.Review;
 import com.mapper.ReviewMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +39,26 @@ public class ReviewService {
 
     public List<Review> selectAllBySeq(Integer seq) throws Exception{
         return reviewMapper.selectAllBySeq(seq);
+    }
+    //좋아요 기능 수정중
+    public int likegetinfo(Review review) {
+        try {
+
+            return reviewMapper.likegetinfo(review);
+        } catch (Exception e) {
+            System.out.println("getInfo fail");
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+    public void likeupdate(Review review) {
+        try {
+
+            reviewMapper.likeupdate(review);
+        } catch (Exception e) {
+            System.out.println("update fail");
+            e.printStackTrace();
+        }
     }
 }

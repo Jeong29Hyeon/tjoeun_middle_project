@@ -19,7 +19,7 @@
     </select>
 
     <update id="likeupdate" parameterType="Like">
-        update likehit set <include refid="cal"/> where reviewno=#{reviewno} and userid=#{userid}
+        update likehit set ltlike = ltlike + 1 where reviewno=#{reviewno} and userid=#{userid}
     </update>
     <sql id="cal">
         ltlike = ltlike + 1

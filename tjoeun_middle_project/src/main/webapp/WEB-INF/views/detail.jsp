@@ -66,7 +66,8 @@
         <div class="container tab-pane fade  text-center" id="story" role="tabpanel"
              aria-labelledby="story-tab"><p>${movie.story}</p></div>
 
-        <div class="container tab-pane fade show active text-center" id="review" role="tabpanel" aria-labelledby="review-tab">
+        <div class="container tab-pane fade show active text-center" id="review" role="tabpanel"
+             aria-labelledby="review-tab">
 
             <div class="container mt-md-3">
                 <div class="row g-3 d-flex justify-content-center align-items-center">
@@ -104,24 +105,15 @@
                             <div class="btn-group" role="group" aria-label="Basic outlined example">
                                 <button type="button" id="reviewEdit${review.rno}"
                                         class="btn btn-outline-warning text-decoration-none" ${sessionScope.user.id eq review.id ? '' : 'hidden'}
-                                >수정</button>
+                                >수정
+                                </button>
                                 <button type="button" id="reviewRemove${review.rno}"
                                         class="btn btn-outline-danger text-decoration-none" ${sessionScope.user.id eq review.id ? '' : 'hidden'}
-                                >삭제</button>
-<%--                                <button type="button" id="likehit${review.rno}"--%>
-<%--                                        ${sessionScope.user.id eq review.id ? 'hidden' : ''}--%>
-<%--                                >좋</button>--%>
-                                    <%-- 로그인된사람의 댓글에는 좋아요 버튼이 안보이게 하고싶습니다 when안에 삼항연산자 추가 하기--%>
-                                <c:choose>
-                                    <c:when test="${likeList.get(0).itlike ==0}">
-                                        <button type="button" class="btn btn-light" id="likebtn">좋아요0</button>
-                                        <input type="hidden" id="likecheck" value="${likeList.get(0).itlike}">
-                                    </c:when>
-                                    <c:when test="${likeList.get(0).itlike ==1}">
-                                        <button type="button" class="btn btn-danger" id="likebtn">좋아요1</button>
-                                        <input type="hidden" id="likecheck" value="${likeList.get(0).itlike}">
-                                    </c:when>
-                                </c:choose>
+                                >삭제
+                                </button>
+                                <button type="button" id="likebtn${review.rno}"
+                                        class="btn btn-outline-danger text-decoration-none" >♥</button>${review.likeCount}
+                                <input type="hidden" id="likecheck${review.rno}" value="${review.likeCount}">
 
 
                             </div>
@@ -235,39 +227,35 @@
     </c:forEach>
 
     <c:forEach var="review" items="${reviewList}">
-    $('#likebtn').click(function () {
-        console.log(${review.rno})
-        console.log('${review.id}')
+    $('#likebtn${review.rno}').click(function () {
         // var root = getContextPath(),
         //     likeurl = "/like/update",
-        count = $('#likecheck').val(),
-            data = {
-                "reviewno": ${review.rno},
-                "userid": '${review.id}',
-                "count": count
-            };
+        <%--count = $('#likecheck${review.rno}').val(),--%>
 
         $.ajax({
-            url: '<c:url value="/like/update"/>',
+            url: '<c:url value="/review/update"/>',
             type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
+            data: {
+                'rno': ${review.rno},
+                'id': '${review.id}'
+            },
             success: function (result) {
-                console.log("수정" + result.result);
-                if (count == 1) {
-                    console.log("좋아요 취소");
-                    $('#likecheck').val(0);
-                    $('#likebtn').attr('class', 'btn btn-light');
-                } else if (count == 0) {
-                    console.log("좋아요!");
-                    $('#likecheck').val(1);
-                    $('#likebtn').attr('class', 'btn btn-danger');
-                }
+                location.reload();
+                <%--if (count == 1) {--%>
+                <%--    console.log("좋아요 취소");--%>
+                <%--    $('#likecheck${review.rno}').val(0);--%>
+                <%--    $('#likebtn${review.rno}').attr('class', 'btn btn-light');--%>
+                <%--} else if (count == 0) {--%>
+                <%--    console.log("좋아요!");--%>
+                <%--    $('#likecheck${review.rno}').val(1);--%>
+                <%--    $('#likebtn${review.rno}').attr('class', 'btn btn-danger');--%>
+                <%--}--%>
             }, error: function (result) {
                 console.log("에러" + result.result)
             }
 
         });
+        $('#likebtn${review.rno}').html('');
     });
 
     </c:forEach>
