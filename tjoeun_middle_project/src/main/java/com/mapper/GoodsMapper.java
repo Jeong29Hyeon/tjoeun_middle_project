@@ -10,5 +10,6 @@ public interface GoodsMapper {
     int insertGoods(Goods goods);
 
     List<Goods> selectAll();
-
+    List<Goods> getCategoryList(String category);
+    Goods getSelectGoods(String gno);
 }

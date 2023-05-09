@@ -12,9 +12,13 @@
 </head>
 <body>
 <%@include file="../header.jsp" %>
-<div class="container mt-5"><h2>팝콘이름 동적으로 바꾸기</h2></div>
+<div class="container mt-5"><h2>${selectGoods.name}</h2></div>
 <div class="container">
-  상품정보 슝루루루룩
+  <div class="row">
+    <div class="col-6">
+      <img src=" ${selectGoods.uploadPath}/${selectGoods.fileName}">
+    </div>
+  </div>
 </div>
 <%@include file="../footer.jsp" %>
 </body>

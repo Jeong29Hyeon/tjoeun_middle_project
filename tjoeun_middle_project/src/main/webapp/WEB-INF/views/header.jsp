@@ -67,7 +67,7 @@
                         <div class="navbar-collapse collapse show" id="storeTap" style="">
                             <ul class="navbar-nav me-auto mb-2">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/store/main">매점</a>
+                                    <a class="nav-link" href="/store/display">매점</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">기프티콘</a>

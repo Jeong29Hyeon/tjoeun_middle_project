@@ -10,10 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
@@ -42,18 +39,21 @@ public class StoreController {
         try {
             goodsList = goodsService.getGoodsList();
             model.addAttribute("goodsList",goodsList);
-        } catch (Exception e) {
+            model.addAttribute("setMenuList",goodsService.getCategoryList("setMenu"));
+            model.addAttribute("popcornList",goodsService.getCategoryList("popcorn"));
+            model.addAttribute("drinkList",goodsService.getCategoryList("drink"));
+        }catch (Exception e){
             e.printStackTrace();
-            //굿즈 목록 없을때 해결점
+            //해결점
         }
-        return "store/display";
+        return "store/main";
     }
 
     @PostMapping("/insert-goods")
     public String insertGoods(@RequestParam("image")MultipartFile file, Goods goods,
         HttpServletRequest request){
         try{
-            String uploadPath = "C:\\Users\\USER\\Documents\\github\\tjoeun_middle_project\\tjoeun_middle_project\\src\\main\\webapp\\resources\\img";
+            String uploadPath = "C:\\Users\\USER\\Documents\\github\\tjoeun_middle_project\\tjoeun_middle_project\\src\\main\\webapp\\resources\\img\\goods";
             System.out.println("uploadPath = " + uploadPath);
             File folder = new File(uploadPath);
             if(!folder.exists()){
@@ -78,7 +78,10 @@ public class StoreController {
         return "redirect:/store/display";
     }
     @GetMapping("/detail")
-    public String storeDetail(){
+    public String storeDetail(Model model,String gno){
+        System.out.println(gno);
+        Goods goods = goodsService.getSelectGoods(gno);
+        model.addAttribute("selectGoods",goods);
         return "store/detail";
     }
 }

@@ -29,4 +29,11 @@ public class GoodsService {
         }
         return goodsList;
     }
+    public List<Goods> getCategoryList(String category) {
+        return goodsMapper.getCategoryList(category);
+    }
+
+    public Goods getSelectGoods(String gno) {
+        return goodsMapper.getSelectGoods(gno);
+    }
 }

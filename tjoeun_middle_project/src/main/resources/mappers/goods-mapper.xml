@@ -4,10 +4,16 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mapper.GoodsMapper">
   <insert id="insertGoods" parameterType="Goods">
-    insert into goods(name, goodsInfo, price, fileRealName, fileName, uploadPath)
-        values (#{name},#{goodsInfo},#{price},#{fileRealName},#{fileName},#{uploadPath});
+    insert into goods(category, name, goodsInfo, components, price, fileRealName, fileName, uploadPath)
+        values (#{category},#{name},#{goodsInfo},#{components},#{price},#{fileRealName},#{fileName},#{uploadPath});
   </insert>
   <select id="selectAll" resultType="Goods">
     select * from goods;
+  </select>
+  <select id="getCategoryList" parameterType="String" resultType="Goods">
+    select * from goods where category = #{category};
+  </select>
+  <select id="getSelectGoods" parameterType="String" resultType="Goods">
+    select * from goods where gno=#{gno};
   </select>
 </mapper>

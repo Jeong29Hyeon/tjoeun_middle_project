@@ -2,10 +2,10 @@ package com.dto;
 
 public class Goods {
     private int gno;
-
     private String category;
     private String name;
     private String goodsInfo;
+    private String components;
     private int price;
     private String fileRealName;
     private String fileName;
@@ -14,15 +14,24 @@ public class Goods {
     public Goods() {
     }
 
-    public Goods(String category, String name, String goodsInfo, int price, String fileRealName,
+    public Goods(String category, String name, String goodsInfo,String components ,int price, String fileRealName,
         String fileName, String uploadPath) {
         this.category = category;
         this.name = name;
         this.goodsInfo = goodsInfo;
+        this.components = components;
         this.price = price;
         this.fileRealName = fileRealName;
         this.fileName = fileName;
         this.uploadPath = uploadPath;
+    }
+
+    public String getComponents() {
+        return components;
+    }
+
+    public void setComponents(String components) {
+        this.components = components;
     }
 
     public int getGno() {
