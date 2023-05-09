@@ -19,7 +19,7 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-4">
-            <img src=" ${selectGoods.uploadPath}/${selectGoods.fileName}">
+            <img src="${selectGoods.uploadPath}/${selectGoods.fileName}">
         </div>
         <div class="col-8">
             <div class="row">
