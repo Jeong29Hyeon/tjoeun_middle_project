@@ -121,7 +121,7 @@
                                         </a>
                                     <span id="btnWrap${drink.gno}"
                                           class="position-absolute top-50 start-50 translate-middle text-center" hidden>
-                                    <a href="/store/cart">
+                                    <a href="#">
                                     <button id="btnCart${drink.gno}" type="button"
                                             class="btn btn-sm btn-light mb-md-2">장바구니</button></a>
                                     <a href="#">
@@ -161,11 +161,31 @@
         });
 
         $('#btnCart${setMenu.gno}').on('click',function (){
+            if(${empty sessionScope.user}){
+                let loginChoice = confirm('로그인 후 이용한 서비스 입니다. 로그인 하러 가시겠습니까?');
+                if(loginChoice){
+                    location.href='/user/login';
+                    return;
+                }
+                return;
+            }
            $.ajax({
                type:'post',
                url:'/store/cart-add',
                data:{
                    'gno':${setMenu.gno}
+               },
+               success:function (result){
+                   if(result==='quantityError'){
+                       alert("4개이상 추가할 수 없습니다.");
+                       return;
+                   }
+                  let choice = confirm(`장바구니에 추가되었습니다.
+                  확인하시겠습니까?`);
+                   if(choice){
+                       // alert("구매하기로 가야함")
+                       location.href = "/store/cart"
+                   }
                },
                error:function (){
                    alert("카트에 아이템 추가 비통신에러");
@@ -190,6 +210,38 @@
             $('#menuImage${popcorn.gno}').css('opacity', '1');
             $('#btnWrap${popcorn.gno}').attr('hidden', true);
         });
+        $('#btnCart${popcorn.gno}').on('click',function (){
+            if(${empty sessionScope.user}){
+                let loginChoice = confirm('로그인 후 이용한 서비스 입니다. 로그인 하러 가시겠습니까?');
+                if(loginChoice){
+                    location.href='/user/login';
+                    return;
+                }
+                return;
+            }
+            $.ajax({
+                type:'post',
+                url:'/store/cart-add',
+                data:{
+                    'gno':${popcorn.gno}
+                },
+                success:function (result){
+                    if(result==='quantityError'){
+                        alert("4개이상 추가할 수 없습니다.");
+                        return;
+                    }
+                    let choice = confirm(`장바구니에 추가되었습니다.
+                  확인하시겠습니까?`);
+                    if(choice){
+                        // alert("구매하기로 가야함")
+                        location.href = "/store/cart"
+                    }
+                },
+                error:function (){
+                    alert("카트에 아이템 추가 비통신에러");
+                }
+            })
+        });
         </c:forEach>
     });
 
@@ -205,6 +257,39 @@
         $('#imgWrap${drink.gno}').on('mouseout', function () {
             $('#menuImage${drink.gno}').css('opacity', '1');
             $('#btnWrap${drink.gno}').attr('hidden', true);
+        });
+
+        $('#btnCart${drink.gno}').on('click',function (){
+            if(${empty sessionScope.user}){
+                let loginChoice = confirm('로그인 후 이용한 서비스 입니다. 로그인 하러 가시겠습니까?');
+                if(loginChoice){
+                    location.href='/user/login';
+                    return;
+                }
+                return;
+            }
+            $.ajax({
+                type:'post',
+                url:'/store/cart-add',
+                data:{
+                    'gno':${drink.gno}
+                },
+                success:function (result){
+                    if(result==='quantityError'){
+                        alert("4개이상 추가할 수 없습니다.");
+                        return;
+                    }
+                    let choice = confirm(`장바구니에 추가되었습니다.
+                  확인하시겠습니까?`);
+                    if(choice){
+                        // alert("구매하기로 가야함")
+                        location.href = "/store/cart"
+                    }
+                },
+                error:function (){
+                    alert("카트에 아이템 추가 비통신에러");
+                }
+            })
         });
         </c:forEach>
     });

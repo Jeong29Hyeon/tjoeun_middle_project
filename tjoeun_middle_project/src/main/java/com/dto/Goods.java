@@ -10,6 +10,7 @@ public class Goods {
     private String fileRealName;
     private String fileName;
     private String uploadPath;
+    private int quantity = 1;
 
     public Goods() {
     }
@@ -24,6 +25,14 @@ public class Goods {
         this.fileRealName = fileRealName;
         this.fileName = fileName;
         this.uploadPath = uploadPath;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public String getComponents() {

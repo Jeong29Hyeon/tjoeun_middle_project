@@ -3,9 +3,7 @@ package com.controller;
 import com.dto.Goods;
 import com.service.GoodsService;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -87,7 +85,7 @@ public class StoreController {
         return "store/detail";
     }
 
-    @PostMapping("/cart")
+    @GetMapping("/cart")
     public String cart(){
         return "store/cart";
     }
@@ -95,16 +93,24 @@ public class StoreController {
     @PostMapping("/cart-add")
     @ResponseBody
     public String cartAdd(String gno, HttpSession session){
-        List<Goods> goodsList;
+        Map<String,Goods> goodsList;
         try {
             Goods selectGoods = goodsService.getSelectGoods(gno);
             if(session.getAttribute("cart")==null){
-                goodsList = new ArrayList<>();
-                goodsList.add(selectGoods);
+                goodsList = new HashMap<>();
+                goodsList.put(gno,selectGoods);
                 session.setAttribute("cart",goodsList);
             }else{
-                goodsList = (List<Goods>) session.getAttribute("cart");
-                goodsList.add(selectGoods);
+                goodsList = (Map<String, Goods>) session.getAttribute("cart");
+                Goods goods = goodsList.get(gno);
+                if(goods != null){
+                    if(goods.getQuantity() == 4){
+                        return "quantityError";
+                    }
+                    goods.setQuantity(goods.getQuantity()+1);
+                }else{
+                    goodsList.put(gno,selectGoods);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
