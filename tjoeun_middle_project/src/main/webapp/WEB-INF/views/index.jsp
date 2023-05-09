@@ -15,7 +15,7 @@
       }
     </style>
 </head>
-<body>
+<body class="bg-black ">
 <%@include file="header.jsp" %>
 <!-- msg 창 -->
 <div class="container">
