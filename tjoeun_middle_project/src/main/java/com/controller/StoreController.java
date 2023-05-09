@@ -12,4 +12,8 @@ public class StoreController {
     public String storeMain(){
         return "store/main";
     }
+    @GetMapping("/detail")
+    public String storeDetail(){
+        return "store/detail";
+    }
 }
