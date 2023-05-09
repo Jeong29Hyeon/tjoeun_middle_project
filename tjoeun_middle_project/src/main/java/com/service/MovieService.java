@@ -36,7 +36,7 @@ public class MovieService {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
             StringBuilder sb = new StringBuilder();
             sb.append("currentPage=1");
-            sb.append("&recordCountPerPage=20");
+            sb.append("&recordCountPerPage=10");
             sb.append("&pageType=ticketing");
             sb.append("&onairYn=Y");
             sb.append("&specialYn=N");
@@ -83,7 +83,7 @@ public class MovieService {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
             StringBuilder sb = new StringBuilder();
             sb.append("currentPage=1");
-            sb.append("&recordCountPerPage=20");
+            sb.append("&recordCountPerPage=10");
             sb.append("&pageType=ticketing");
             sb.append("&onairYn=Y");
             sb.append("&specialYn=N");
