@@ -188,12 +188,7 @@
     });
 
     $('#btnCart${setMenu.gno}').on('click', function () {
-      if (${empty sessionScope.user}) {
-        let loginChoice = confirm('로그인 후 이용한 서비스 입니다. 로그인 하러 가시겠습니까?');
-        if (loginChoice) {
-          location.href = '/user/login';
-          return;
-        }
+      if(sessionCheck() ==='true'){
         return;
       }
       $.ajax({
@@ -221,9 +216,7 @@
     });
 
     </c:forEach>
-  });
 
-  $(document).ready(function () {
     <c:forEach var="popcorn" items="${popcornList}">
     $('#imgWrap${popcorn.gno}').on('mouseover', function () {
       <%--$('#imgWrap${setMenu.gno}').css('background', 'rgba(0,0,0,0.8)');--%>
@@ -237,12 +230,7 @@
       $('#btnWrap${popcorn.gno}').attr('hidden', true);
     });
     $('#btnCart${popcorn.gno}').on('click', function () {
-      if (${empty sessionScope.user}) {
-        let loginChoice = confirm('로그인 후 이용한 서비스 입니다. 로그인 하러 가시겠습니까?');
-        if (loginChoice) {
-          location.href = '/user/login';
-          return;
-        }
+      if(sessionCheck() ==='true'){
         return;
       }
       $.ajax({
@@ -269,9 +257,7 @@
       })
     });
     </c:forEach>
-  });
 
-  $(document).ready(function () {
     <c:forEach var="drink" items="${drinkList}">
     $('#imgWrap${drink.gno}').on('mouseover', function () {
       <%--$('#imgWrap${setMenu.gno}').css('background', 'rgba(0,0,0,0.8)');--%>
@@ -286,12 +272,7 @@
     });
 
     $('#btnCart${drink.gno}').on('click', function () {
-      if (${empty sessionScope.user}) {
-        let loginChoice = confirm('로그인 후 이용한 서비스 입니다. 로그인 하러 가시겠습니까?');
-        if (loginChoice) {
-          location.href = '/user/login';
-          return;
-        }
+      if(sessionCheck() ==='true'){
         return;
       }
       $.ajax({
@@ -319,6 +300,16 @@
     });
     </c:forEach>
   });
+
+  function sessionCheck(){ //세션이 없으면 컨펌창을 뛰우고 로그인하지 않겠다고 하면 return
+    if (${empty sessionScope.user}) {
+      let loginChoice = confirm('로그인 후 이용가능한 서비스 입니다. 로그인 하러 가시겠습니까?');
+      if (loginChoice) {
+        location.href = '/user/login?toUrl=/store/display';
+      }
+    }
+    return '${empty sessionScope.user}';
+  }
 </script>
 </body>
 </html>
