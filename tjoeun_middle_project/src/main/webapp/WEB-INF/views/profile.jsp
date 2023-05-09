@@ -43,49 +43,14 @@
                             </c:otherwise>
                         </c:choose>
                     </div>
-
-<%--                    <div class="rank" id="rank_name">--%>
-                        <%--                            <span style="width: 20%">Bronze</span>--%>
-                        <%--                            <span style="width: 40%">Silver</span>--%>
-                        <%--                            <span style="width: 60%">Gold</span>--%>
-                        <%--                            <span style="width: 80%">VIP</span>--%>
-                        <%--                            <span style="width: 100%">VVIP</span>--%>
-<%--                        <ul class="rank_ul">--%>
-<%--                            <li class="rank_li">--%>
-<%--                                <div style="width: 20%">Bronze</div>--%>
-<%--                            </li>--%>
-<%--                            <li class="rank_li">--%>
-<%--                                <div style="width: 40%">Silver</div>--%>
-<%--                            </li>--%>
-<%--                            <li class="rank_li">--%>
-<%--                                <div style="width: 60%">Gold</div>--%>
-<%--                            </li>--%>
-<%--                            <li class="rank_li">--%>
-<%--                                <div style="width: 80%">VIP</div>--%>
-<%--                            </li>--%>
-<%--                            <li class="rank_li">--%>
-<%--                                <div style="width: 100%">VVIP</div>--%>
-<%--                            </li>--%>
-<%--                        </ul>--%>
-<%--                    </div>--%>
                     <br>
                     <div class="progress" style="height: 30px">
                         <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: ${gage}; height: 30px"
                              aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
                             <h5 style="text-align: right; margin-right: 10px; margin-top: 7px; color: black">${rank}</h5>
-                            <%--                            <div class="rank">--%>
-                            <%--                                <ul>--%>
-                            <%--                                    <li>Bronze</li>--%>
-                            <%--                                    <li>Silver</li>--%>
-                            <%--                                    <li>Gold</li>--%>
-                            <%--                                    <li>VIP</li>--%>
-                            <%--                                    <li>VVIP</li>--%>
-                            <%--                                </ul>--%>
-                            <%--                            </div>--%>
                         </div>
                     </div>
                     <br>
-                    <%--                        <form>--%>
                     <div class="row">
                         <div class="col-6">
                             <div class="row">
@@ -103,7 +68,6 @@
                             </div>
                         </div>
                     </div>
-                    <%--                        </form>--%>
                 </div>
             </div>
         </div>
@@ -112,7 +76,7 @@
         </div>
     </div>
 </div>
-<ul class="nav nav-tabs justify-content-center mt-4" id="myTab" role="tablist">
+<ul class="nav nav-tabs justify-content-center mt-4 nav-fill" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="myInfo-tab" data-bs-toggle="tab" data-bs-target="#myInfo" type="button"
                 role="tab" aria-controls="myInfo" aria-selected="false">회원 정보
@@ -125,8 +89,8 @@
     </li>
 
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="futureTicket-tab" data-bs-toggle="tab" data-bs-target="#futureTicket" type="button"
-                role="tab" aria-controls="futureTicket" aria-selected="false">결제내역
+        <button class="nav-link" id="payHistory-tab" data-bs-toggle="tab" data-bs-target="#payHistory" type="button"
+                role="tab" aria-controls="payHistory" aria-selected="false">결제내역
         </button>
     </li>
 </ul>
@@ -269,7 +233,26 @@
         </div>
     </div>
 </div>
-
+<div class="container tab-content justify-content-center" id="myTapPayHistory">
+    <div class="container tab-pane fade text-left" id="payHistory" role="tabpanel" aria-labelledby="payHistory-tab">
+        <div class="container mt-3">
+            <div class="row">
+                <div class="col-12">
+                    <c:forEach var="ticket" items="${ticketHistory}">
+                        관람일:${ticket.dayInfo}<br>
+                        영화제목:${ticket.titleInfo}<br>
+                    </c:forEach>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-12">
+                    매점 히스토리 내역
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <%@include file="footer.jsp" %>
 <script>

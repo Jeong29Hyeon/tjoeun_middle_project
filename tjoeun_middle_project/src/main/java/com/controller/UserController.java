@@ -187,6 +187,9 @@ public class UserController {
             User user = (User) session.getAttribute("user");
             id = user.getId();
         }
+
+        model.addAttribute("ticketHistory",ticketService.selectById(id));
+
         int price = ticketService.sumPrice(id);
         if(price < 100000){
             model.addAttribute("sumPrice",ticketService.sumPrice(id));
