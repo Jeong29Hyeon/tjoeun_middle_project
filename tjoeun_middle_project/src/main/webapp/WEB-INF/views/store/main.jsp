@@ -9,68 +9,87 @@
 <html>
 <head>
     <title>Store</title>
+    <style>
+        a{
+            text-decoration-line: none;
+            color: black;
+        }
+    </style>
 </head>
 <body>
 <%@include file="../header.jsp" %>
 <div class="container mt-5"><h2>스토어</h2></div>
 <div class="container">
-    <ul class="nav nav-tabs nav-fill justify-content-center mt-4" id="goods" role="tablist">
-        <li class="nav-item active" role="presentation">
-            <button class="nav-link" id="setMenu-tab" data-bs-toggle="tab" data-bs-target="#setMenu" type="button"
+    <ul class="nav nav-tabs nav-fill justify-content-center mt-4" id="myTap" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="setMenu-tab" data-bs-toggle="tab" data-bs-target="#setMenu" type="button"
                     role="tab" aria-controls="setMenu" aria-selected="false">세트메뉴
             </button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="changeInfo-tab" data-bs-toggle="tab" data-bs-target="#changeInfo"
-                    type="button" role="tab" aria-controls="changeInfo" aria-selected="false">팝콘만
+            <button class="nav-link" id="popcorn-tab" data-bs-toggle="tab" data-bs-target="#popcorn"
+                    type="button" role="tab" aria-controls="popcorn" aria-selected="false">팝콘만
             </button>
         </li>
 
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="futureTicket-tab" data-bs-toggle="tab" data-bs-target="#futureTicket"
+            <button class="nav-link" id="drink-tab" data-bs-toggle="tab" data-bs-target="#drink"
                     type="button"
-                    role="tab" aria-controls="futureTicket" aria-selected="false">음료만
+                    role="tab" aria-controls="drink" aria-selected="false">음료만
             </button>
         </li>
     </ul>
-
-    <div class="container tab-content justify-content-center">
-        <div class="container tab-pane fade  text-center" id="setMenu" role="tabpanel" aria-labelledby="setMenu-tab">
+    <div class="container tab-content justify-content-center" id="myTapSetMenu">
+        <div class="container tab-pane fade show active text-center" id="setMenu" role="tabpanel" aria-labelledby="setMenu-tab">
             <div class="container mt-5">
-                <div class="row">
-                    <%--                    <c:forEach var="past" items="${pastTicketList}">--%>
-                    <div class="col-4">
-                        <div class="card text-black bg-light mb-3 mt-3" style=" max-width: 18rem;">
-                            <div class="card-header"></div>
-                            <div class="card-body">
-                                <h5 class="card-title">콤보</h5>
-                                <hr>
-                                <p class="card-text">
-                                <div class="row">
-                                    <div class="col-6">예약자성함</div>
-                                    <div class="col-6">${sessionScope.user.name}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">상영관</div>
-                                    <div class="col-6">asd</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">상영날짜</div>
-                                    <div class="col-6">ㅁㄴㅇ</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">상영시간</div>
-                                    <div class="col-6"> ㅁㄴㅇ</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">좌석</div>
-                                    <div class="col-6 mb-3"> ㅁㄴㅇ</div>
-                                </div>
-                            </div>
-                        </div>
+                <%--                    <c:forEach var="setmenu" items="${}">--%>
+                <div class="row">       <!-- 로우 하나에 상품 3개씩-->
+                    <div class="col-4"> <!-- a태그 네임 추가 -->
+                        <a href="/store/detail?name=" style="text-decoration-line: none; color: black">
+                            <img src="/resources/img/goods/setMenu1.jpg"/>
+                            <h5>응애 세트메뉴</h5><hr>
+                            <p>팝콘(M2) 음료(L2)
+                            <p>62,000원 <= <span style=" text-decoration: line-through; margin-left: 5px">65,000원</span>
+                        </a>
                     </div>
-                    <%--                    </c:forEach>--%>
                 </div>
+                    <%--                    </c:forEach>--%>
+            </div>
+        </div>
+    </div>
+    <div class="container tab-content justify-content-center" id="myTapPopcorn">
+        <div class="container tab-pane fade text-center" id="popcorn" role="tabpanel" aria-labelledby="popcorn-tab">
+            <div class="container mt-5">
+                <%--                    <c:forEach var="setmenu" items="${}">--%>
+                <div class="row">       <!-- 로우 하나에 상품 3개씩-->
+                    <div class="col-4">
+                        <a href="/store/detail?name=" style="text-decoration-line: none; color: black">
+                            <img src="/resources/img/goods/popcorn1.jpg"/>
+                            <h5>오리지날 팝콘</h5><hr>
+                            <p>오리지날 팝콘(M)
+                            <p>5,000원 <= <span style=" text-decoration: line-through; margin-left: 5px">6,000원</span>
+                        </a>
+                    </div>
+                </div>
+                <%--                    </c:forEach>--%>
+            </div>
+        </div>
+    </div>
+    <div class="container tab-content justify-content-center" id="myTapDrink">
+        <div class="container tab-pane fade text-center" id="drink" role="tabpanel" aria-labelledby="drink-tab">
+            <div class="container mt-5">
+                <%--                    <c:forEach var="setmenu" items="${}">--%>
+                <div class="row">       <!-- 로우 하나에 상품 3개씩-->
+                    <div class="col-4">
+                        <a href="/store/detail?name=" style="text-decoration-line: none; color: black">
+                            <img src="/resources/img/goods/drink1.jpg"/>
+                            <h5>탄산음료</h5><hr>
+                            <p>탄산음료(M)
+                            <p>2,000원 <= <span style=" text-decoration: line-through; margin-left: 5px">2,500원</span>
+                        </a>
+                    </div>
+                </div>
+                <%--                    </c:forEach>--%>
             </div>
         </div>
     </div>

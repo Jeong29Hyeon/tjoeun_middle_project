@@ -77,4 +77,8 @@ public class StoreController {
 
         return "redirect:/store/display";
     }
+    @GetMapping("/detail")
+    public String storeDetail(){
+        return "store/detail";
+    }
 }
