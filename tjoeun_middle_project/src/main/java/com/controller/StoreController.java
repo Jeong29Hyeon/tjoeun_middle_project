@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -83,5 +85,31 @@ public class StoreController {
         Goods goods = goodsService.getSelectGoods(gno);
         model.addAttribute("selectGoods",goods);
         return "store/detail";
+    }
+
+    @PostMapping("/cart")
+    public String cart(){
+        return "store/cart";
+    }
+
+    @PostMapping("/cart-add")
+    @ResponseBody
+    public String cartAdd(String gno, HttpSession session){
+        List<Goods> goodsList;
+        try {
+            Goods selectGoods = goodsService.getSelectGoods(gno);
+            if(session.getAttribute("cart")==null){
+                goodsList = new ArrayList<>();
+                goodsList.add(selectGoods);
+                session.setAttribute("cart",goodsList);
+            }else{
+                goodsList = (List<Goods>) session.getAttribute("cart");
+                goodsList.add(selectGoods);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
+        return "success";
     }
 }
