@@ -12,11 +12,11 @@
 <head>
     <title>profile</title>
     <style>
-        ul {
+        ul.rank_ul {
             list-style: none;
         }
 
-        li {
+        li.rank_li {
             float: left;
             margin-right: 70px;
             color: black;
@@ -43,34 +43,36 @@
                             </c:otherwise>
                         </c:choose>
                     </div>
-                    <div class="rank">
+
+<%--                    <div class="rank" id="rank_name">--%>
                         <%--                            <span style="width: 20%">Bronze</span>--%>
                         <%--                            <span style="width: 40%">Silver</span>--%>
                         <%--                            <span style="width: 60%">Gold</span>--%>
                         <%--                            <span style="width: 80%">VIP</span>--%>
                         <%--                            <span style="width: 100%">VVIP</span>--%>
-                        <ul>
-                            <li>
-                                <div style="width: 20%">Bronze</div>
-                            </li>
-                            <li>
-                                <div style="width: 40%">Silver</div>
-                            </li>
-                            <li>
-                                <div style="width: 60%">Gold</div>
-                            </li>
-                            <li>
-                                <div style="width: 80%">VIP</div>
-                            </li>
-                            <li>
-                                <div style="width: 100%">VVIP</div>
-                            </li>
-                        </ul>
-                    </div>
+<%--                        <ul class="rank_ul">--%>
+<%--                            <li class="rank_li">--%>
+<%--                                <div style="width: 20%">Bronze</div>--%>
+<%--                            </li>--%>
+<%--                            <li class="rank_li">--%>
+<%--                                <div style="width: 40%">Silver</div>--%>
+<%--                            </li>--%>
+<%--                            <li class="rank_li">--%>
+<%--                                <div style="width: 60%">Gold</div>--%>
+<%--                            </li>--%>
+<%--                            <li class="rank_li">--%>
+<%--                                <div style="width: 80%">VIP</div>--%>
+<%--                            </li>--%>
+<%--                            <li class="rank_li">--%>
+<%--                                <div style="width: 100%">VVIP</div>--%>
+<%--                            </li>--%>
+<%--                        </ul>--%>
+<%--                    </div>--%>
                     <br>
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: ${gage}"
+                    <div class="progress" style="height: 30px">
+                        <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: ${gage}; height: 30px"
                              aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                            <h5 style="text-align: right; margin-right: 10px; margin-top: 7px; color: black">${rank}</h5>
                             <%--                            <div class="rank">--%>
                             <%--                                <ul>--%>
                             <%--                                    <li>Bronze</li>--%>
@@ -124,7 +126,7 @@
 
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="futureTicket-tab" data-bs-toggle="tab" data-bs-target="#futureTicket" type="button"
-                role="tab" aria-controls="futureTicket" aria-selected="false">????
+                role="tab" aria-controls="futureTicket" aria-selected="false">결제내역
         </button>
     </li>
 </ul>
