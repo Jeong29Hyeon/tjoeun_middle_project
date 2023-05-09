@@ -90,9 +90,9 @@
             <div class="col">
                 <input type="text" id="timeInfo" name="timeInfo" value="" hidden>
             </div>
-            <dic class="col">
+            <div class="col">
                 <input type="text" id="ageInfo" name="ageInfo" value="" hidden>
-            </dic>
+            </div>
         </div>
     </div>
     <div class="container mt-5">

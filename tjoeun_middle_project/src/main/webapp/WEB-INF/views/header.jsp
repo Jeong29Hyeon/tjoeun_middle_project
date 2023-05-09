@@ -60,17 +60,17 @@
                     </li>
                     <li class="nav-item dropdown mb-3">
                         <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#movieTap" aria-controls="movieTap" aria-expanded="false"
+                                data-bs-target="#storeTap" aria-controls="storeTap" aria-expanded="false"
                                 aria-label="Toggle navigation">
-                            <span>영화</span>
+                            <span>스토어</span>
                         </button>
-                        <div class="navbar-collapse collapse show" id="movieTap" style="">
+                        <div class="navbar-collapse collapse show" id="storeTap" style="">
                             <ul class="navbar-nav me-auto mb-2">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">현재상영작</a>
+                                    <a class="nav-link" href="/store/display">매점</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">상영예정작</a>
+                                    <a class="nav-link" href="#">기프티콘</a>
                                 </li>
                             </ul>
                         </div>

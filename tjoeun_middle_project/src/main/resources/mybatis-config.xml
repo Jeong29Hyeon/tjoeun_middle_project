@@ -10,5 +10,6 @@
     <typeAlias type="com.dto.Ticket" alias="Ticket"/>
     <typeAlias type="com.dto.Review" alias="Review"/>
     <typeAlias type="com.dto.Like" alias="Like"/>
+    <typeAlias type="com.dto.Goods" alias="Goods"/>
   </typeAliases>
 </configuration>
