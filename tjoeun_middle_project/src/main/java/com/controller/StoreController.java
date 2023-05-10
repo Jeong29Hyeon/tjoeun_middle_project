@@ -118,4 +118,8 @@ public class StoreController {
         }
         return "success";
     }
+    @GetMapping("/purchase")
+    public String purchase(){
+        return "store/purchase";
+    }
 }

@@ -130,8 +130,31 @@
     $("#Purchase").on('click', function () {
         $('#priceInput').attr('disabled', false);
     });
+
     $("#basket").on('click', function () {
         $('#priceInput').attr('disabled', false);
+        $.ajax({
+            type:'post',
+            url:'/store/cart-add',
+            data:{
+                'gno':${selectGoods.gno}
+            },
+            success:function (result){
+                if(result==='quantityError'){
+                    alert("4개이상 추가할 수 없습니다.");
+                    return;
+                }
+                let choice = confirm(`장바구니에 추가되었습니다.
+                  확인하시겠습니까?`);
+                if(choice){
+                    // alert("구매하기로 가야함")
+                    location.href = "/store/cart"
+                }
+            },
+            error:function (){
+                alert("카트에 아이템 추가 비통신에러");
+            }
+        })
     });
 </script>
 </body>

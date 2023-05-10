@@ -43,6 +43,7 @@
                         <option ${goodsList.value.quantity == 3 ? 'selected':''}>3</option>
                         <option ${goodsList.value.quantity == 4 ? 'selected':''}>4</option>
                     </select>
+
                 </div>
                 <div class="col-2 d-flex justify-content-center align-items-center">
                     <input type="text" class="form-control-plaintext mx-auto" style="width:78px" id="eachPrice${goodsList.value.gno}"
@@ -54,6 +55,9 @@
             </li>
             <hr/>
         </c:forEach>
+        <div>
+            <button type="button" id="purchase" class="btn btn-primary">구매하기</button>
+        </div>
     </ul>
 </div>
 <script>
@@ -72,7 +76,14 @@
             $('#eachPrice${goodsList.value.gno}').attr('value',
                 (price * quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
         });
+
+
         </c:forEach>
+
+        $("#purchase").on('click', function () {
+
+            location.href = "/store/purchase"
+        });
     });
 </script>
 <%@include file="../footer.jsp" %>
