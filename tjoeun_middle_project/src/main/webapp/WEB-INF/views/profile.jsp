@@ -25,6 +25,7 @@
 </head>
 <body>
 <%@include file="header.jsp" %>
+${couponList.get(0).goods.price}
 <div class="container mt-5">
     <div class="row" style="border: 1px black">
         <div class="col-8">

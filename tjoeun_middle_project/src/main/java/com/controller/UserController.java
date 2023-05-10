@@ -1,6 +1,7 @@
 package com.controller;
 
 import com.dto.User;
+import com.service.CouponService;
 import com.service.TicketService;
 import com.service.UserService;
 
@@ -28,11 +29,15 @@ public class UserController {
     UserService userService;
     TicketService ticketService;
 
+    CouponService couponService;
+
     @Autowired
-    public UserController(UserService userService, TicketService ticketService) {
+    public UserController(UserService userService, TicketService ticketService, CouponService couponService) {
         this.userService = userService;
         this.ticketService = ticketService;
+        this.couponService = couponService;
     }
+
 
     @GetMapping("/join")
     public String register() {
@@ -186,6 +191,9 @@ public class UserController {
         }else{
             User user = (User) session.getAttribute("user");
             id = user.getId();
+            System.out.println("couponService.selectAllById(id).get(0).getGoods().getPrice() = " + couponService.selectAllById(id).get(0).getGoods().getPrice());
+            model.addAttribute("couponList",couponService.selectAllById(id));
+
         }
 
         model.addAttribute("ticketHistory",ticketService.selectById(id));
