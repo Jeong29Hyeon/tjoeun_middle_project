@@ -357,6 +357,12 @@
             }
         })
     })
+    $('#myInfo-tab').on('click',function (){
+        $('#infoForm').attr('hidden', true);
+    })
+    $('#payHistory-tab').on('click',function (){
+        $('#infoForm').attr('hidden', true);
+    })
 </script>
 </body>
 </html>

@@ -49,7 +49,9 @@
                            value="${goods.value.price * goods.value.quantity}원">
                 </div>
                 <div class="col-2 d-flex justify-content-center align-items-center">
-                    <button class="btn btn-sm btn-outline-secondary">X</button>
+                    <button class="btn btn-default">
+                        <i class="fa-regular fa-circle-xmark fa-2xl"></i>
+                    </button>
                 </div>
             </li>
             <hr/>
