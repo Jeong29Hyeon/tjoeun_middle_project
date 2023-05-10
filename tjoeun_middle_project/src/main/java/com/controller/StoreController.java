@@ -50,8 +50,7 @@ public class StoreController {
     }
 
     @PostMapping("/insert-goods")
-    public String insertGoods(@RequestParam("image")MultipartFile file, Goods goods,
-        HttpServletRequest request){
+    public String insertGoods(@RequestParam("image")MultipartFile file, Goods goods){
         try{
             String uploadPath = "C:\\Users\\USER\\Documents\\github\\tjoeun_middle_project\\tjoeun_middle_project\\src\\main\\webapp\\resources\\img\\goods";
             System.out.println("uploadPath = " + uploadPath);
