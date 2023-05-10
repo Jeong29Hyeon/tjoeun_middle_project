@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>Title</title>
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 </head>
 <body>
 <%@include file="../header.jsp" %>
@@ -25,37 +26,101 @@
 </div>
 <div class="container w-75 text-center">
     <ul class="container-fluid" style="list-style: none">
-        <c:forEach var="goodsList" items="${sessionScope.cart}">
+        <c:forEach var="goods" items="${sessionScope.cart}">
             <li class="row my-4">
                 <div class="col-2">
-                    <img src="${goodsList.value.uploadPath}/${goodsList.value.fileName}"
+                    <img src="${goods.value.uploadPath}/${goods.value.fileName}"
                          alt="" class=" rounded mx-auto d-block" style="height: 170px">
                 </div>
                 <div class="col-2 d-flex justify-content-center align-items-center">
-                        ${goodsList.value.name}
+                        ${goods.value.name}
                 </div>
-                <div id="salePrice${goodsList.value.gno}"
+                <div id="salePrice${goods.value.gno}"
                      class="col-2 d-flex justify-content-center align-items-center">
-                        ${goodsList.value.price}원
+                        ${goods.value.price}원
                 </div>
                 <div class="col-2 d-flex justify-content-center align-items-center">
-                        ${goodsList.value.quantity}
+                        <p id="quantity${goods.value.gno}" >${goods.value.quantity}
                 </div>
                 <div class="col-2 d-flex justify-content-center align-items-center">
                     <input type="text" class="form-control-plaintext mx-auto" style="width:78px"
-                           id="eachPrice${goodsList.value.gno}"
-                           value="${goodsList.value.price * goodsList.value.quantity}원">
+                           id="eachPrice${goods.value.gno}"
+                           value="${goods.value.price * goods.value.quantity}원">
                 </div>
                 <div class="col-2 d-flex justify-content-center align-items-center">
                 </div>
             </li>
             <hr/>
         </c:forEach>
+        <div class="d-flex justify-content-center gap-3">
+            <h4 class="display-4">총 결제 예정금액 : <span id="totalAmount">300</span></h4>
+        </div>
         <div>
-            총 결제 예정금액
+            <button id="btnPurchase" class="btn btn-primary">결제하기</button>
         </div>
     </ul>
 </div>
 <%@include file="../footer.jsp" %>
+<script>
+    let totalPrice = 0;
+    <c:forEach var="goods" items="${sessionScope.cart}">
+        totalPrice += ${goods.value.price * goods.value.quantity};
+            $('#salePrice${goods.value.gno}').text('${goods.value.price}'.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+            var price = ${goods.value.price};
+            var quantity = Number($("#quantity${goods.value.gno}").text());
+            $('#eachPrice${goods.value.gno}').attr('value',
+            (price * quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+            $("#selectNum${goods.value.gno}").on('click', function () {
+            var price = ${goods.value.price};
+            var quantity = Number($("#quantity${goods.value.gno}").text());
+            $('#eachPrice${goods.value.gno}').attr('value',
+            (price * quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+            });
+    </c:forEach>
+    $('#totalAmount').text(totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+'원');
+
+    $('#btnPurchase').on('click',function (){
+        if(sessionCheck() ==='true'){
+            return;
+        }
+        var IMP = window.IMP;
+        IMP.init('imp11028147');
+        IMP.request_pay({
+            pg: 'kakaopay',
+            merchant_uid: 'merchant_' + new Date().getTime(),
+            name: '더조은 시네마 - 매점결제',
+            amount: totalPrice,
+        }, function (rsp) {
+            console.log(rsp);
+            if (rsp.success) {
+                $.ajax({
+                    type:'post',
+                    url:'/store/purchase',
+                    success:function (result){
+                        alert(result);
+                    },
+                    error:function (){
+                      alert("쿠폰 생성 비동기 통신 에러");
+                    }
+                });
+                // msg += '고유ID : ' + rsp.imp_uid;
+                // msg += '상점 거래ID : ' + rsp.merchant_uid;
+                // msg += '결제 금액 : ' + rsp.paid_amount;
+            } else {
+                alert(rsp.error_msg);
+                location.reload();
+            }
+        });
+    });
+    function sessionCheck(){ //세션이 없으면 컨펌창을 뛰우고 로그인하지 않겠다고 하면 return
+        if (${empty sessionScope.user}) {
+            let loginChoice = confirm('로그인 후 이용가능한 서비스 입니다. 로그인 하러 가시겠습니까?');
+            if (loginChoice) {
+                location.href = '/user/login?toUrl=/store/display';
+            }
+        }
+        return '${empty sessionScope.user}';
+    }
+</script>
 </body>
 </html>

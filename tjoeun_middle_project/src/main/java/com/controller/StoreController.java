@@ -1,10 +1,11 @@
 package com.controller;
 
 import com.dto.Goods;
+import com.dto.User;
+import com.service.CouponService;
 import com.service.GoodsService;
 import java.io.File;
 import java.util.*;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,15 @@ import org.springframework.web.multipart.MultipartFile;
 public class StoreController {
 
     GoodsService goodsService;
+
+    CouponService couponService;
     @Autowired
-    public StoreController(GoodsService goodsService) {
+    public StoreController(GoodsService goodsService, CouponService couponService) {
         this.goodsService = goodsService;
+        this.couponService = couponService;
     }
+
+    @Autowired
 
     @GetMapping("/main")
     public String storeMain(){
@@ -89,6 +95,14 @@ public class StoreController {
         return "store/cart";
     }
 
+    @PostMapping("/cart-quantity-change")
+    @ResponseBody
+    public String quantityChange(String gno, Integer quantity, HttpSession session){
+        Map<String,Goods> goodsList = (Map<String, Goods>) session.getAttribute("cart");
+        goodsList.get(gno).setQuantity(quantity);
+        return "success";
+    }
+
     @PostMapping("/cart-add")
     @ResponseBody
     public String cartAdd(String gno, HttpSession session){
@@ -120,5 +134,23 @@ public class StoreController {
     @GetMapping("/purchase")
     public String purchase(){
         return "store/purchase";
+    }
+
+    @PostMapping("/purchase")
+    @ResponseBody
+    public String purchasePost(HttpSession session){
+        Map<String,Goods> cart = (Map<String, Goods>) session.getAttribute("cart");
+        User user = (User) session.getAttribute("user");
+        for(Goods goods : cart.values()){
+            for(int i =0; i < goods.getQuantity(); i++){
+                try {
+                    couponService.insertCoupon(goods,user.getId());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return "fail";
+                }
+            }
+        }
+        return "success";
     }
 }
