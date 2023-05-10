@@ -22,7 +22,17 @@
 </head>
 <body>
 <%@include file="../header.jsp" %>
-<div class="container mt-5"><h2>스토어</h2></div>
+<div class="container mt-5">
+    <h2>스토어</h2>
+    <div class="text-end">
+    <c:if test="${not empty sessionScope.user}">
+    <a href="<c:url value="/store/cart"/>">
+        <button id="goCart" class="navbar-toggler collapsed" >
+            <span>장바구니 <span id="cartSize" class="badge rounded-pill bg-danger">${empty sessionScope.cart ? '0' : sessionScope.cart.size()}</span></span>
+        </button></a>
+    </c:if>
+    </div>
+</div>
 <div class="container">
     <ul class="nav nav-tabs nav-fill justify-content-center mt-4" id="myTap" role="tablist">
         <li class="nav-item" role="presentation">
@@ -62,12 +72,9 @@
                                     <span id="btnWrap${setMenu.gno}"
                                           class="position-absolute top-50 start-50 translate-middle text-center"
                                           hidden>
-                                    <a href="#">
+
                                     <button id="btnCart${setMenu.gno}" type="button"
-                                            class="btn btn-sm btn-light mb-md-2">장바구니</button></a>
-                                    <a href="#">
-                                    <button id="btnBuy${setMenu.gno}" type="button"
-                                            class="btn btn-sm btn-danger">구매하기</button></a>
+                                            class="btn btn-sm btn-danger mb-md-2">추가하기</button>
                                     </span>
                                 </span>
                             <h5>${setMenu.name}</h5>
@@ -102,10 +109,8 @@
                                           hidden>
                                     <a href="#">
                                     <button id="btnCart${popcorn.gno}" type="button"
-                                            class="btn btn-sm btn-light mb-md-2">장바구니</button></a>
-                                    <a href="#">
-                                    <button id="btnBuy${popcorn.gno}" type="button"
-                                            class="btn btn-sm btn-danger">구매하기</button></a>
+                                            class="btn btn-sm btn-danger mb-md-2">추가하기</button></a>
+
                                     </span>
                                 </span>
                             <a href="/store/detail?gno=${popcorn.gno}"
@@ -141,10 +146,8 @@
                                           hidden>
                                     <a href="#">
                                     <button id="btnCart${drink.gno}" type="button"
-                                            class="btn btn-sm btn-light mb-md-2">장바구니</button></a>
-                                    <a href="#">
-                                    <button id="btnBuy${drink.gno}" type="button"
-                                            class="btn btn-sm btn-danger">구매하기</button></a>
+                                            class="btn btn-sm btn-danger mb-md-2">추가하기</button></a>
+
                                     </span>
                                 </span>
                             <a href="/store/detail?gno=${drink.gno}"
@@ -190,6 +193,9 @@
                     'gno':${setMenu.gno}
                 },
                 success: function (result) {
+                    $('#cartSize').load(location.href+' #cartSize');
+                    $('#headerCartSize').load(location.href+' #headerCartSize');
+
                     if (result === 'quantityError') {
                         alert("4개이상 추가할 수 없습니다.");
                         return;
@@ -232,6 +238,8 @@
                     'gno':${popcorn.gno}
                 },
                 success: function (result) {
+                    $('#cartSize').load(location.href+' #cartSize');
+                    $('#headerCartSize').load(location.href+' #headerCartSize');
                     if (result === 'quantityError') {
                         alert("4개이상 추가할 수 없습니다.");
                         return;
@@ -242,6 +250,7 @@
                         // alert("구매하기로 가야함")
                         location.href = "/store/cart"
                     }
+
                 },
                 error: function () {
                     alert("카트에 아이템 추가 비통신에러");
@@ -274,6 +283,8 @@
                     'gno':${drink.gno}
                 },
                 success: function (result) {
+                    $('#cartSize').load(location.href+' #cartSize');
+                    $('#headerCartSize').load(location.href+' #headerCartSize');
                     if (result === 'quantityError') {
                         alert("4개이상 추가할 수 없습니다.");
                         return;
@@ -284,6 +295,7 @@
                         // alert("구매하기로 가야함")
                         location.href = "/store/cart"
                     }
+
                 },
                 error: function () {
                     alert("카트에 아이템 추가 비통신에러");

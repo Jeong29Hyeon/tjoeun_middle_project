@@ -13,7 +13,31 @@
 </head>
 <body>
 <%@include file="../header.jsp" %>
-결제창 테스트
+<div class="container w-75 my-4">
+    <hr>
+    <div class="row text-center">
+        <div class="col  text-muted " >
+            <p>step0
+            <p><h1>장바구니</h1>
+        </div>
+        <div class="col d-flex align-items-center justify-content-center">
+            <i class="fa-solid fa-circle-arrow-right fa-2xl"></i>
+        </div>
+        <div class="col"style="color:#ff544a">
+            <p>step1
+            <p><h1>구매하기</h1>
+
+        </div>
+        <div class="col d-flex align-items-center justify-content-center">
+            <i class="fa-solid fa-circle-arrow-right fa-2xl"></i>
+        </div>
+        <div class="col text-muted">
+            <p>step2
+            <p><h1>결제완료</h1>
+        </div>
+    </div>
+    <hr>
+</div>
 <div class="container w-75 text-center mb-4">
     <div class="row">
         <p class="col-2">
@@ -97,7 +121,8 @@
                     type:'post',
                     url:'/store/purchase',
                     success:function (result){
-                        alert(result);
+                        alert("결제끘~");
+                        location.href = "/store/purchase-complete";
                     },
                     error:function (){
                       alert("쿠폰 생성 비동기 통신 에러");

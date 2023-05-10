@@ -47,12 +47,7 @@
                                 <option>4</option>
                             </select>
                         </div>
-                        <div class="col-6">
-                            <input type="text" class="form-control-plaintext" id="priceInput"
-                                   value="${selectGoods.price * selectGoods.quantity}" style="text-align: end" disabled>
-                        </div>
                     </div>
-                    장바구니랑 구매하기 추가해주삼
                     <div class="container mt-5">
                         <div class="d-flex justify-content-center gap-3">
                             <div>
@@ -148,7 +143,27 @@
     });
 
     $("#btnPurchase").on('click', function () {
-        $('#priceInput').attr('disabled', false);
+        if(sessionCheck() ==='true'){
+            return;
+        }
+        $.ajax({
+            type: 'post',
+            url: '/store/cart-add',
+            data: {
+                'gno':${selectGoods.gno}
+            },
+            success: function (result) {
+                // $('#priceInput').attr('disabled', false);
+                if (result === 'quantityError') {
+                    alert("4개이상 추가할 수 없습니다.");
+                    return;
+                }
+                    location.href = "/store/cart"
+            },
+            error: function () {
+                alert("카트에 아이템 추가 비통신에러");
+            }
+        })
     });
 
     $("#btnCart").on('click', function () {
