@@ -82,7 +82,7 @@
                 <div class="row">
                     댓글 (${reviewList.size()})
                 </div>
-                <c:forEach var="review" items="${reviewList}">
+                <c:forEach var="review" items="${reviewList}" varStatus="status">
                     <div class="row g-3 my-2">
                         <div hidden>${review.rno}</div>
                         <div class="col-md-2">
@@ -110,11 +110,10 @@
                                         class="btn btn-outline-danger text-decoration-none" ${sessionScope.user.id eq review.id ? '' : 'hidden'}
                                 >삭제
                                 </button>
-                                <p id="likecount${review.rno}">  ${review.likeCount}</p>
                             </div>
                             <button type="button" id="likebtn${review.rno}"
-                                    class="btn btn-outline-danger text-decoration-none"${sessionScope.user.id eq review.id ? 'hidden' : ''} >♥</button>
-
+                                    class="btn btn-outline-danger text-decoration-none"${sessionScope.user.id eq review.id ? 'disabled' : ''} >
+                                <i  class="fa-regular fa-heart"><p style="font-size: 10px" id="likeCount${review.rno}">${review.likeCount}</p></i></button>
                             <input type="hidden" id="likecheck${review.rno}" value="${review.likeCount}">
                         </div>
 
@@ -128,6 +127,7 @@
     </div>
     <div class="tab-pane fade text-center" id="stillcut" role="tabpanel" aria-labelledby="stillcut-tab"> 스틸컷 가져와서
         넣자
+
     </div>
 
 </c:if>
@@ -139,10 +139,10 @@
             $('#reviewContent').focus();
             return;
         }
-        if (${empty sessionScope.user}) {
-            alert("로그인을 먼저 해주세요.");
+        if (sessionCheck() === 'true') {
             return;
         }
+
         $.ajax({
             url: '<c:url value="/review/write"/>',
             type: 'POST',
@@ -225,7 +225,21 @@
     });
     </c:forEach>
 
-    <c:forEach var="review" items="${reviewList}">
+    <c:forEach var="review" items="${reviewList}" varStatus="status">
+    $('document').ready(function (){
+        console.log("test");
+        console.log(${likeList[status.index].rno});
+        <%--alert(${like.rno == review.rno});--%>
+        <%--if () {--%>
+        <%--    console.log("좋아요 취소");--%>
+        <%--    $('#likebtn${review.rno}').attr('disabled', 'true');--%>
+        <%--} else if (count == 0) {--%>
+        <%--    console.log("좋아요!");--%>
+        <%--    $('#likebtn${review.rno}').attr('disabled', 'false');--%>
+
+        <%--}--%>
+    });
+
     $('#likebtn${review.rno}').click(function () {
         // var root = getContextPath(),
         //     likeurl = "/like/update",
@@ -239,21 +253,8 @@
                 'id': '${review.id}'
             },
             success: function (result) {
-                $('#likecheck${review.rno}').val(1);
+                $('#likeCount${review.rno}').load(location.href+" #likeCount${review.rno}")
 
-                let i = $('#likecount${review.rno}').text()
-                $('#likecount${review.rno}').html(parseInt(i)+1)
-                $('#likebtn${review.rno}').attr('hidden',true)
-                // location.reload();
-                <%--if (count == 1) {--%>
-                <%--    console.log("좋아요 취소");--%>
-                <%--    $('#likecheck${review.rno}').val(0);--%>
-                <%--    $('#likebtn${review.rno}').attr('class', 'btn btn-light');--%>
-                <%--} else if (count == 0) {--%>
-                <%--    console.log("좋아요!");--%>
-                <%--    $('#likecheck${review.rno}').val(1);--%>
-                <%--    $('#likebtn${review.rno}').attr('class', 'btn btn-danger');--%>
-                <%--}--%>
             }, error: function (result) {
                 console.log("에러" + result.result)
             }
@@ -267,6 +268,15 @@
     function getContextPath() {
         var hostIndex = location.href.indexOf(location.host) + location.host.length;
         return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
+    }
+    function sessionCheck() { //세션이 없으면 컨펌창을 뛰우고 로그인하지 않겠다고 하면 return
+        if (${empty sessionScope.user}) {
+            let loginChoice = confirm('로그인 후 이용가능한 서비스 입니다. 로그인 하러 가시겠습니까?');
+            if (loginChoice) {
+                location.href = '/user/login?toUrl=/movies/detail-view?seq=${movie.seq}';
+            }
+        }
+        return '${empty sessionScope.user}';
     }
 </script>
 </body>

@@ -12,7 +12,8 @@ public interface ReviewMapper {
     int updateReview(Review reviewDto);
 
     int deleteReview(Integer rno);
-    void likeupdate(Review review);
+    void likeadd(Review review);
+    void likesub(Review review);
     int likegetinfo(Review review);
     List<Review> selectAllBySeq(String seq);
 //    int selectAll();

@@ -31,7 +31,10 @@
     select like from Review where rno=#{rno} and id=#{id}
   </select>
 
-  <update id="likeupdate" parameterType="Review">
+  <update id="likeadd" parameterType="Review">
     update Review set likecount = likecount + 1 where rno=#{rno} and id=#{id}
+  </update>
+  <update id="likesub" parameterType="Review">
+    update Review set likecount = likecount - 1 where rno=#{rno} and id=#{id}
   </update>
 </mapper>

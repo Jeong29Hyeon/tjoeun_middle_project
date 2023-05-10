@@ -5,25 +5,23 @@
 <mapper namespace="com.mapper.LikeMapper">
 
 
-    <select id="ltlikecount" resultType="Integer" parameterType="Like">
-        select count(ltlike) from likehit where reviewno=#{reviewno} and userid=#{userid}
+    <select id="likeselect" resultType="Like" parameterType="Review">
+        select * from likehit where rno=#{rno} and id=#{id}
     </select>
 
-    <insert id="likeinsert" parameterType="Like">
-        insert into likehit(reviewno,userid)
-        values (#{reviewno},#{userid})
+    <select id="selectAllBySeq" resultType="Like" parameterType="String">
+        select * from likehit
+    </select>
+    <insert id="likeinsert" parameterType="Review">
+        insert into likehit(rno,id,seq)
+        values (#{rno},#{id},#{seq})
     </insert>
 
-    <select id="ltlikegetinfo" resultType="Integer" parameterType="Like">
-        select ltlike from likehit where reviewno=#{reviewno} and userid=#{userid}
-    </select>
+    <delete id="likedelete" parameterType="Review">
+        delete from likehit where rno=#{rno} and id=#{id}
+    </delete>
 
-    <update id="likeupdate" parameterType="Like">
-        update likehit set ltlike = ltlike + 1 where reviewno=#{reviewno} and userid=#{userid}
-    </update>
-    <sql id="cal">
-        ltlike = ltlike + 1
-    </sql>
+
     <!--    <sql id="cal">-->
     <!--        <if test="count == 1">-->
     <!--            ltlike = 0-->

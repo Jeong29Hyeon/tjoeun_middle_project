@@ -1,13 +1,18 @@
 package com.mapper;
 
 import com.dto.Like;
+import com.dto.Review;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 @Mapper
 public interface LikeMapper {
     //좋아요 dto만들고 매퍼 추가
-    int ltlikecount(Like like);
-    int ltlikegetinfo(Like like);
-    int likeinsert(Like like);
-    int likeupdate(Like like);
+    Like likeselect(Review review);
+    int ltlikegetinfo(Review review);
+    int likeinsert(Review review);
+    int likedelete(Review review);
+
+    List<Like> selectAllBySeq(String seq);
 }

@@ -2,6 +2,7 @@ package com.controller;
 
 import com.dto.Like;
 import com.dto.Review;
+import com.service.LikeService;
 import com.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,10 +17,14 @@ import java.util.Map;
 @Controller
 public class ReviewController {
     ReviewService reviewService;
+    LikeService likeService;
+
     @Autowired
-    public ReviewController(ReviewService reviewService) {
+    public ReviewController(ReviewService reviewService, LikeService likeService) {
         this.reviewService = reviewService;
+        this.likeService = likeService;
     }
+
 
     @PostMapping("/write")
     @ResponseBody
@@ -61,9 +66,18 @@ public class ReviewController {
     public Map<String,String> likeupdate(Review review){
 //        logger.info("likeupdate");    //이게머임??
         Map<String,String> map = new HashMap<>();
-
+        Like temp;
         try {
-            reviewService.likeupdate(review);
+            temp = likeService.likeselect(review);
+            if(temp == null){
+                int result = likeService.likeinsert(review);
+                reviewService.likeadd(review);
+            }else {
+                likeService.likedelete(review);
+                reviewService.likesub(review);
+            }
+
+
             map.put("result", "success");
 
         }catch(Exception e) {
@@ -73,5 +87,6 @@ public class ReviewController {
 
         return map;
     }
+
 
 }
