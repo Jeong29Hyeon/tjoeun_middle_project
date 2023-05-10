@@ -75,6 +75,14 @@
                             </ul>
                         </div>
                     </li>
+                    <c:if test="${not empty sessionScope.user}">
+                    <li>
+                    <a href="<c:url value="/store/cart"/>">
+                        <button id="goCart" class="navbar-toggler collapsed" >
+                        <span>장바구니 <span id="headerCartSize" class="badge rounded-pill bg-danger">${empty sessionScope.cart ? '0' : sessionScope.cart.size()}</span></span>
+                    </button></a>
+                    </li>
+                    </c:if>
                 </ul>
             </div>
             <c:set var="joinOrNotLink" value="${sessionScope.user.id==null ? '/user/join' : ''}"/>
@@ -104,6 +112,7 @@
                         <c:when test="${not empty sessionScope.user}">
                             <li><a class="dropdown-item" href="${profileLink}">${profile}</a></li>
                             <li><a class="dropdown-item" href="${Reservation}">${ReservationInfo}</a></li>
+                            <li><a class="dropdown-item" href="/user/couponRoom">Coupon</a></li>
                         </c:when>
                     </c:choose>
                     <li>

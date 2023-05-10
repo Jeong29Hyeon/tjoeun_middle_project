@@ -1,12 +1,12 @@
 package com.controller;
 
+import com.dto.Coupon;
 import com.dto.User;
+import com.service.CouponService;
 import com.service.TicketService;
 import com.service.UserService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,11 +28,15 @@ public class UserController {
     UserService userService;
     TicketService ticketService;
 
+    CouponService couponService;
+
     @Autowired
-    public UserController(UserService userService, TicketService ticketService) {
+    public UserController(UserService userService, TicketService ticketService, CouponService couponService) {
         this.userService = userService;
         this.ticketService = ticketService;
+        this.couponService = couponService;
     }
+
 
     @GetMapping("/join")
     public String register() {
@@ -84,7 +88,7 @@ public class UserController {
             ra.addFlashAttribute("msg", user.getName() + "님 환영합니다!");
         } catch (Exception e) {
             ra.addFlashAttribute("msg", "ID/PW가 일치하지 않습니다.");
-            return "redirect:/user/login?toUrl="+toUrl;
+            return "redirect:/user/login?toUrl=" + toUrl;
         }
         Cookie cookie = new Cookie("id", id);
         if (saveId) {
@@ -139,7 +143,7 @@ public class UserController {
     }
 
     @GetMapping("/kakaoLogout")
-    public String kakaoLogout(HttpSession session){
+    public String kakaoLogout(HttpSession session) {
         session.invalidate();
         return "redirect:/";
     }
@@ -168,71 +172,103 @@ public class UserController {
     }
 
     @PostMapping("/searchIdPw")
-    public String searchIdPw(User user, Model model, RedirectAttributes ra ,HttpServletRequest request) {
-        if(userService.searchIdPw(user) == null){
-            ra.addFlashAttribute("msg","정보가 불일치 합니다.");
+    public String searchIdPw(User user, Model model, RedirectAttributes ra, HttpServletRequest request) {
+        if (userService.searchIdPw(user) == null) {
+            ra.addFlashAttribute("msg", "정보가 불일치 합니다.");
             return "redirect:/user/searchIdPw";
         }
         User searchUser = userService.searchIdPw(user);
-        model.addAttribute("user",searchUser);
+        model.addAttribute("user", searchUser);
         return "/searchIdPw";
     }
+
     @GetMapping("/profile")
-    public String profile(HttpSession session, Model model){
+    public String profile(HttpSession session, Model model) {
         String id = "";
-        if(session.getAttribute("accessToken")!=null){
+        if (session.getAttribute("accessToken") != null) {
             Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
             id = (String) user.get("id");
-        }else{
+        } else {
             User user = (User) session.getAttribute("user");
             id = user.getId();
+            System.out.println("couponService.selectAllById(id).get(0).getGoods().getPrice() = " + couponService.selectAllById(id).get(0).getGoods().getPrice());
+            model.addAttribute("couponList", couponService.selectAllById(id));
         }
 
-        model.addAttribute("ticketHistory",ticketService.selectById(id));
+        model.addAttribute("ticketHistory", ticketService.selectById(id));
 
         int price = ticketService.sumPrice(id);
-        if(price < 100000){
-            model.addAttribute("sumPrice",ticketService.sumPrice(id));
+        if (price < 100000) {
+            model.addAttribute("sumPrice", ticketService.sumPrice(id));
             model.addAttribute("rank", "BRONZE");
-            model.addAttribute("nextRank",100000-price);
-            model.addAttribute("gage","20%");
+            model.addAttribute("nextRank", 100000 - price);
+            model.addAttribute("gage", "20%");
             return "/profile";
-        }else if(price < 200000){
-            model.addAttribute("sumPrice",ticketService.sumPrice(id));
+        } else if (price < 200000) {
+            model.addAttribute("sumPrice", ticketService.sumPrice(id));
             model.addAttribute("rank", "SILVER");
-            model.addAttribute("nextRank",200000-price);
-            model.addAttribute("gage","40%");
+            model.addAttribute("nextRank", 200000 - price);
+            model.addAttribute("gage", "40%");
             return "/profile";
-        }else if(price < 300000){
-            model.addAttribute("sumPrice",ticketService.sumPrice(id));
+        } else if (price < 300000) {
+            model.addAttribute("sumPrice", ticketService.sumPrice(id));
             model.addAttribute("rank", "GOLD");
-            model.addAttribute("nextRank",300000-price);
-            model.addAttribute("gage","60%");
+            model.addAttribute("nextRank", 300000 - price);
+            model.addAttribute("gage", "60%");
             return "/profile";
-        }else if(price < 400000){
-            model.addAttribute("sumPrice",ticketService.sumPrice(id));
+        } else if (price < 400000) {
+            model.addAttribute("sumPrice", ticketService.sumPrice(id));
             model.addAttribute("rank", "VIP");
-            model.addAttribute("nextRank",400000-price);
-            model.addAttribute("gage","80%");
+            model.addAttribute("nextRank", 400000 - price);
+            model.addAttribute("gage", "80%");
             return "/profile";
-        }else{
-            model.addAttribute("sumPrice",ticketService.sumPrice(id));
+        } else {
+            model.addAttribute("sumPrice", ticketService.sumPrice(id));
             model.addAttribute("rank", "VVIP");
-            model.addAttribute("nextRank",-1);
-            model.addAttribute("gage","100%");
+            model.addAttribute("nextRank", -1);
+            model.addAttribute("gage", "100%");
             return "/profile";
         }
     }
+
     @PostMapping("/updateInfo")
     @ResponseBody
-    public String updateInfo(User newUser, HttpSession session){
+    public String updateInfo(User newUser, HttpSession session) {
         try {
             userService.updateInfo(newUser);
-            session.setAttribute("user",newUser);
-        }catch (Exception e){
+            session.setAttribute("user", newUser);
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return "fail";
         }
         return "success";
+    }
+
+    @GetMapping("/couponRoom")
+    public String couponRoom(Model model, HttpSession session) {
+        Date now = new Date();
+        Date coupon;
+        User user = (User) session.getAttribute("user");
+        List<Coupon> list = couponService.selectAllById(user.getId());
+        List<Coupon> useCoupon = new ArrayList<>();
+        List<Coupon> ableCoupon = new ArrayList<>();
+        try {
+            for (int i = 0; i < list.size(); i++) {
+                coupon = list.get(i).getExpireDate();
+                if (coupon.after(now)) {
+                    System.out.println(i + " after: " + coupon);
+                    useCoupon.add(list.get(i));
+                } else {
+                    System.out.println(i + " before: " + coupon);
+                    ableCoupon.add(list.get(i));
+                }
+            }
+            model.addAttribute("falseCoupon", useCoupon);
+            model.addAttribute("trueCoupon", ableCoupon);
+            return "store/couponRoom";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "store/couponRoom";
     }
 }

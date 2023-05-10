@@ -41,31 +41,31 @@
                         <div class="col-6">
                             수량 / 금액
                             <select id="num" class="form-select-sm" style="width: 50px; margin-left: 10px">
-                                <option>0</option>
                                 <option>1</option>
                                 <option>2</option>
                                 <option>3</option>
                                 <option>4</option>
                             </select>
                         </div>
-                        <div class="col-6">
-                            <input type="text" class="form-control-plaintext" id="priceInput"
-                                   value="" style="text-align: end" disabled>
-                        </div>
                     </div>
-                    장바구니랑 구매하기 추가해주삼
                     <div class="container mt-5">
                         <div class="d-flex justify-content-center gap-3">
                             <div>
                                 <a href="<c:url value="javascript:history.back();"/>">
-                                    <button type="button" class="btn btn-primary">뒤로가기</button>
+                                    <button type="button" class="btn btn-primary">
+                                        <i class="fa-solid fa-circle-left"></i>
+                                        뒤로가기</button>
                                 </a>
                             </div>
                             <div>
-                                <button type="button" id="basket" class="btn btn-primary">장바구니</button>
+                                <button type="button" id="btnCart" class="btn btn-primary">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                장바구니
+                                </button>
                             </div>
                             <div>
-                                <button type="button" id="purchase" class="btn btn-primary">구매하기</button>
+                                <button type="button" id="btnPurchase" class="btn btn-primary"><i class="fa-solid fa-wallet"></i>
+                                    구매하기</button>
                             </div>
                         </div>
                     </div>
@@ -79,12 +79,14 @@
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="refund-tab" data-bs-toggle="tab" data-bs-target="#refund"
                     type="button"
-                    role="tab" aria-controls="refund" aria-selected="false">환불절차
+                    role="tab" aria-controls="refund" aria-selected="false">
+                <h5 style="font-weight: 600; color: black">환불절차</h5>
             </button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="info-tab" data-bs-toggle="tab" data-bs-target="#info"
-                    type="button" role="tab" aria-controls="info" aria-selected="false">사용안내
+                    type="button" role="tab" aria-controls="info" aria-selected="false">
+                <h5 style="font-weight: 600; color: black">사용안내</h5>
             </button>
         </li>
     </ul>
@@ -122,16 +124,74 @@
 
 <%@include file="../footer.jsp" %>
 <script>
+    function sessionCheck(){ //세션이 없으면 컨펌창을 뛰우고 로그인하지 않겠다고 하면 return
+        if (${empty sessionScope.user}) {
+            let loginChoice = confirm('로그인 후 이용가능한 서비스 입니다. 로그인 하러 가시겠습니까?');
+            if (loginChoice) {
+                location.href = '/user/login?toUrl=/store/detail?gno=${selectGoods.gno}';
+            }
+        }
+        return '${empty sessionScope.user}';
+    }
+    var priceInput_value = Number($('#priceInput').val());
+    $('#priceInput').attr('value', priceInput_value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+
     $("#num").on('click', function () {
         var sumPrice = Number($('#num').val() * ${selectGoods.price});
         $('#priceInput').attr('value',
             sumPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
     });
-    $("#Purchase").on('click', function () {
-        $('#priceInput').attr('disabled', false);
+
+    $("#btnPurchase").on('click', function () {
+        if(sessionCheck() ==='true'){
+            return;
+        }
+        $.ajax({
+            type: 'post',
+            url: '/store/cart-add',
+            data: {
+                'gno':${selectGoods.gno}
+            },
+            success: function (result) {
+                // $('#priceInput').attr('disabled', false);
+                if (result === 'quantityError') {
+                    alert("4개이상 추가할 수 없습니다.");
+                    return;
+                }
+                    location.href = "/store/cart"
+            },
+            error: function () {
+                alert("카트에 아이템 추가 비통신에러");
+            }
+        })
     });
-    $("#basket").on('click', function () {
-        $('#priceInput').attr('disabled', false);
+
+    $("#btnCart").on('click', function () {
+        if(sessionCheck() ==='true'){
+            return;
+        }
+        $.ajax({
+            type: 'post',
+            url: '/store/cart-add',
+            data: {
+                'gno':${selectGoods.gno}
+            },
+            success: function (result) {
+                // $('#priceInput').attr('disabled', false);
+                if (result === 'quantityError') {
+                    alert("4개이상 추가할 수 없습니다.");
+                    return;
+                }
+                let choice = confirm(`장바구니에 추가되었습니다.확인하시겠습니까?`);
+                if (choice) {
+                    // alert("구매하기로 가야함")
+                    location.href = "/store/cart"
+                }
+            },
+            error: function () {
+                alert("카트에 아이템 추가 비통신에러");
+            }
+        })
     });
 </script>
 </body>

@@ -11,5 +11,6 @@
     <typeAlias type="com.dto.Review" alias="Review"/>
     <typeAlias type="com.dto.Like" alias="Like"/>
     <typeAlias type="com.dto.Goods" alias="Goods"/>
+    <typeAlias type="com.dto.Coupon" alias="Coupon"/>
   </typeAliases>
 </configuration>
