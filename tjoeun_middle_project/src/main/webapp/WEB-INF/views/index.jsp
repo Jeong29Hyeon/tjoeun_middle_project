@@ -73,7 +73,7 @@
                             <!-- 디테일 뷰 -->
                             <span id="imgWrap${movie.seq}" class="position-relative rounded-2">
                                     <img id="posterImg${movie.seq}" src="${movie.img}"
-                                         class="card-img-top" alt="..." style="height:280px">
+                                         class="card-img-top" alt="..." style="height:290px">
                                 <span id="btnWrap${movie.seq}"
                                       class="position-absolute top-50 start-50 translate-middle text-center" hidden>
                                     <a href="<c:url value="/movies/detail-view?seq=${movie.seq}"/>">

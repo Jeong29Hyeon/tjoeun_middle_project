@@ -103,6 +103,8 @@ public class StoreController {
         return "success";
     }
 
+
+
     @PostMapping("/cart-add")
     @ResponseBody
     public String cartAdd(String gno, HttpSession session){
@@ -131,6 +133,7 @@ public class StoreController {
         }
         return "success";
     }
+
     @GetMapping("/purchase")
     public String purchase(){
         return "store/purchase";
@@ -151,6 +154,22 @@ public class StoreController {
                 }
             }
         }
+        session.removeAttribute("cart");  //카트 세션 삭제
         return "success";
+    }
+    @PostMapping("/delete")
+    @ResponseBody
+    public String delete(String gno,HttpSession session){
+        Map<String,Goods> cart = (Map<String, Goods>) session.getAttribute("cart");
+        cart.remove(gno);
+        if(cart.size()==0){
+            session.removeAttribute("cart");
+        }
+        return "success";
+    }
+
+    @GetMapping("/purchase-complete")
+    public String complete(){
+        return "store/purchaseComplete";
     }
 }
