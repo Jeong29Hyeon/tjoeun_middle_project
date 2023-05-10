@@ -104,6 +104,7 @@
                         <c:when test="${not empty sessionScope.user}">
                             <li><a class="dropdown-item" href="${profileLink}">${profile}</a></li>
                             <li><a class="dropdown-item" href="${Reservation}">${ReservationInfo}</a></li>
+                            <li><a class="dropdown-item" href="/user/couponRoom">Coupon</a></li>
                         </c:when>
                     </c:choose>
                     <li>

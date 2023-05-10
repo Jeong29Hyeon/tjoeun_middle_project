@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: USER
@@ -25,7 +26,6 @@
 </head>
 <body>
 <%@include file="header.jsp" %>
-${couponList.get(0).goods.price}
 <div class="container mt-5">
     <div class="row" style="border: 1px black">
         <div class="col-8">
@@ -46,7 +46,8 @@ ${couponList.get(0).goods.price}
                     </div>
                     <br>
                     <div class="progress" style="height: 30px">
-                        <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: ${gage}; height: 30px"
+                        <div class="progress-bar progress-bar-striped bg-info" role="progressbar"
+                             style="width: ${gage}; height: 30px"
                              aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
                             <h5 style="text-align: right; margin-right: 10px; margin-top: 7px; color: black">${rank}</h5>
                         </div>
@@ -64,7 +65,7 @@ ${couponList.get(0).goods.price}
                         <div class="col-6">
                             <div class="row">
                                 <div class="col-3"></div>
-                                <div class="col-6"><a class="btn btn-info" role="button" href="#">쿠폰함</a></div>
+                                <div class="col-6"><a class="btn btn-info" role="button" href="/user/couponRoom">쿠폰함</a></div>
                                 <div class="col-3"></div>
                             </div>
                         </div>
@@ -225,7 +226,7 @@ ${couponList.get(0).goods.price}
                         </div>
                         <div class="row mt-md-4 text-center">
                             <div class="col-12">
-                            <button type="button" class="btn btn-outline-primary" id="editBtn">수정하기</button>
+                                <button type="button" class="btn btn-outline-primary" id="editBtn">수정하기</button>
                             </div>
                         </div>
                     </div>
@@ -238,18 +239,39 @@ ${couponList.get(0).goods.price}
     <div class="container tab-pane fade text-left" id="payHistory" role="tabpanel" aria-labelledby="payHistory-tab">
         <div class="container mt-3">
             <div class="row">
-                <div class="col-12">
-                    <c:forEach var="ticket" items="${ticketHistory}">
-                        관람일:${ticket.dayInfo}<br>
-                        영화제목:${ticket.titleInfo}<br>
-                    </c:forEach>
+                <h4>티켓 히스토리 내역</h4>
+                <hr>
+                <div class="mt-1 d-flex">
+                    <p class="col-3 text-center">영화제목
+                    <p class="col-3 text-center">가격
+                    <p class="col-3 text-center">관람일자
+                    <p class="col-3 text-center">관람인원수
                 </div>
+                <hr>
+                <c:forEach var="ticket" items="${ticketHistory}">
+                    <div class="col-3 text-left">${ticket.titleInfo}</div>
+                    <div class="col-3 text-center"><fmt:formatNumber value="${ticket.price}" pattern="#,###원"/></div>
+                    <div class="col-3 text-center">${ticket.dayInfo}</div>
+                    <div class="col-3 text-center">성인${ticket.numberOfAdult}/청소년${ticket.numberOfTeen}</div>
+                </c:forEach>
             </div>
-            <hr>
-            <div class="row">
-                <div class="col-12">
-                    매점 히스토리 내역
+
+            <div class="row mt-3">
+                <h4>매점 히스토리 내역</h4>
+                <hr>
+                <div class="mt-1 d-flex">
+                <p class="col-3 text-center">상품명
+                <p class="col-3 text-center">가격
+                <p class="col-3 text-center">구매일
+                <p class="col-3 text-center">유효기간
                 </div>
+                <hr>
+                <c:forEach var="coupon" items="${couponList}">
+                    <div class="col-3 text-center">${coupon.goods.name}</div>
+                    <div class="col-3 text-center"><fmt:formatNumber value="${coupon.goods.price}" pattern="#,###원"/></div>
+                    <div class="col-3 text-center"><fmt:formatDate value="${coupon.purchaseDate}" pattern="yyyy-MM-dd"/></div>
+                    <div class="col-3 text-center"><fmt:formatDate value="${coupon.expireDate}" pattern="yyyy-MM-dd"/></div>
+                </c:forEach>
             </div>
         </div>
     </div>
@@ -358,10 +380,10 @@ ${couponList.get(0).goods.price}
             }
         })
     })
-    $('#myInfo-tab').on('click',function (){
+    $('#myInfo-tab').on('click', function () {
         $('#infoForm').attr('hidden', true);
     })
-    $('#payHistory-tab').on('click',function (){
+    $('#payHistory-tab').on('click', function () {
         $('#infoForm').attr('hidden', true);
     })
 </script>
