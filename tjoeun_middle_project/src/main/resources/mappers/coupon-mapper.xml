@@ -12,10 +12,35 @@
     <result property="id" column="id"/>
     <result property="purchaseDate" column="purchaseDate"/>
     <result property="expireDate" column="expireDate"/>
-    <association property="goods" column="gno" javaType="Goods" select="selectByGno"/>
+    <association property="goods" javaType="Goods">
+      <id property="gno" column="gno"/>
+      <result property="category" column="category"/>
+      <result property="name" column="name"/>
+      <result property="goodsInfo" column="goodsInfo"/>
+      <result property="components" column="components"/>
+      <result property="price" column="price"/>
+      <result property="fileRealName" column="fileRealName"/>
+      <result property="fileName" column="fileName"/>
+      <result property="uploadPath" column="uploadPath"/>
+    </association>
   </resultMap>
   <select id="selectAllById" parameterType="String" resultMap="CouponResultMap">
-    select * from Coupon where id=#{id};
+    select
+        c.cno as cno,
+        c.id as id,
+        c.purchaseDate as perchaseDate,
+        c.expireDate as expireDate,
+        g.gno as gno,
+        g.category as category,
+        g.name as name,
+        g.goodsInfo as goodsInfo,
+        g.components as components,
+        g.price as price,
+        g.fileRealName as fileRealName,
+        g.fileName as fileName,
+        g.uploadPath as uploadPath
+        from Coupon c left join goods g on g.gno = c.gno
+        where id=#{id};
   </select>
   <select id="selectByGno" resultType="Goods">
     select * from goods where gno =#{gno};
