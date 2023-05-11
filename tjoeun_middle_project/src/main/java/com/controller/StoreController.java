@@ -145,18 +145,26 @@ public class StoreController {
 
     @PostMapping("/purchase")
     @ResponseBody
-    public String purchasePost(HttpSession session){
+    public String purchasePost(HttpSession session, String imp_uid,Integer paid_amount){
         Map<String,Goods> cart = (Map<String, Goods>) session.getAttribute("cart");
         User user = (User) session.getAttribute("user");
         for(Goods goods : cart.values()){
             for(int i =0; i < goods.getQuantity(); i++){
                 try {
-                    couponService.insertCoupon(goods,user.getId());
+                    couponService.insertCoupon(goods,user.getId(),imp_uid);
                 } catch (Exception e) {
                     e.printStackTrace();
                     return "fail";
                 }
             }
+        }
+        Payment payment = new Payment();
+        payment.setImp_uid(imp_uid);
+        payment.setPaid_amount(paid_amount);
+        try {
+            paymentService.insertCouponPayment(payment);
+        } catch (Exception e) {
+            return "payInsertError";
         }
         session.removeAttribute("cart");  //카트 세션 삭제
         return "success";

@@ -120,9 +120,16 @@
                 $.ajax({
                     type:'post',
                     url:'/store/purchase',
+                    data:{
+                      'imp_uid':rsp.imp_uid,
+                      'paid_amount':rsp.paid_amount
+                    },
                     success:function (result){
                       if(result ==='fail') {
                         alert("쿠폰 생성 DB에러");
+                        return;
+                      }else if(result ==='payInsertError') {
+                        alert("페이먼트 생성 DB에러");
                         return;
                       }
                         alert("결제완료");

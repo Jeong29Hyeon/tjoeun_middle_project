@@ -4,7 +4,6 @@ public class Payment {
     private int pno;
     private String imp_uid;
     private int tno;
-    private int gno;
     private int paid_amount;
 
     public Payment() {
@@ -34,13 +33,6 @@ public class Payment {
         this.tno = tno;
     }
 
-    public int getGno() {
-        return gno;
-    }
-
-    public void setGno(int gno) {
-        this.gno = gno;
-    }
 
     public int getPaid_amount() {
         return paid_amount;
@@ -54,9 +46,8 @@ public class Payment {
     public String toString() {
         return "Payment{" +
             "pno=" + pno +
-            ", imp_uid=" + imp_uid +
+            ", imp_uid='" + imp_uid + '\'' +
             ", tno=" + tno +
-            ", gno=" + gno +
             ", paid_amount=" + paid_amount +
             '}';
     }
