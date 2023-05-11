@@ -113,7 +113,7 @@
                             </div>
                             <button type="button" id="likebtn${review.rno}"
                                     class="btn btn-outline-danger text-decoration-none"${sessionScope.user.id eq review.id ||sessionScope.user ==null ? 'disabled' : ''} >
-                                <i  class="fa-regular fa-heart"><p style="font-size: 10px" id="likeCount${review.rno}">${review.likeCount}</p></i></button>
+                                <i id="i${review.rno}" class="fa-regular fa-heart"><p style="font-size: 10px" id="likeCount${review.rno}">${review.likeCount}</p></i></button>
                             <input type="hidden" id="likecheck${review.rno}" value="${review.likeCount}">
                         </div>
 
@@ -238,9 +238,18 @@
             type: 'POST',
             data: {
                 'rno': ${review.rno},
-                'id': '${sessionScope.user.id}'
+                'id': '${sessionScope.user.id}',
+                'seq':'${review.seq}'
             },
             success: function (result) {
+                if(result===1){
+                    $('#i${review.rno}').removeClass("fa-regular");
+                    $('#i${review.rno}').addClass("fa-solid");
+
+                }else {
+                    $('#i${review.rno}').removeClass("fa-solid");
+                    $('#i${review.rno}').addClass("fa-regular");
+                }
                 $('#likeCount${review.rno}').load(location.href+" #likeCount${review.rno}")
 
             }, error: function (result) {

@@ -5,6 +5,7 @@ import com.dto.Review;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface LikeMapper {
@@ -15,4 +16,6 @@ public interface LikeMapper {
     int likedelete(Review review);
 
     List<Like> selectAllBySeq(String seq);
+    List<Like> selectByUserIdSeq(Map<String,Object> map);
+
 }

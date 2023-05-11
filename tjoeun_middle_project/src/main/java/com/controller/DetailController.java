@@ -3,6 +3,7 @@ package com.controller;
 import com.dto.Like;
 import com.dto.Movie;
 import com.dto.Review;
+import com.dto.User;
 import com.mapper.ReviewMapper;
 import com.service.LikeService;
 import com.service.MovieService;
@@ -17,9 +18,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/movies")
 @Controller
@@ -42,13 +45,26 @@ public class DetailController {
 
     //일단 테스트로 다 긁어옴
     @RequestMapping(value = "/detail-view", method = {RequestMethod.GET, RequestMethod.POST})
-    public String index(Model model, String seq) throws IOException {
+    public String index(Model model, String seq, HttpSession session) throws IOException {
         Movie movie = movieService.getMovie(seq);
         List<Review> reviewList = new ArrayList<>();
         List<Like> likeList = new ArrayList<>();
+        String userId = "";
+        if(session.getAttribute("accessToken")!=null){
+            Map<String,Object> user = (Map<String, Object>) session.getAttribute("user");
+            userId = (String) user.get("id");
+        }else{
+            if(session.getAttribute("user")!=null){
+                User user = (User) session.getAttribute("user");
+                userId = user.getId();
+            }
+        }
+
         try {
-            likeList = likeService.selectAllBySeq(seq);
+
+            likeList = likeService.selectByUserIdSeq(userId,seq);
             reviewList = reviewService.selectAllBySeq(seq);
+
         } catch (Exception e) {
             e.printStackTrace();
             //에러 잡아야함

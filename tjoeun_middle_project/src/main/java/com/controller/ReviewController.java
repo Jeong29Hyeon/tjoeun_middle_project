@@ -63,29 +63,25 @@ public class ReviewController {
     //댓글 좋아요 컨트롤러가 따로필요한가? 여기다 하면 안되나?
     @PostMapping("/update")
     @ResponseBody
-    public Map<String,String> likeupdate(Review review){
-//        logger.info("likeupdate");    //이게머임??
-        Map<String,String> map = new HashMap<>();
+    public int likeupdate(Review review){
         Like temp;
         try {
             temp = likeService.likeselect(review);
             if(temp == null){
                 int result = likeService.likeinsert(review);
                 reviewService.likeAdd(review);
+                return 1;
             }else {
                 likeService.likedelete(review);
                 reviewService.likeSub(review);
+                return 0;
             }
-
-
-            map.put("result", "success");
 
         }catch(Exception e) {
             e.printStackTrace();
-            map.put("result", "fail");
+            return 0;
         }
 
-        return map;
     }
 
 

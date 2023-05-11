@@ -6,7 +6,9 @@ import com.mapper.LikeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class LikeService {
@@ -81,5 +83,12 @@ public class LikeService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<Like> selectByUserIdSeq(String userId, String seq) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("id",userId);
+        map.put("seq",seq);
+        return likeMapper.selectByUserIdSeq(map);
     }
 }
