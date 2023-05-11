@@ -12,6 +12,9 @@
     <select id="selectAllBySeq" resultType="Like" parameterType="String">
         select * from likehit
     </select>
+    <select id="selectByUserIdSeq" parameterType="java.util.Map" resultType="Like">
+        select * from likehit where id=#{id} and seq = #{seq}
+    </select>
     <insert id="likeinsert" parameterType="Review">
         insert into likehit(rno,id,seq)
         values (#{rno},#{id},#{seq})
@@ -20,16 +23,5 @@
     <delete id="likedelete" parameterType="Review">
         delete from likehit where rno=#{rno} and id=#{id}
     </delete>
-
-
-    <!--    <sql id="cal">-->
-    <!--        <if test="count == 1">-->
-    <!--            ltlike = 0-->
-    <!--        </if>-->
-
-    <!--        <if test="count == 0">-->
-    <!--            ltlike = ltlike + 1-->
-    <!--        </if>-->
-    <!--    </sql>-->
 
 </mapper>

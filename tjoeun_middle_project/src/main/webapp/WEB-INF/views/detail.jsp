@@ -80,7 +80,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    댓글 (${reviewList.size()})
+                    리뷰 (${reviewList.size()})
                 </div>
                 <c:forEach var="review" items="${reviewList}" varStatus="status">
                     <div class="row g-3 my-2">
@@ -112,8 +112,8 @@
                                 </button>
                             </div>
                             <button type="button" id="likebtn${review.rno}"
-                                    class="btn btn-outline-danger text-decoration-none"${sessionScope.user.id eq review.id ||sessionScope.user ==null ? 'disabled' : ''} >
-                                <i  class="fa-regular fa-heart"><p style="font-size: 10px" id="likeCount${review.rno}">${review.likeCount}</p></i></button>
+                                    class="btn btn-outline-danger border-0"${sessionScope.user.id eq review.id ||sessionScope.user ==null ? 'disabled' : ''} >
+                                <i id="i${review.rno}" class="fa-regular fa-heart"><p style="font-size: 10px" id="likeCount${review.rno}">${review.likeCount}</p></i></button>
                             <input type="hidden" id="likecheck${review.rno}" value="${review.likeCount}">
                         </div>
 
@@ -133,6 +133,13 @@
 </c:if>
 <%@include file="footer.jsp" %>
 <script>
+    $(document).ready(function (){
+        <c:forEach var="like" items="${likeList}">
+        $('#i${like.rno}').removeClass("fa-regular");
+        $('#i${like.rno}').addClass("fa-solid");
+        </c:forEach>
+    });
+
     $("#reviewWrite").on('click', function () {
         if ($('#reviewContent').val() === "") {
             alert("내용을 작성해주세요.");
@@ -229,18 +236,26 @@
 
 
     $('#likebtn${review.rno}').click(function () {
-        // var root = getContextPath(),
-        //     likeurl = "/like/update",
-        <%--count = $('#likecheck${review.rno}').val(),--%>
-
+        if(sessionCheck()=='true'){
+            return;
+        }
         $.ajax({
             url: '<c:url value="/review/update"/>',
             type: 'POST',
             data: {
                 'rno': ${review.rno},
-                'id': '${sessionScope.user.id}'
+                'id': '${sessionScope.user.id}',
+                'seq':'${review.seq}'
             },
             success: function (result) {
+                if(result===1){
+                    $('#i${review.rno}').removeClass("fa-regular");
+                    $('#i${review.rno}').addClass("fa-solid");
+
+                }else {
+                    $('#i${review.rno}').removeClass("fa-solid");
+                    $('#i${review.rno}').addClass("fa-regular");
+                }
                 $('#likeCount${review.rno}').load(location.href+" #likeCount${review.rno}")
 
             }, error: function (result) {
@@ -253,10 +268,6 @@
 
     </c:forEach>
 
-    function getContextPath() {
-        var hostIndex = location.href.indexOf(location.host) + location.host.length;
-        return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
-    }
     function sessionCheck() { //세션이 없으면 컨펌창을 뛰우고 로그인하지 않겠다고 하면 return
         if (${empty sessionScope.user}) {
             let loginChoice = confirm('로그인 후 이용가능한 서비스 입니다. 로그인 하러 가시겠습니까?');
