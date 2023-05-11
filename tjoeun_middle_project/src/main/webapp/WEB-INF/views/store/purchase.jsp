@@ -121,7 +121,11 @@
                     type:'post',
                     url:'/store/purchase',
                     success:function (result){
-                        alert("결제끘~");
+                      if(result ==='fail') {
+                        alert("쿠폰 생성 DB에러");
+                        return;
+                      }
+                        alert("결제완료");
                         location.href = "/store/purchase-complete";
                     },
                     error:function (){

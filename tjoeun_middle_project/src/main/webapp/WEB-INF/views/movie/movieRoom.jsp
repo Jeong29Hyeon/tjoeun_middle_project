@@ -146,8 +146,6 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="successTicketHeader">예약 완료</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form name="successTicketForm" action="<c:url value="/"/>">
@@ -188,9 +186,7 @@
                             </div>
                         </div>
                         <div class="row center-block mt-3">
-                            <%--                        <div class="container mt-3">--%>
                             <input type="submit" value="홈으로">
-                            <%--                        </div>--%>
                         </div>
                     </div>
                 </form>
@@ -293,6 +289,23 @@
             }, function (rsp) {
               console.log(rsp);
               if (rsp.success) {
+                $.ajax({
+                  type:'post',
+                  url:'/paySuccess',
+                  data:{
+                    'tno':result.tno,
+                    'imp_uid':rsp.imp_uid,
+                    'paid_amount':rsp.paid_amount
+                  },
+                  success:function (paymentResult){
+                    if(paymentResult ==='fail'){
+                      alert('결제정보 DB저장 실패');
+                    }
+                  },
+                  error:function (){
+                    alert('결제정보 저장 비동기통신 실패');
+                  }
+                });
                 $('#successTicketModal').modal('show');
                 // msg += '고유ID : ' + rsp.imp_uid;
                 // msg += '상점 거래ID : ' + rsp.merchant_uid;

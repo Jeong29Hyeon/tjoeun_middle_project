@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.PaymentMapper">
+  <insert id="insertTicketPayment" parameterType="Payment">
+    insert into Payment(imp_uid, tno, paid_amount) VALUES(#{imp_uid},#{tno},#{paid_amount});
+  </insert>
+  <insert id="insertGoodsPayment" parameterType="Payment">
+    insert into Payment(imp_uid, gno, paid_amount) VALUES(#{imp_uid},#{gno},#{paid_amount});
+  </insert>
+  <select id="selectImpUidByTno" parameterType="int" resultType="java.lang.String">
+    select imp_uid from Payment where tno=#{tno};
+  </select>
+</mapper>
