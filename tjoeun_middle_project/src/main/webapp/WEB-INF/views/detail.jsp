@@ -112,7 +112,7 @@
                                 </button>
                             </div>
                             <button type="button" id="likebtn${review.rno}"
-                                    class="btn btn-outline-danger text-decoration-none"${sessionScope.user.id eq review.id ? 'disabled' : ''} >
+                                    class="btn btn-outline-danger text-decoration-none"${sessionScope.user.id eq review.id ||sessionScope.user ==null ? 'disabled' : ''} >
                                 <i  class="fa-regular fa-heart"><p style="font-size: 10px" id="likeCount${review.rno}">${review.likeCount}</p></i></button>
                             <input type="hidden" id="likecheck${review.rno}" value="${review.likeCount}">
                         </div>
@@ -226,19 +226,7 @@
     </c:forEach>
 
     <c:forEach var="review" items="${reviewList}" varStatus="status">
-    $('document').ready(function (){
-        console.log("test");
-        console.log(${likeList[status.index].rno});
-        <%--alert(${like.rno == review.rno});--%>
-        <%--if () {--%>
-        <%--    console.log("좋아요 취소");--%>
-        <%--    $('#likebtn${review.rno}').attr('disabled', 'true');--%>
-        <%--} else if (count == 0) {--%>
-        <%--    console.log("좋아요!");--%>
-        <%--    $('#likebtn${review.rno}').attr('disabled', 'false');--%>
 
-        <%--}--%>
-    });
 
     $('#likebtn${review.rno}').click(function () {
         // var root = getContextPath(),
@@ -250,7 +238,7 @@
             type: 'POST',
             data: {
                 'rno': ${review.rno},
-                'id': '${review.id}'
+                'id': '${sessionScope.user.id}'
             },
             success: function (result) {
                 $('#likeCount${review.rno}').load(location.href+" #likeCount${review.rno}")

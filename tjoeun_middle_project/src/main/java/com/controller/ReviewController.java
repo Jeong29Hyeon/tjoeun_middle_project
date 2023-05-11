@@ -71,10 +71,10 @@ public class ReviewController {
             temp = likeService.likeselect(review);
             if(temp == null){
                 int result = likeService.likeinsert(review);
-                reviewService.likeadd(review);
+                reviewService.likeAdd(review);
             }else {
                 likeService.likedelete(review);
-                reviewService.likesub(review);
+                reviewService.likeSub(review);
             }
 
 

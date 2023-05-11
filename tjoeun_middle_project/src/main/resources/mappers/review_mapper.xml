@@ -17,24 +17,14 @@
   </select>
 
 
-
-<!--  <select id="ltlikecount" resultType="Integer" parameterType="Like">-->
-<!--    select count(ltlike) from likehit where reviewno=#{reviewno} and userid=#{userid}-->
-<!--  </select>-->
-
-<!--  <insert id="likeinsert" parameterType="Like">-->
-<!--    insert into likehit(reviewno,userid)-->
-<!--    values (#{reviewno},#{userid})-->
-<!--  </insert>-->
-
   <select id="likegetinfo" resultType="Integer" parameterType="Review">
     select like from Review where rno=#{rno} and id=#{id}
   </select>
 
-  <update id="likeadd" parameterType="Review">
-    update Review set likecount = likecount + 1 where rno=#{rno} and id=#{id}
+  <update id="likeAdd" parameterType="Review">
+    update Review set likecount = likecount + 1 where rno=#{rno}
   </update>
-  <update id="likesub" parameterType="Review">
-    update Review set likecount = likecount - 1 where rno=#{rno} and id=#{id}
+  <update id="likeSub" parameterType="Review">
+    update Review set likecount = likecount - 1 where rno=#{rno}
   </update>
 </mapper>

@@ -51,20 +51,20 @@ public class ReviewService {
 
         return 0;
     }
-    public void likeadd(Review review) {
+    public void likeAdd(Review review) {
         try {
 
-            reviewMapper.likeadd(review);
+            reviewMapper.likeAdd(review);
         } catch (Exception e) {
             System.out.println("update fail");
             e.printStackTrace();
         }
     }
 
-    public void likesub(Review review) {
+    public void likeSub(Review review) {
         try {
 
-            reviewMapper.likesub(review);
+            reviewMapper.likeSub(review);
         } catch (Exception e) {
             System.out.println("update fail");
             e.printStackTrace();
