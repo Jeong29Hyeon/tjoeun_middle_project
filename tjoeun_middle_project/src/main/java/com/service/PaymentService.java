@@ -7,7 +7,6 @@ import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,8 +29,8 @@ public class PaymentService {
             throw new Exception("티켓 결제정보 생성안됨");
         }
     }
-    public void insertGoodsPayment(Payment payment) throws Exception {
-        int result = paymentMapper.insertGoodsPayment(payment);
+    public void insertCouponPayment(Payment payment) throws Exception {
+        int result = paymentMapper.insertCouponPayment(payment);
         if(result < 1){
             throw new Exception("티켓 결제정보 생성안됨");
         }
