@@ -1,9 +1,11 @@
 package com.controller;
 
 import com.dto.Goods;
+import com.dto.Payment;
 import com.dto.User;
 import com.service.CouponService;
 import com.service.GoodsService;
+import com.service.PaymentService;
 import java.io.File;
 import java.util.*;
 import javax.servlet.http.HttpSession;
@@ -21,13 +23,15 @@ public class StoreController {
     GoodsService goodsService;
 
     CouponService couponService;
+
+    PaymentService paymentService;
     @Autowired
-    public StoreController(GoodsService goodsService, CouponService couponService) {
+    public StoreController(GoodsService goodsService, CouponService couponService,
+        PaymentService paymentService) {
         this.goodsService = goodsService;
         this.couponService = couponService;
+        this.paymentService = paymentService;
     }
-
-    @Autowired
 
     @GetMapping("/main")
     public String storeMain(){
@@ -167,6 +171,7 @@ public class StoreController {
         }
         return "success";
     }
+
 
     @GetMapping("/purchase-complete")
     public String complete(){

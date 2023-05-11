@@ -2,8 +2,10 @@ package com.controller;
 
 import com.dto.Movie;
 //import com.dto.Ticket;
+import com.dto.Payment;
 import com.dto.Ticket;
 import com.service.MovieService;
+import com.service.PaymentService;
 import com.service.TicketService;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,11 +29,17 @@ public class ReserveController {
 
     TicketService ticketService;
     MovieService movieService;
+
+    PaymentService paymentService;
     @Autowired
-    public ReserveController(TicketService ticketService, MovieService movieService) {
+    public ReserveController(TicketService ticketService, MovieService movieService,
+        PaymentService paymentService) {
         this.ticketService = ticketService;
         this.movieService = movieService;
+        this.paymentService = paymentService;
     }
+
+
 
     @PostMapping("/movieRoom")
     public String movieRoom(Model model, Ticket ticket, RedirectAttributes ra) {
@@ -111,6 +119,9 @@ public class ReserveController {
     @ResponseBody
     public String deleteTicket(Integer tno){
         try {
+            String accessToken = paymentService.getAccessToken();
+            String imp_uid = paymentService.getImpUidByTno(tno);
+            paymentService.payCancel(accessToken,imp_uid);
             ticketService.deleteTicket(tno);
         }catch (Exception e){
             e.printStackTrace();
@@ -124,6 +135,19 @@ public class ReserveController {
     @ResponseBody
     public String payFail(Integer tno){
         ticketService.deleteTicket(tno);
+        return "success";
+    }
+
+    @PostMapping("/paySuccess")
+    @ResponseBody
+    public String paySuccess(Payment payment){
+        System.out.println("paySuccess Controller - "+ payment.toString());
+        try {
+            paymentService.insertTicketPayment(payment);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
         return "success";
     }
 }
