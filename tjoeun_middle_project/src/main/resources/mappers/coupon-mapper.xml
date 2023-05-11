@@ -29,7 +29,7 @@
     select
         c.cno as cno,
         c.id as id,
-        c.purchaseDate as perchaseDate,
+        c.purchaseDate as purchaseDate,
         c.expireDate as expireDate,
         c.imp_uid as imp_uid,
         g.gno as gno,
@@ -44,4 +44,8 @@
         from Coupon c left join goods g on g.gno = c.gno
         where id=#{id};
   </select>
+
+    <delete id="deleteByImpUid" parameterType="String">
+        delete from Coupon where imp_uid = #{imp_uid}
+    </delete>
 </mapper>

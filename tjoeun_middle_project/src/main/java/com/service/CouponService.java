@@ -33,4 +33,8 @@ public class CouponService {
     public List<Coupon> selectAllById(String id){
         return couponMapper.selectAllById(id);
     }
+
+    public int deleteByImpUid(String imp_uid){
+        return couponMapper.deleteByImpUid(imp_uid);
+    }
 }

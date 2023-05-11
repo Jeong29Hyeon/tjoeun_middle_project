@@ -31,13 +31,14 @@
         <div class="col-8">
             <div class="row">
                 <div class="col">
-                    <h5>현재까지 사용 금액: ${sumPrice}</h5><br>
+                    <h5>현재까지 사용 금액: <fmt:formatNumber value="${sumPrice}" pattern="#,###원"/></h5><br>
                     <h5>${rank}</h5><br>
                     <h3>${sessionScope.user.name}님 반가워요!</h3><br>
                     <div class="next_rank" style="text-align: center">
                         <c:choose>
                             <c:when test="${nextRank > 0}">
-                                <p>NEXT RANK 까지 <span style="font-size: 20px; color: red;">${nextRank}원 </span>남았어요!</p>
+                                <p>NEXT RANK 까지 <span style="font-size: 20px; color: red;"><fmt:formatNumber value="${nextRank}" pattern="#,###원"/></span>남았어요!</p>
+
                             </c:when>
                             <c:otherwise>
                                 <p><span style="font-size: 20px; color: red;">최고 등급 입니다!! </span></p>
@@ -266,12 +267,23 @@
                 <p class="col-3 text-center">유효기간
                 </div>
                 <hr>
-                <c:forEach var="coupon" items="${couponList}">
+                <c:if test="${not empty couponList}">
+                <c:forEach var="coupon" items="${couponList}" varStatus="i">
                     <div class="col-3 text-center">${coupon.goods.name}</div>
                     <div class="col-3 text-center"><fmt:formatNumber value="${coupon.goods.price}" pattern="#,###원"/></div>
                     <div class="col-3 text-center"><fmt:formatDate value="${coupon.purchaseDate}" pattern="yyyy-MM-dd"/></div>
                     <div class="col-3 text-center"><fmt:formatDate value="${coupon.expireDate}" pattern="yyyy-MM-dd"/></div>
+<%--                    <c:set var="preIndex" value="${i.index-1}"/>--%>
+                    <c:if test="${coupon.imp_uid != couponList[i.index+1].imp_uid}">
+                        <div class="row">
+                            <div class="col-3 offset-9 text-center ms-2">
+                                <button id="btnCancel${coupon.imp_uid}" class="btn btn-outline-secondary">결제 취소</button>
+                            </div>
+                            <hr>
+                        </div>
+                    </c:if>
                 </c:forEach>
+                </c:if>
             </div>
         </div>
     </div>
@@ -386,6 +398,33 @@
     $('#payHistory-tab').on('click', function () {
         $('#infoForm').attr('hidden', true);
     })
+<c:if test="${not empty couponList}">
+    <c:forEach var="coupon" items="${couponList}" varStatus="i">
+    <c:if test="${coupon.imp_uid != couponList[i.index+1].imp_uid}">
+    $('#btnCancel${coupon.imp_uid}').on('click',function (){
+
+        $.ajax({
+           url: "/user/deleteCoupon",
+           type: "post",
+           data: {
+              "imp_uid":'${coupon.imp_uid}'
+           } ,
+            success:function (result){
+               if(result==='success'){
+                   alert("쿠폰이 정상적으로 결제 취소 되었습니다");
+                   location.reload();
+               }else {
+                   alert("다시 시도해주세요");
+               }
+            },
+            error:function (){
+               alert("비동기 통신에러")
+            }
+        });
+    });
+    </c:if>
+    </c:forEach>
+    </c:if>
 </script>
 </body>
 </html>
