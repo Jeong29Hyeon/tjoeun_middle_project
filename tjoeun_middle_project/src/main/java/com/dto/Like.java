@@ -2,49 +2,39 @@ package com.dto;
 
 public class Like {
     //https://coie117.tistory.com/67 참조
-        private int reviewno;   //댓글 번호
-        private String userid;  //유저 아이디
-        private int itlike; 
-        private int count;  //좋아요 눌린 상태인가 아닌가
+        private String seq;
+        private int rno;   //댓글 번호
+        private String id;  //유저 아이디
     public Like() {
     }
 
-    public Like(int reviewno, String userid, int itlike, int count) {
-        this.reviewno = reviewno;
-        this.userid = userid;
-        this.itlike = itlike;
-        this.count = count;
+    public Like(String seq, int rno, String id) {
+        this.seq = seq;
+        this.rno = rno;
+        this.id = id;
     }
 
-    public int getCount() {
-        return count;
+    public int getRno() {
+        return rno;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public void setRno(int rno) {
+        this.rno = rno;
     }
 
-    public int getReviewno() {
-        return reviewno;
+    public String getId() {
+        return id;
     }
 
-    public void setReviewno(int reviewno) {
-        this.reviewno = reviewno;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getUserid() {
-        return userid;
+    public String getSeq() {
+        return seq;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
-    }
-
-    public int getItlike() {
-        return itlike;
-    }
-
-    public void setItlike(int itlike) {
-        this.itlike = itlike;
+    public void setSeq(String seq) {
+        this.seq = seq;
     }
 }

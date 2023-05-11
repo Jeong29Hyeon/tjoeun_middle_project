@@ -1,9 +1,12 @@
 package com.service;
 
 import com.dto.Like;
+import com.dto.Review;
 import com.mapper.LikeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class LikeService {
@@ -23,15 +26,7 @@ public class LikeService {
 //        }
 //        return result;
 //    }
-    public int ltlikecount(Like like) {
-        try {
-            return likeMapper.ltlikecount(like);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
 
     //    public int ltlikegetinfo(Like like) throws Exception {
 //        int result = likeMapper.ltlikegetinfo(like);
@@ -40,23 +35,26 @@ public class LikeService {
 //        }
 //        return result;
 //    }
-    public int ltlikegetinfo(Like like) {
+    public Like likeselect(Review review) {
         try {
 
-            return likeMapper.ltlikegetinfo(like);
+            return likeMapper.likeselect(review);
         } catch (Exception e) {
             System.out.println("getInfo fail");
             e.printStackTrace();
         }
+        return null;
 
-        return 0;
     }
 
-    public void likeinsert(Like like) throws Exception {
-        int result = likeMapper.likeinsert(like);
+    public int likeinsert(Review review) throws Exception {
+        int result = likeMapper.likeinsert(review);
+        System.out.println("insert likehit");
+        System.out.println(review.getSeq());
         if (result == 0) {
             throw new Exception("좋아요 insert실패");
         }
+        return result;
     }
 
     //    public void likeupdate(Like like) throws Exception{
@@ -65,13 +63,23 @@ public class LikeService {
 //            throw new Exception("좋아요 update실패");
 //        }
 //    }
-    public void likeupdate(Like like) {
+    public void likedelete(Review review) {
         try {
 
-            likeMapper.likeupdate(like);
+            likeMapper.likedelete(review);
         } catch (Exception e) {
-            System.out.println("update fail");
+            System.out.println("delete fail");
             e.printStackTrace();
         }
+    }
+
+    public List<Like> selectAllBySeq(String seq) {
+        try{
+            return likeMapper.selectAllBySeq(seq);
+        }catch (Exception e){
+            System.out.println("selcetAll fail");
+            e.printStackTrace();
+        }
+        return null;
     }
 }

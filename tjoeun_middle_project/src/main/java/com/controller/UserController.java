@@ -98,7 +98,7 @@ public class UserController {
             response.addCookie(cookie);
         }
 
-        return "redirect:" + (toUrl == null || toUrl.equals("") ? '/' : toUrl.replace("-", "&"));
+        return "redirect:" + (toUrl == null || toUrl.equals("") ? '/' : toUrl);
     }
 
     @PostMapping("/loginModal")

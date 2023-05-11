@@ -7,6 +7,7 @@ import com.mapper.ReviewMapper;
 import com.service.LikeService;
 import com.service.MovieService;
 import com.service.ReviewService;
+import org.checkerframework.checker.units.qual.A;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -44,13 +45,16 @@ public class DetailController {
     public String index(Model model, String seq) throws IOException {
         Movie movie = movieService.getMovie(seq);
         List<Review> reviewList = new ArrayList<>();
+        List<Like> likeList = new ArrayList<>();
         try {
+            likeList = likeService.selectAllBySeq(seq);
             reviewList = reviewService.selectAllBySeq(seq);
         } catch (Exception e) {
             e.printStackTrace();
             //에러 잡아야함
         }
         //댓글들 다 가져오고
+        model.addAttribute("likeList",likeList);
         model.addAttribute("movie", movie);
         model.addAttribute("reviewList", reviewList);
 

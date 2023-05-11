@@ -14,29 +14,29 @@ import java.util.Map;
 @RequestMapping("/like")
 @Controller
 public class LikeController {
-
-    LikeService likeService;
-
-    @Autowired
-    public LikeController(LikeService likeService) {
-        this.likeService = likeService;
-    }
-
-    @PostMapping("/update")
-    @ResponseBody
-    public Map<String,String> likeupdate(Like like){
-//        logger.info("likeupdate");    //이게머임??
-        Map<String,String> map = new HashMap<>();
-
-        try {
-            likeService.likeupdate(like);
-            map.put("result", "success");
-
-        }catch(Exception e) {
-            e.printStackTrace();
-            map.put("result", "fail");
-        }
-
-        return map;
-    }
+//
+//    LikeService likeService;
+//
+//    @Autowired
+//    public LikeController(LikeService likeService) {
+//        this.likeService = likeService;
+//    }
+//
+//    @PostMapping("/update")
+//    @ResponseBody
+//    public Map<String,String> likeupdate(Like like){
+////        logger.info("likeupdate");    //이게머임??
+//        Map<String,String> map = new HashMap<>();
+//
+//        try {
+//            likeService.likeupdate(like);
+//            map.put("result", "success");
+//
+//        }catch(Exception e) {
+//            e.printStackTrace();
+//            map.put("result", "fail");
+//        }
+//
+//        return map;
+//    }
 }

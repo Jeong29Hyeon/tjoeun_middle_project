@@ -1,6 +1,5 @@
 package com.service;
 
-import com.dto.Like;
 import com.dto.Review;
 import com.mapper.ReviewMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,10 +51,20 @@ public class ReviewService {
 
         return 0;
     }
-    public void likeupdate(Review review) {
+    public void likeAdd(Review review) {
         try {
 
-            reviewMapper.likeupdate(review);
+            reviewMapper.likeAdd(review);
+        } catch (Exception e) {
+            System.out.println("update fail");
+            e.printStackTrace();
+        }
+    }
+
+    public void likeSub(Review review) {
+        try {
+
+            reviewMapper.likeSub(review);
         } catch (Exception e) {
             System.out.println("update fail");
             e.printStackTrace();
