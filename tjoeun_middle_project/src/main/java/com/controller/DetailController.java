@@ -45,7 +45,7 @@ public class DetailController {
 
     //일단 테스트로 다 긁어옴
     @RequestMapping(value = "/detail-view", method = {RequestMethod.GET, RequestMethod.POST})
-    public String index(Model model, String seq, HttpSession session) throws IOException {
+    public String index(Model model, String seq, HttpSession session) {
         Movie movie = movieService.getMovie(seq);
         List<Review> reviewList = new ArrayList<>();
         List<Like> likeList = new ArrayList<>();
