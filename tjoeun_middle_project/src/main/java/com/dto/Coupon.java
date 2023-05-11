@@ -8,6 +8,7 @@ public class Coupon {
     private Date purchaseDate;
     private Date expireDate;
     private Goods goods;
+    private String imp_uid;
 
     public Coupon() {
     }
@@ -50,6 +51,14 @@ public class Coupon {
 
     public void setGoods(Goods goods) {
         this.goods = goods;
+    }
+
+    public String getImp_uid() {
+        return imp_uid;
+    }
+
+    public void setImp_uid(String imp_uid) {
+        this.imp_uid = imp_uid;
     }
 
     @Override

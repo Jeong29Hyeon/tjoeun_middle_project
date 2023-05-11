@@ -19,10 +19,11 @@ public class CouponService {
     }
 
 
-    public void insertCoupon(Goods goods, String id) throws Exception {
+    public void insertCoupon(Goods goods, String id, String imp_uid) throws Exception {
         Map<String,Object> map = new HashMap<>();
         map.put("gno",goods.getGno());
         map.put("id",id);
+        map.put("imp_uid",imp_uid);
         int result = couponMapper.insertCoupon(map);
         if(result < 1){
             throw new Exception("쿠폰 안생김");
@@ -31,5 +32,9 @@ public class CouponService {
 
     public List<Coupon> selectAllById(String id){
         return couponMapper.selectAllById(id);
+    }
+
+    public int deleteByImpUid(String imp_uid){
+        return couponMapper.deleteByImpUid(imp_uid);
     }
 }

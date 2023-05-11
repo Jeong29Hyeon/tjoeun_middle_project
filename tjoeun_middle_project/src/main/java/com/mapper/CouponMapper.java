@@ -12,4 +12,6 @@ public interface CouponMapper {
     int insertCoupon(Map<String,Object> map);
 
     List<Coupon> selectAllById(String id);
+
+    int deleteByImpUid(String imp_uid);
 }

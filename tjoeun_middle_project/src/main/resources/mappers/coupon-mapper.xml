@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mapper.CouponMapper">
   <insert id="insertCoupon" parameterType="java.util.Map">
-    insert into Coupon(gno,id,purchaseDate,expireDate) values(#{gno},#{id},now(),date_add(now(),interval 3 month));
+    insert into Coupon(gno,id,purchaseDate,expireDate,imp_uid) values(#{gno},#{id},now(),date_add(now(),interval 3 month),#{imp_uid});
   </insert>
 
   <resultMap id="CouponResultMap" type="Coupon">
@@ -12,6 +12,7 @@
     <result property="id" column="id"/>
     <result property="purchaseDate" column="purchaseDate"/>
     <result property="expireDate" column="expireDate"/>
+    <result property="imp_uid" column="imp_uid"/>
     <association property="goods" javaType="Goods">
       <id property="gno" column="gno"/>
       <result property="category" column="category"/>
@@ -28,8 +29,9 @@
     select
         c.cno as cno,
         c.id as id,
-        c.purchaseDate as perchaseDate,
+        c.purchaseDate as purchaseDate,
         c.expireDate as expireDate,
+        c.imp_uid as imp_uid,
         g.gno as gno,
         g.category as category,
         g.name as name,
@@ -42,7 +44,8 @@
         from Coupon c left join goods g on g.gno = c.gno
         where id=#{id};
   </select>
-  <select id="selectByGno" resultType="Goods">
-    select * from goods where gno =#{gno};
-  </select>
+
+    <delete id="deleteByImpUid" parameterType="String">
+        delete from Coupon where imp_uid = #{imp_uid}
+    </delete>
 </mapper>

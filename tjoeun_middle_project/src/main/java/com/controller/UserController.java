@@ -3,6 +3,7 @@ package com.controller;
 import com.dto.Coupon;
 import com.dto.User;
 import com.service.CouponService;
+import com.service.PaymentService;
 import com.service.TicketService;
 import com.service.UserService;
 
@@ -29,14 +30,15 @@ public class UserController {
     TicketService ticketService;
 
     CouponService couponService;
+    PaymentService paymentService;
 
     @Autowired
-    public UserController(UserService userService, TicketService ticketService, CouponService couponService) {
+    public UserController(UserService userService, TicketService ticketService, CouponService couponService, PaymentService paymentService) {
         this.userService = userService;
         this.ticketService = ticketService;
         this.couponService = couponService;
+        this.paymentService = paymentService;
     }
-
 
     @GetMapping("/join")
     public String register() {
@@ -184,6 +186,9 @@ public class UserController {
 
     @GetMapping("/profile")
     public String profile(HttpSession session, Model model) {
+        if (session.getAttribute("user")==null){
+            return "redirect:/user/login?toUrl=/user/profile";
+        }
         String id = "";
         if (session.getAttribute("accessToken") != null) {
             Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
@@ -191,7 +196,6 @@ public class UserController {
         } else {
             User user = (User) session.getAttribute("user");
             id = user.getId();
-            System.out.println("couponService.selectAllById(id).get(0).getGoods().getPrice() = " + couponService.selectAllById(id).get(0).getGoods().getPrice());
             model.addAttribute("couponList", couponService.selectAllById(id));
         }
 
@@ -270,5 +274,20 @@ public class UserController {
             e.printStackTrace();
         }
         return "store/couponRoom";
+    }
+    @PostMapping("/deleteCoupon")
+    @ResponseBody
+    public String deleteCoupon(String imp_uid){
+
+        String token = null;
+        try {
+            token = paymentService.getAccessToken();
+            paymentService.payCancel(token,imp_uid);
+            couponService.deleteByImpUid(imp_uid);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
+        return "success";
     }
 }
