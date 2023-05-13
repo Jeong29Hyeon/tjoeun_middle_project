@@ -67,25 +67,26 @@ public class ReserveController {
 
     @PostMapping("/ticketing")
     @ResponseBody
-    public Map<String,Object> ticketing(Ticket ticket){
+    public Map<String,Object> ticketing(Ticket ticket, String imp_uid,Integer paid_amount){
         System.out.println("ticketing controller : "+ticket.toString());
+        System.out.println("imp_uid = " + imp_uid);
         Map<String,Object> map = new HashMap<>();
         if(ticket.getId() == null){
             map.put("msg","ID_NULL_ERR");
             return map;
         }
         try {
-            ticketService.insertTicket(ticket);
+            ticketService.insertTicket(ticket, imp_uid, paid_amount);
             map.put("msg","success");
-            map.put("tno",ticket.getTno());
         } catch (Exception e) {
             e.printStackTrace();
+            String accessToken = paymentService.getAccessToken();
+            paymentService.payCancel(accessToken,imp_uid);
             map.put("msg","SEATS_DUPLICATE_ERR");
             return map;
         }
         return map;
     }
-
 
     @RequestMapping(value = "/movieSelect", method = RequestMethod.GET)
     public String selectTime(Model model, String seq,String title) throws IOException {
@@ -127,27 +128,8 @@ public class ReserveController {
             e.printStackTrace();
             return "fail";
         }
-//        return "redirect:/user/ticketHistory";
         return "success";
     }
 
-    @PostMapping("/payFail")
-    @ResponseBody
-    public String payFail(Integer tno){
-        ticketService.deleteTicket(tno);
-        return "success";
-    }
 
-    @PostMapping("/paySuccess")
-    @ResponseBody
-    public String paySuccess(Payment payment){
-        System.out.println("paySuccess Controller - "+ payment.toString());
-        try {
-            paymentService.insertTicketPayment(payment);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "fail";
-        }
-        return "success";
-    }
 }

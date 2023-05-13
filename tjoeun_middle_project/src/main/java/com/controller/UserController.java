@@ -3,6 +3,7 @@ package com.controller;
 import com.dto.Coupon;
 import com.dto.User;
 import com.service.CouponService;
+import com.service.CouponServiceImpl;
 import com.service.PaymentService;
 import com.service.TicketService;
 import com.service.UserService;
@@ -94,6 +95,7 @@ public class UserController {
         }
         Cookie cookie = new Cookie("id", id);
         if (saveId) {
+            cookie.setMaxAge(60*60*24*3); //3일
             response.addCookie(cookie);
         } else {
             cookie.setMaxAge(0);

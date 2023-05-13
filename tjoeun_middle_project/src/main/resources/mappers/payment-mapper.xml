@@ -4,10 +4,10 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mapper.PaymentMapper">
   <insert id="insertTicketPayment" parameterType="Payment">
-    insert into Payment(imp_uid, tno, paid_amount) VALUES(#{imp_uid},#{tno},#{paid_amount});
+    insert into Payment(imp_uid, tno, paid_amount,pay_date) VALUES(#{imp_uid},#{tno},#{paid_amount},now());
   </insert>
   <insert id="insertCouponPayment" parameterType="Payment">
-    insert into Payment(imp_uid, paid_amount) VALUES(#{imp_uid},#{paid_amount});
+    insert into Payment(imp_uid, paid_amount,pay_date) VALUES(#{imp_uid},#{paid_amount},now());
   </insert>
   <select id="selectImpUidByTno" parameterType="int" resultType="java.lang.String">
     select imp_uid from Payment where tno=#{tno};

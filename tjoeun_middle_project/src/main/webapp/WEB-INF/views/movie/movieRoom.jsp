@@ -256,85 +256,61 @@
         alert('인원수와 선택한 좌석을 다시 확인해주세요');
         return;
       }
-      $.ajax({
-        url: '/ticketing',
-        type: 'post',
-        data: {
-          'id': '${sessionScope.user.id}',
-          'titleInfo': $('#titleInfo').val(),
-          'dayInfo': $('#dayInfo').val(),
-          'hallInfo': $('#hallInfo').val(),
-          'timeInfo': $('#timeInfo').val(),
-          'numberOfAdult': $('#numberOfAdult').val(),
-          'numberOfTeen': $('#numberOfTeen').val(),
-          'seats': $('#seatsInput').val()+",",
-          'price': $('#priceInput').val().replace(/[^0-9]/g, "")
-        },
-        dataType:'JSON',
-        success: function (result) {
-          console.log(result);
-          if (result.msg === 'ID_NULL_ERR') {
-            $('#loginModal').modal('show');
-          } else if (result.msg ==='SEATS_DUPLICATE_ERR'){
-            alert('이미 선택된 좌석입니다. 좌석을 다시 선택해주세요.');
-            location.reload();
-          } else if (result.msg === 'success') {
-            var IMP = window.IMP;
-            IMP.init('imp11028147');
-            IMP.request_pay({
-              pg: 'kakaopay',
-              merchant_uid: 'merchant_' + new Date().getTime(),
-              name: '더조은 시네마 - 영화예매',
-              amount: $('#priceInput').val().replace(/[^0-9]/g, ""),
-            }, function (rsp) {
-              console.log(rsp);
-              if (rsp.success) {
-                $.ajax({
-                  type:'post',
-                  url:'/paySuccess',
-                  data:{
-                    'tno':result.tno,
-                    'imp_uid':rsp.imp_uid,
-                    'paid_amount':rsp.paid_amount
-                  },
-                  success:function (paymentResult){
-                    if(paymentResult ==='fail'){
-                      alert('결제정보 DB저장 실패');
-                    }
-                  },
-                  error:function (){
-                    alert('결제정보 저장 비동기통신 실패');
-                  }
-                });
-                $('#successTicketModal').modal('show');
-                // msg += '고유ID : ' + rsp.imp_uid;
-                // msg += '상점 거래ID : ' + rsp.merchant_uid;
-                // msg += '결제 금액 : ' + rsp.paid_amount;
-              } else {
-                $.ajax({
-                  type:'post',
-                  url:'/payFail',
-                  data:{
-                      'tno': result.tno
-                  },
-                  error:function (){
-                    alert("결제실패 비동기통신 에러");
-                    location.reload();
-                  }
-                });
-                alert(rsp.error_msg);
+      if(${empty sessionScope.user}){
+        $('#loginModal').modal('show');
+        return;
+      }
+      var IMP = window.IMP;
+      IMP.init('imp11028147');
+      IMP.request_pay({
+        pg: 'kakaopay',
+        merchant_uid: 'merchant_' + new Date().getTime(),
+        name: '더조은 시네마 - 영화예매',
+        amount: $('#priceInput').val().replace(/[^0-9]/g, ""),
+      }, function (rsp) {
+        console.log(rsp);
+        if (rsp.success) {
+          $.ajax({
+            url: '/ticketing',
+            type: 'post',
+            data: {
+              'id': '${sessionScope.user.id}',
+              'titleInfo': $('#titleInfo').val(),
+              'dayInfo': $('#dayInfo').val(),
+              'hallInfo': $('#hallInfo').val(),
+              'timeInfo': $('#timeInfo').val(),
+              'numberOfAdult': $('#numberOfAdult').val(),
+              'numberOfTeen': $('#numberOfTeen').val(),
+              'seats': $('#seatsInput').val()+",",
+              'price': $('#priceInput').val().replace(/[^0-9]/g, ""),
+              'imp_uid':rsp.imp_uid,
+              'paid_amount':rsp.paid_amount
+            },
+            dataType:'JSON',
+            success: function (result) {
+              console.log(result);
+              if (result.msg === 'ID_NULL_ERR') {
+                $('#loginModal').modal('show');
+              } else if (result.msg ==='SEATS_DUPLICATE_ERR'){
+                alert('이미 선택된 좌석입니다. 좌석을 다시 선택해주세요.');
                 location.reload();
+              } else if (result.msg === 'success') {
+                $('#successTicketModal').modal('show');
               }
-            });
-          }
-        },
-        error: function () {
-          alert('티켓팅 비동기통신 에러');
+            },
+            error: function () {
+              alert('티켓팅 비동기통신 에러');
+            }
+          });
+          // msg += '고유ID : ' + rsp.imp_uid;
+          // msg += '상점 거래ID : ' + rsp.merchant_uid;
+          // msg += '결제 금액 : ' + rsp.paid_amount;
+        } else {
+          alert(rsp.error_msg);
+          location.reload();
         }
       });
-
     });
-
   });
 
   <!-- 로그인 ID/PW 널 체크 -->
