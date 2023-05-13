@@ -1,10 +1,14 @@
 package com.dto;
 
+import java.sql.Timestamp;
+
 public class Payment {
     private int pno;
     private String imp_uid;
     private int tno;
     private int paid_amount;
+
+    private Timestamp pay_date;
 
     public Payment() {
     }
@@ -42,6 +46,14 @@ public class Payment {
         this.paid_amount = paid_amount;
     }
 
+    public Timestamp getPay_date() {
+        return pay_date;
+    }
+
+    public void setPay_date(Timestamp pay_date) {
+        this.pay_date = pay_date;
+    }
+
     @Override
     public String toString() {
         return "Payment{" +
@@ -49,6 +61,7 @@ public class Payment {
             ", imp_uid='" + imp_uid + '\'' +
             ", tno=" + tno +
             ", paid_amount=" + paid_amount +
+            ", pay_date=" + pay_date +
             '}';
     }
 }

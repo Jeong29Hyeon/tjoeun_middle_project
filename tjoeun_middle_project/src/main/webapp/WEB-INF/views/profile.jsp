@@ -402,7 +402,10 @@
     <c:forEach var="coupon" items="${couponList}" varStatus="i">
     <c:if test="${coupon.imp_uid != couponList[i.index+1].imp_uid}">
     $('#btnCancel${coupon.imp_uid}').on('click',function (){
-
+        let choice = confirm("정말 결제취소 하시겠습니까?");
+        if(!choice){
+          return;
+        }
         $.ajax({
            url: "/user/deleteCoupon",
            type: "post",
