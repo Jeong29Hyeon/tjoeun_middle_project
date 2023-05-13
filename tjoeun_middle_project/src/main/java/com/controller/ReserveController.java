@@ -76,12 +76,7 @@ public class ReserveController {
             return map;
         }
         try {
-            ticketService.insertTicket(ticket);
-            Payment payment = new Payment();
-            payment.setPaid_amount(paid_amount);
-            payment.setImp_uid(imp_uid);
-            payment.setTno(ticket.getTno());
-            paymentService.insertTicketPayment(payment);
+            ticketService.insertTicket(ticket, imp_uid, paid_amount);
             map.put("msg","success");
         } catch (Exception e) {
             e.printStackTrace();
@@ -133,15 +128,8 @@ public class ReserveController {
             e.printStackTrace();
             return "fail";
         }
-//        return "redirect:/user/ticketHistory";
         return "success";
     }
 
-    @PostMapping("/payFail")
-    @ResponseBody
-    public String payFail(Integer tno){
-        ticketService.deleteTicket(tno);
-        return "success";
-    }
 
 }
