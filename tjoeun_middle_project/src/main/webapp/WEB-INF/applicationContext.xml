@@ -4,12 +4,11 @@
   xmlns:context="http://www.springframework.org/schema/context"
   xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
   xmlns:tx="http://www.springframework.org/schema/tx"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
   <context:component-scan base-package="com" />
   <mybatis:scan base-package="com.mapper"/>
   <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
     <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
-<!--    <property name="url" value="jdbc:mysql://localhost:3306/web_project?useUnicode=true&amp;characterEncoding=utf8"/>-->
     <property name="url" value="jdbc:mysql://jehee-db.cwrvla2ah13l.ap-northeast-2.rds.amazonaws.com:3306/theater?useUnicode=true&amp;characterEncoding=utf8"/>
     <property name="username" value="admin"/>
     <property name="password" value="asd3897010"/>
@@ -27,10 +26,11 @@
     <property name="maxUploadSize" value="1000000000"/>
     <property name="maxInMemorySize" value="1000000000"/>
   </bean>
-<!--  &lt;!&ndash; 선언적 방식의 트랜잭션 설정 &ndash;&gt;-->
-<!--  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">-->
-<!--    <property name="dataSource" ref="dataSource"/>-->
-<!--  </bean>-->
-<!--  &lt;!&ndash; 어노테이션 기반 트랜잭션 설정 &ndash;&gt;-->
-<!--  <tx:annotation-driven/>-->
+  <!-- 어노테이션 기반 트랜잭션 설정 -->
+  <tx:annotation-driven/>
+  <!-- 선언적 방식의 트랜잭션 설정 -->
+  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="dataSource"/>
+  </bean>
+
 </beans>

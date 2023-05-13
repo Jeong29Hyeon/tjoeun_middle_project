@@ -126,10 +126,7 @@
                     },
                     success:function (result){
                       if(result ==='fail') {
-                        alert("쿠폰 생성 DB에러");
-                        return;
-                      }else if(result ==='payInsertError') {
-                        alert("페이먼트 생성 DB에러");
+                        alert("쿠폰 생성 or 결제내역 생성 DB에러");
                         return;
                       }
                         alert("결제완료");

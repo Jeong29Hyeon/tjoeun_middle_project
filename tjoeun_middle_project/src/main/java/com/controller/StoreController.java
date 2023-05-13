@@ -1,9 +1,9 @@
 package com.controller;
 
 import com.dto.Goods;
-import com.dto.Payment;
 import com.dto.User;
 import com.service.CouponService;
+import com.service.CouponServiceImpl;
 import com.service.GoodsService;
 import com.service.PaymentService;
 import java.io.File;
@@ -34,25 +34,25 @@ public class StoreController {
     }
 
     @GetMapping("/main")
-    public String storeMain(){
+    public String storeMain() {
         return "store/main";
     }
 
     @GetMapping("/test")
-    public String test(){
+    public String test() {
         return "store/insertTest";
     }
 
     @GetMapping("/display")
-    public String display(Model model){
+    public String display(Model model) {
         List<Goods> goodsList;
         try {
             goodsList = goodsService.getGoodsList();
-            model.addAttribute("goodsList",goodsList);
-            model.addAttribute("setMenuList",goodsService.getCategoryList("setMenu"));
-            model.addAttribute("popcornList",goodsService.getCategoryList("popcorn"));
-            model.addAttribute("drinkList",goodsService.getCategoryList("drink"));
-        }catch (Exception e){
+            model.addAttribute("goodsList", goodsList);
+            model.addAttribute("setMenuList", goodsService.getCategoryList("setMenu"));
+            model.addAttribute("popcornList", goodsService.getCategoryList("popcorn"));
+            model.addAttribute("drinkList", goodsService.getCategoryList("drink"));
+        } catch (Exception e) {
             e.printStackTrace();
             //해결점
         }
@@ -60,21 +60,21 @@ public class StoreController {
     }
 
     @PostMapping("/insert-goods")
-    public String insertGoods(@RequestParam("image")MultipartFile file, Goods goods){
-        try{
+    public String insertGoods(@RequestParam("image") MultipartFile file, Goods goods) {
+        try {
             String uploadPath = "C:\\Users\\USER\\Documents\\github\\tjoeun_middle_project\\tjoeun_middle_project\\src\\main\\webapp\\resources\\img\\goods";
             System.out.println("uploadPath = " + uploadPath);
             File folder = new File(uploadPath);
-            if(!folder.exists()){
+            if (!folder.exists()) {
                 folder.mkdir();
             }
             String fileRealName = file.getOriginalFilename();
             UUID uuid = UUID.randomUUID();
-            String uuids = uuid.toString().replace("-","");
+            String uuids = uuid.toString().replace("-", "");
             String fileExtension = fileRealName.substring(fileRealName.indexOf("."));
-            String fileName = uuids+fileExtension;
+            String fileName = uuids + fileExtension;
 
-            File saveFile = new File(uploadPath+"/"+fileName);
+            File saveFile = new File(uploadPath + "/" + fileName);
             file.transferTo(saveFile);
             goods.setFileName(fileName);
             goods.setFileRealName(fileRealName);
@@ -86,49 +86,49 @@ public class StoreController {
 
         return "redirect:/store/display";
     }
+
     @GetMapping("/detail")
-    public String storeDetail(Model model,String gno){
+    public String storeDetail(Model model, String gno) {
         System.out.println(gno);
         Goods goods = goodsService.getSelectGoods(gno);
-        model.addAttribute("selectGoods",goods);
+        model.addAttribute("selectGoods", goods);
         return "store/detail";
     }
 
     @GetMapping("/cart")
-    public String cart(){
+    public String cart() {
         return "store/cart";
     }
 
     @PostMapping("/cart-quantity-change")
     @ResponseBody
-    public String quantityChange(String gno, Integer quantity, HttpSession session){
-        Map<String,Goods> goodsList = (Map<String, Goods>) session.getAttribute("cart");
+    public String quantityChange(String gno, Integer quantity, HttpSession session) {
+        Map<String, Goods> goodsList = (Map<String, Goods>) session.getAttribute("cart");
         goodsList.get(gno).setQuantity(quantity);
         return "success";
     }
 
 
-
     @PostMapping("/cart-add")
     @ResponseBody
-    public String cartAdd(String gno, HttpSession session){
-        Map<String,Goods> goodsList;
+    public String cartAdd(String gno, HttpSession session) {
+        Map<String, Goods> goodsList;
         try {
             Goods selectGoods = goodsService.getSelectGoods(gno);
-            if(session.getAttribute("cart")==null){
+            if (session.getAttribute("cart") == null) {
                 goodsList = new HashMap<>();
-                goodsList.put(gno,selectGoods);
-                session.setAttribute("cart",goodsList);
-            }else{
+                goodsList.put(gno, selectGoods);
+                session.setAttribute("cart", goodsList);
+            } else {
                 goodsList = (Map<String, Goods>) session.getAttribute("cart");
                 Goods goods = goodsList.get(gno);
-                if(goods != null){
-                    if(goods.getQuantity() == 4){
+                if (goods != null) {
+                    if (goods.getQuantity() == 4) {
                         return "quantityError";
                     }
-                    goods.setQuantity(goods.getQuantity()+1);
-                }else{
-                    goodsList.put(gno,selectGoods);
+                    goods.setQuantity(goods.getQuantity() + 1);
+                } else {
+                    goodsList.put(gno, selectGoods);
                 }
             }
         } catch (Exception e) {
@@ -139,42 +139,32 @@ public class StoreController {
     }
 
     @GetMapping("/purchase")
-    public String purchase(){
+    public String purchase() {
         return "store/purchase";
     }
 
     @PostMapping("/purchase")
     @ResponseBody
-    public String purchasePost(HttpSession session, String imp_uid,Integer paid_amount){
-        Map<String,Goods> cart = (Map<String, Goods>) session.getAttribute("cart");
+    public String purchasePost(HttpSession session, String imp_uid, Integer paid_amount) {
+        Map<String, Goods> cart = (Map<String, Goods>) session.getAttribute("cart");
         User user = (User) session.getAttribute("user");
-        for(Goods goods : cart.values()){
-            for(int i =0; i < goods.getQuantity(); i++){
-                try {
-                    couponService.insertCoupon(goods,user.getId(),imp_uid);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return "fail";
-                }
-            }
-        }
-        Payment payment = new Payment();
-        payment.setImp_uid(imp_uid);
-        payment.setPaid_amount(paid_amount);
         try {
-            paymentService.insertCouponPayment(payment);
+            couponService.insertCoupon(cart, imp_uid, paid_amount, user.getId());
         } catch (Exception e) {
-            return "payInsertError";
+            String accessToken = paymentService.getAccessToken();
+            paymentService.payCancel(accessToken,imp_uid);
+            return "fail";
         }
         session.removeAttribute("cart");  //카트 세션 삭제
         return "success";
     }
+
     @PostMapping("/delete")
     @ResponseBody
-    public String delete(String gno,HttpSession session){
-        Map<String,Goods> cart = (Map<String, Goods>) session.getAttribute("cart");
+    public String delete(String gno, HttpSession session) {
+        Map<String, Goods> cart = (Map<String, Goods>) session.getAttribute("cart");
         cart.remove(gno);
-        if(cart.size()==0){
+        if (cart.size() == 0) {
             session.removeAttribute("cart");
         }
         return "success";
@@ -182,7 +172,7 @@ public class StoreController {
 
 
     @GetMapping("/purchase-complete")
-    public String complete(){
+    public String complete() {
         return "store/purchaseComplete";
     }
 }
