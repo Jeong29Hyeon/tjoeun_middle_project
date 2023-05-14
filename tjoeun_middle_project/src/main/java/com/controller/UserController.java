@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.aop.UserIdCheck;
 import com.dto.Coupon;
 import com.dto.User;
 import com.service.CouponService;
@@ -186,11 +187,9 @@ public class UserController {
         return "/searchIdPw";
     }
 
+    @UserIdCheck
     @GetMapping("/profile")
     public String profile(HttpSession session, Model model) {
-        if (session.getAttribute("user")==null){
-            return "redirect:/user/login?toUrl=/user/profile";
-        }
         String id = "";
         if (session.getAttribute("accessToken") != null) {
             Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
@@ -250,6 +249,7 @@ public class UserController {
         return "success";
     }
 
+    @UserIdCheck
     @GetMapping("/couponRoom")
     public String couponRoom(Model model, HttpSession session) {
         Date now = new Date();

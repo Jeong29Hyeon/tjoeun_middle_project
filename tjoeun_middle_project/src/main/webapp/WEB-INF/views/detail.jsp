@@ -161,6 +161,9 @@
             success: function (result) {
                 if (result === "success") {
                     location.reload();
+                } else if(result ==="LOGIN_ERR"){
+                  alert("세션이 만료되어 로그인 페이지로 이동합니다.");
+                  location.href="/";
                 } else {
                     alert("작성 실패");
                     location.reload();
@@ -196,6 +199,9 @@
             success: function (result) {
                 if (result === "success") {
                     location.reload(); // 로케이션 리로드 하면 페이지 스크롤 상태가 그대로임
+                } else if(result ==="LOGIN_ERR"){
+                  alert("세션이 만료되어 로그인 페이지로 이동합니다.");
+                  location.href="/";
                 } else {
                     alert("수정에러 발생");
                     location.reload();
@@ -219,6 +225,9 @@
                 success: function (result) {
                     if (result === "success") {
                         location.reload(); // 로케이션 리로드 하면 페이지 스크롤 상태가 그대로임
+                    } else if(result ==="LOGIN_ERR"){
+                      alert("세션이 만료되어 로그인 페이지로 이동합니다.");
+                      location.href="/";
                     } else {
                         alert("수정에러 발생");
                         location.reload();
@@ -252,7 +261,11 @@
                     $('#i${review.rno}').removeClass("fa-regular");
                     $('#i${review.rno}').addClass("fa-solid");
 
-                }else {
+                } else if(result ==="LOGIN_ERR"){
+                  alert("세션이 만료되어 로그인 페이지로 이동합니다.");
+                  location.href="/";
+                  return;
+                } else {
                     $('#i${review.rno}').removeClass("fa-solid");
                     $('#i${review.rno}').addClass("fa-regular");
                 }

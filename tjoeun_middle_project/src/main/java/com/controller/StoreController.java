@@ -1,5 +1,7 @@
 package com.controller;
 
+import com.aop.AjaxUserIdCheck;
+import com.aop.UserIdCheck;
 import com.dto.Goods;
 import com.dto.User;
 import com.service.CouponService;
@@ -96,11 +98,13 @@ public class StoreController {
     }
 
     @GetMapping("/cart")
+    @UserIdCheck
     public String cart() {
         return "store/cart";
     }
 
     @PostMapping("/cart-quantity-change")
+    @AjaxUserIdCheck
     @ResponseBody
     public String quantityChange(String gno, Integer quantity, HttpSession session) {
         Map<String, Goods> goodsList = (Map<String, Goods>) session.getAttribute("cart");
@@ -110,6 +114,7 @@ public class StoreController {
 
 
     @PostMapping("/cart-add")
+    @AjaxUserIdCheck
     @ResponseBody
     public String cartAdd(String gno, HttpSession session) {
         Map<String, Goods> goodsList;
@@ -139,6 +144,7 @@ public class StoreController {
     }
 
     @GetMapping("/purchase")
+    @UserIdCheck
     public String purchase() {
         return "store/purchase";
     }
@@ -151,6 +157,7 @@ public class StoreController {
         try {
             couponService.insertCoupon(cart, imp_uid, paid_amount, user.getId());
         } catch (Exception e) {
+            e.printStackTrace();
             String accessToken = paymentService.getAccessToken();
             paymentService.payCancel(accessToken,imp_uid);
             return "fail";
@@ -160,6 +167,7 @@ public class StoreController {
     }
 
     @PostMapping("/delete")
+    @AjaxUserIdCheck
     @ResponseBody
     public String delete(String gno, HttpSession session) {
         Map<String, Goods> cart = (Map<String, Goods>) session.getAttribute("cart");

@@ -306,7 +306,7 @@
         var regExpYear = /^[0-9]{4}$/;
         var regExpDay = /^[0-9]{1,2}/;
         var regExpEmail1 = /^[a-zA-Z0-9]([-_]?[a-zA-Z0-9])*$/;
-        var regExpEmail2 = /^[0-9a-zA-Z]([-_]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+        var regExpEmail2 = /^[0-9a-zA-Z]([-_]?[0-9a-zA-Z])*\.[a-zA-Z]([.]?[a-zA-Z]){2,3}$/;
         var regExpPhone = /^010[0-9]{8}$/;
         var current = new Date();
 
@@ -379,6 +379,9 @@
                 if (result === "success") {
                     alert("변경이 완료되었습니다.")
                     location.reload();
+                } else if(result ==="LOGIN_ERR"){
+                    alert("세션이 만료되어 로그인 페이지로 이동합니다.");
+                    location.href="/";
                 } else {
                     alert("변경 실패")
                     $('#id').attr('disabled', true);

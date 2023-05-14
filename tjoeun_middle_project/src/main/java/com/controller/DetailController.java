@@ -61,10 +61,8 @@ public class DetailController {
         }
 
         try {
-
             likeList = likeService.selectByUserIdSeq(userId,seq);
             reviewList = reviewService.selectAllBySeq(seq);
-
         } catch (Exception e) {
             e.printStackTrace();
             //에러 잡아야함

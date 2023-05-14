@@ -77,23 +77,13 @@
 </div>
 <form action="<c:url value="/movieRoom"/>" method="post" id="movieSelectForm">
     <div class="container text-center mt-5">
-        <div class="row">
-            <div class="col">
-                <input type="text" id="titleInfo" name="titleInfo" value="" hidden>
-            </div>
-            <div class="col">
-                <input type="text" id="dayInfo" name="dayInfo" hidden>
-            </div>
-            <div class="col">
-                <input type="text" id="hallInfo" name="hallInfo" value="" hidden>
-            </div>
-            <div class="col">
-                <input type="text" id="timeInfo" name="timeInfo" value="" hidden>
-            </div>
-            <div class="col">
-                <input type="text" id="ageInfo" name="ageInfo" value="" hidden>
-            </div>
-        </div>
+        <input type="text" id="userIdInfo" name="userId"
+               value="${empty sessionScope.user?'': sessionScope.user.id}" hidden>
+        <input type="text" id="titleInfo" name="titleInfo" value="" hidden>
+        <input type="text" id="dayInfo" name="dayInfo" hidden>
+        <input type="text" id="hallInfo" name="hallInfo" value="" hidden>
+        <input type="text" id="timeInfo" name="timeInfo" value="" hidden>
+        <input type="text" id="ageInfo" name="ageInfo" value="" hidden>
     </div>
     <div class="container mt-5">
         <button class="container btn-close-white" type="button" onclick="click_btn()">
@@ -107,12 +97,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="loginHeader">로그인</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form name="loginForm" class="row g-3" action="<c:url value='/user/login'/>"
-                      method="post">
+                <form name="loginForm">
                     <div class="row mt-md-3">
                         <div class="col-md-12">
                             <label for="id" class="form-label">아이디</label>
@@ -150,7 +137,8 @@
                     <div class="row text-center mt-md-4">
                         <div class="col">
                             <a href="<c:url value="/user/kakaoLogin"/>">
-                                <img src="<c:url value="/resources/img/kakao_login_medium_wide.png"/>" alt="로그인">
+                                <img src="<c:url value="/resources/img/kakao_login_medium_wide.png"/>"
+                                     alt="로그인">
                             </a>
                         </div>
                     </div>
@@ -160,11 +148,6 @@
     </div>
 </div>
 
-<br>
-서버로 인원수 영화제목 관 시간 넘겨서 좌석보여주기<br>
-정현 요구사항 - > 인풋텍스트 히든 처리하고 자바스크립트로 선택한거 강조되게 처리하고 <br>
-시간 디비처리 해서 샤샤샥<br>
-날짜 처음에 1일(요일) 로 하였으나 ( 특수문자를 받아드리지 못하여 _로 수정함 할거면 디티오 만들어서 불러내는 방식? 을써야할듯<br>
 
 <%@ include file="/WEB-INF/views/footer.jsp" %>
 <script>
@@ -341,13 +324,13 @@
       alert('날짜를 선택해주세요!')
       return;
     } else if ($('#hallInfo').val() === '') {
-      alert('상영관를 선택해주세요!')
+      alert('상영관을 선택해주세요!')
       return;
     } else if ($('#timeInfo').val() === '') {
       alert('시간을 선택해주세요!')
       return;
     }
-    if (${empty sessionScope.user}) {
+    if ($('#userIdInfo').val() === '') {
       $('#loginModal').modal('show');
     } else {
       let selectedDay = $('#dayInfo').val().replace(/[^0-9]/g, "");
@@ -392,6 +375,7 @@
                   + 1) : (date.getMonth() + 1)) + "-" + ((selectedDay) <= 9 ? "0" + (selectedDay)
               : (selectedDay));
           $('#dayInfo').val(dateFormat);
+          $('#userIdInfo').val(id);
           document.getElementById('movieSelectForm').submit();
         } else {
           alert('아이디 혹은 비밀번호가 일치하지 않습니다.');
