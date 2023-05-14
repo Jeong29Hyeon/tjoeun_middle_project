@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.aop.AjaxUserIdCheck;
 import com.dto.Like;
 import com.dto.Review;
 import com.service.LikeService;
@@ -27,6 +28,7 @@ public class ReviewController {
 
 
     @PostMapping("/write")
+    @AjaxUserIdCheck
     @ResponseBody
     public String writeReview(Review review){
         try {
@@ -39,6 +41,7 @@ public class ReviewController {
     }
 
     @PostMapping("/edit")
+    @AjaxUserIdCheck
     @ResponseBody
     public String editReview(Review review){
         try {
@@ -49,6 +52,7 @@ public class ReviewController {
         return "success";
     }
     @PostMapping("/delete")
+    @AjaxUserIdCheck
     @ResponseBody
     public String deleteReview(Integer rno){
         try {
@@ -62,6 +66,7 @@ public class ReviewController {
 
     //댓글 좋아요 컨트롤러가 따로필요한가? 여기다 하면 안되나?
     @PostMapping("/update")
+    @AjaxUserIdCheck
     @ResponseBody
     public int likeupdate(Review review){
         Like temp;

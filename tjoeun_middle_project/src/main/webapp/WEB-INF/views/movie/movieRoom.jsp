@@ -16,6 +16,7 @@
     <div class="row mb-3">
         <div class="col-4">
             <h3>선택하신 영화 정보</h3><br>
+            <input type="text" name="userId" id="userIdInfo" value="${userId}" hidden/>
             <input type="text" class="form-control-plaintext" name="titleInfo" id="titleInfo"
                    value="${ticket.titleInfo}" disabled>
             <input type="text" class="form-control-plaintext" name="hallInfo" id="hallInfo"
@@ -256,10 +257,6 @@
         alert('인원수와 선택한 좌석을 다시 확인해주세요');
         return;
       }
-      if(${empty sessionScope.user}){
-        $('#loginModal').modal('show');
-        return;
-      }
       var IMP = window.IMP;
       IMP.init('imp11028147');
       IMP.request_pay({
@@ -274,7 +271,7 @@
             url: '/ticketing',
             type: 'post',
             data: {
-              'id': '${sessionScope.user.id}',
+              'id': $('#userIdInfo').val(),
               'titleInfo': $('#titleInfo').val(),
               'dayInfo': $('#dayInfo').val(),
               'hallInfo': $('#hallInfo').val(),
@@ -289,9 +286,7 @@
             dataType:'JSON',
             success: function (result) {
               console.log(result);
-              if (result.msg === 'ID_NULL_ERR') {
-                $('#loginModal').modal('show');
-              } else if (result.msg ==='SEATS_DUPLICATE_ERR'){
+               if (result.msg ==='SEATS_DUPLICATE_ERR'){
                 alert('이미 선택된 좌석입니다. 좌석을 다시 선택해주세요.');
                 location.reload();
               } else if (result.msg === 'success') {

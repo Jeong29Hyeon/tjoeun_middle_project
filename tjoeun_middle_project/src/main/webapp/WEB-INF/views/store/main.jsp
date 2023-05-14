@@ -10,14 +10,15 @@
 <head>
     <title>Store</title>
     <style>
-        a {
-            text-decoration-line: none;
-            color: black;
-        }
-        img{
-            width: 200px;
-            height: 280px;
-        }
+      a {
+        text-decoration-line: none;
+        color: black;
+      }
+
+      img {
+        width: 200px;
+        height: 280px;
+      }
     </style>
 </head>
 <body>
@@ -25,12 +26,14 @@
 <div class="container mt-5">
     <h2>스토어</h2>
     <div class="text-end">
-    <c:if test="${not empty sessionScope.user}">
-    <a href="<c:url value="/store/cart"/>">
-        <button id="goCart" class="navbar-toggler collapsed" >
-            <span>장바구니 <span id="cartSize" class="badge rounded-pill bg-danger">${empty sessionScope.cart ? '0' : sessionScope.cart.size()}</span></span>
-        </button></a>
-    </c:if>
+        <c:if test="${not empty sessionScope.user}">
+            <a href="<c:url value="/store/cart"/>">
+                <button id="goCart" class="navbar-toggler collapsed">
+                    <span>장바구니 <span id="cartSize"
+                                     class="badge rounded-pill bg-danger">${empty sessionScope.cart ? '0' : sessionScope.cart.size()}</span></span>
+                </button>
+            </a>
+        </c:if>
     </div>
 </div>
 <div class="container">
@@ -63,7 +66,7 @@
                     <c:forEach var="setMenu" items="${setMenuList}" varStatus="i">
                         <div class="col-4"> <!-- a태그 네임 추가 -->
                             <span id="imgWrap${setMenu.gno}" class="position-relative rounded-2">
-                                    <a href="/store/detail?gno=${setMenu.gno}"
+                                    <a href="<c:url value="/store/detail?gno=${setMenu.gno}"/>"
                                        style="text-decoration-line: none; color: black">
                                     <img id="menuImage${setMenu.gno}"
                                          src="${setMenu.uploadPath}/${setMenu.fileName}"
@@ -98,7 +101,7 @@
                     <c:forEach var="popcorn" items="${popcornList}" varStatus="i">
                         <div id="popcorn${popcorn.gno}" class="col-4">
                             <span id="imgWrap${popcorn.gno}" class="position-relative rounded-2">
-                                    <a href="/store/detail?gno=${popcorn.gno}"
+                                    <a href="<c:url value="/store/detail?gno=${popcorn.gno}"/>"
                                        style="text-decoration-line: none; color: black">
                                          <img id="menuImage${popcorn.gno}"
                                               src="${popcorn.uploadPath}/${popcorn.fileName}"
@@ -113,15 +116,11 @@
 
                                     </span>
                                 </span>
-                            <a href="/store/detail?gno=${popcorn.gno}"
-                               style="text-decoration-line: none; color: black">
-
-                                <h5>${popcorn.name}</h5>
-                                <hr>
-                                <p>${popcorn.goodsInfo}
-                                <p>${popcorn.components}
-                                <p>${popcorn.price}원
-                            </a>
+                            <h5>${popcorn.name}</h5>
+                            <hr>
+                            <p>${popcorn.goodsInfo}
+                            <p>${popcorn.components}
+                            <p>${popcorn.price}원
                         </div>
                     </c:forEach>
                 </div>
@@ -136,7 +135,7 @@
                     <c:forEach var="drink" items="${drinkList}" varStatus="i">
                         <div id="drink${drink.gno}" class="col-4">
                              <span id="imgWrap${drink.gno}" class="position-relative rounded-2">
-                                    <a href="/store/detail?gno=${drink.gno}"
+                                    <a href="<c:url value="/store/detail?gno=${drink.gno}"/>"
                                        style="text-decoration-line: none; color: black">
                                         <img id="menuImage${drink.gno}"
                                              src="${drink.uploadPath}/${drink.fileName}"/>
@@ -150,15 +149,11 @@
 
                                     </span>
                                 </span>
-                            <a href="/store/detail?gno=${drink.gno}"
-                               style="text-decoration-line: none; color: black">
-
-                                <h5>${drink.name}</h5>
-                                <hr>
-                                <p>${drink.goodsInfo}
-                                <p>${drink.components}
-                                <p>${drink.price}원
-                            </a>
+                            <h5>${drink.name}</h5>
+                            <hr>
+                            <p>${drink.goodsInfo}
+                            <p>${drink.components}
+                            <p>${drink.price}원
                         </div>
                     </c:forEach>
                 </div>
@@ -168,152 +163,165 @@
 </div>
 <%@include file="../footer.jsp" %>
 <script>
-    $(document).ready(function () {
-        <c:forEach var="setMenu" items="${setMenuList}">
-        $('#imgWrap${setMenu.gno}').on('mouseover', function () {
-            <%--$('#imgWrap${setMenu.gno}').css('background', 'rgba(0,0,0,0.8)');--%>
-            $('#menuImage${setMenu.gno}').css('opacity', '0.5');
-            $('#menuImage${setMenu.gno}').css('transition', 'opacity 0.25s ease-in-out');
-            $('#btnWrap${setMenu.gno}').attr('hidden', false);
-        });
-
-        $('#imgWrap${setMenu.gno}').on('mouseout', function () {
-            $('#menuImage${setMenu.gno}').css('opacity', '1');
-            $('#btnWrap${setMenu.gno}').attr('hidden', true);
-        });
-
-        $('#btnCart${setMenu.gno}').on('click', function () {
-            if (sessionCheck() === 'true') {
-                return;
-            }
-            $.ajax({
-                type: 'post',
-                url: '/store/cart-add',
-                data: {
-                    'gno':${setMenu.gno}
-                },
-                success: function (result) {
-                    $('#cartSize').load(location.href+' #cartSize');
-                    $('#headerCartSize').load(location.href+' #headerCartSize');
-
-                    if (result === 'quantityError') {
-                        alert("4개이상 추가할 수 없습니다.");
-                        return;
-                    }
-                    let choice = confirm(`장바구니에 추가되었습니다.
-                  확인하시겠습니까?`);
-                    if (choice) {
-                        // alert("구매하기로 가야함")
-                        location.href = "/store/cart"
-                    }
-                },
-                error: function () {
-                    alert("카트에 아이템 추가 비통신에러");
-                }
-            })
-        });
-
-        </c:forEach>
-
-        <c:forEach var="popcorn" items="${popcornList}">
-        $('#imgWrap${popcorn.gno}').on('mouseover', function () {
-            <%--$('#imgWrap${setMenu.gno}').css('background', 'rgba(0,0,0,0.8)');--%>
-            $('#menuImage${popcorn.gno}').css('opacity', '0.5');
-            $('#menuImage${popcorn.gno}').css('transition', 'opacity 0.25s ease-in-out');
-            $('#btnWrap${popcorn.gno}').attr('hidden', false);
-        });
-
-        $('#imgWrap${popcorn.gno}').on('mouseout', function () {
-            $('#menuImage${popcorn.gno}').css('opacity', '1');
-            $('#btnWrap${popcorn.gno}').attr('hidden', true);
-        });
-        $('#btnCart${popcorn.gno}').on('click', function () {
-            if (sessionCheck() === 'true') {
-                return;
-            }
-            $.ajax({
-                type: 'post',
-                url: '/store/cart-add',
-                data: {
-                    'gno':${popcorn.gno}
-                },
-                success: function (result) {
-                    $('#cartSize').load(location.href+' #cartSize');
-                    $('#headerCartSize').load(location.href+' #headerCartSize');
-                    if (result === 'quantityError') {
-                        alert("4개이상 추가할 수 없습니다.");
-                        return;
-                    }
-                    let choice = confirm(`장바구니에 추가되었습니다.
-                  확인하시겠습니까?`);
-                    if (choice) {
-                        // alert("구매하기로 가야함")
-                        location.href = "/store/cart"
-                    }
-
-                },
-                error: function () {
-                    alert("카트에 아이템 추가 비통신에러");
-                }
-            })
-        });
-        </c:forEach>
-
-        <c:forEach var="drink" items="${drinkList}">
-        $('#imgWrap${drink.gno}').on('mouseover', function () {
-            <%--$('#imgWrap${setMenu.gno}').css('background', 'rgba(0,0,0,0.8)');--%>
-            $('#menuImage${drink.gno}').css('opacity', '0.5');
-            $('#menuImage${drink.gno}').css('transition', 'opacity 0.25s ease-in-out');
-            $('#btnWrap${drink.gno}').attr('hidden', false);
-        });
-
-        $('#imgWrap${drink.gno}').on('mouseout', function () {
-            $('#menuImage${drink.gno}').css('opacity', '1');
-            $('#btnWrap${drink.gno}').attr('hidden', true);
-        });
-
-        $('#btnCart${drink.gno}').on('click', function () {
-            if (sessionCheck() === 'true') {
-                return;
-            }
-            $.ajax({
-                type: 'post',
-                url: '/store/cart-add',
-                data: {
-                    'gno':${drink.gno}
-                },
-                success: function (result) {
-                    $('#cartSize').load(location.href+' #cartSize');
-                    $('#headerCartSize').load(location.href+' #headerCartSize');
-                    if (result === 'quantityError') {
-                        alert("4개이상 추가할 수 없습니다.");
-                        return;
-                    }
-                    let choice = confirm(`장바구니에 추가되었습니다.
-                  확인하시겠습니까?`);
-                    if (choice) {
-                        // alert("구매하기로 가야함")
-                        location.href = "/store/cart"
-                    }
-
-                },
-                error: function () {
-                    alert("카트에 아이템 추가 비통신에러");
-                }
-            })
-        });
-        </c:forEach>
+  $(document).ready(function () {
+    <c:forEach var="setMenu" items="${setMenuList}">
+    $('#imgWrap${setMenu.gno}').on('mouseover', function () {
+      <%--$('#imgWrap${setMenu.gno}').css('background', 'rgba(0,0,0,0.8)');--%>
+      $('#menuImage${setMenu.gno}').css('opacity', '0.5');
+      $('#menuImage${setMenu.gno}').css('transition', 'opacity 0.25s ease-in-out');
+      $('#btnWrap${setMenu.gno}').attr('hidden', false);
     });
 
-    function sessionCheck() { //세션이 없으면 컨펌창을 뛰우고 로그인하지 않겠다고 하면 return
-        if (${empty sessionScope.user}) {
-            let loginChoice = confirm('로그인 후 이용가능한 서비스 입니다. 로그인 하러 가시겠습니까?');
-            if (loginChoice) {
-                location.href = '/user/login?toUrl=/store/display';
-            }
+    $('#imgWrap${setMenu.gno}').on('mouseout', function () {
+      $('#menuImage${setMenu.gno}').css('opacity', '1');
+      $('#btnWrap${setMenu.gno}').attr('hidden', true);
+    });
+
+    $('#btnCart${setMenu.gno}').on('click', function () {
+      if (sessionCheck() === 'true') {
+        return;
+      }
+      $.ajax({
+        type: 'post',
+        url: '/store/cart-add',
+        data: {
+          'gno':${setMenu.gno}
+        },
+        success: function (result) {
+          if (result === 'success') {
+            $('#cartSize').load(location.href + ' #cartSize');
+            $('#headerCartSize').load(location.href + ' #headerCartSize');
+          } else if(result==='LOGIN_ERR'){
+            alert("세션이 만료되어 로그인 화면으로 이동합니다.");
+            location.href='/user/login';
+            return;
+          } else if (result === 'quantityError') {
+            alert("4개이상 추가할 수 없습니다.");
+            return;
+          }
+          let choice = confirm(`장바구니에 추가되었습니다.
+                  확인하시겠습니까?`);
+          if (choice) {
+            location.href = "/store/cart"
+          }
+        },
+        error: function () {
+          alert("카트에 아이템 추가 비통신에러");
         }
-        return '${empty sessionScope.user}';
+      })
+    });
+
+    </c:forEach>
+
+    <c:forEach var="popcorn" items="${popcornList}">
+    $('#imgWrap${popcorn.gno}').on('mouseover', function () {
+      <%--$('#imgWrap${setMenu.gno}').css('background', 'rgba(0,0,0,0.8)');--%>
+      $('#menuImage${popcorn.gno}').css('opacity', '0.5');
+      $('#menuImage${popcorn.gno}').css('transition', 'opacity 0.25s ease-in-out');
+      $('#btnWrap${popcorn.gno}').attr('hidden', false);
+    });
+
+    $('#imgWrap${popcorn.gno}').on('mouseout', function () {
+      $('#menuImage${popcorn.gno}').css('opacity', '1');
+      $('#btnWrap${popcorn.gno}').attr('hidden', true);
+    });
+    $('#btnCart${popcorn.gno}').on('click', function () {
+      if (sessionCheck() === 'true') {
+        return;
+      }
+      $.ajax({
+        type: 'post',
+        url: '/store/cart-add',
+        data: {
+          'gno':${popcorn.gno}
+        },
+        success: function (result) {
+          if (result === 'success') {
+            $('#cartSize').load(location.href + ' #cartSize');
+            $('#headerCartSize').load(location.href + ' #headerCartSize');
+          } else if(result==='LOGIN_ERR'){
+            alert("세션이 만료되어 로그인 화면으로 이동합니다.");
+            location.href='/user/login';
+            return;
+          } else if (result === 'quantityError') {
+            alert("4개이상 추가할 수 없습니다.");
+            return;
+          }
+          let choice = confirm(`장바구니에 추가되었습니다.
+                  확인하시겠습니까?`);
+          if (choice) {
+            // alert("구매하기로 가야함")
+            location.href = "/store/cart"
+          }
+
+        },
+        error: function () {
+          alert("카트에 아이템 추가 비통신에러");
+        }
+      })
+    });
+    </c:forEach>
+
+    <c:forEach var="drink" items="${drinkList}">
+    $('#imgWrap${drink.gno}').on('mouseover', function () {
+      <%--$('#imgWrap${setMenu.gno}').css('background', 'rgba(0,0,0,0.8)');--%>
+      $('#menuImage${drink.gno}').css('opacity', '0.5');
+      $('#menuImage${drink.gno}').css('transition', 'opacity 0.25s ease-in-out');
+      $('#btnWrap${drink.gno}').attr('hidden', false);
+    });
+
+    $('#imgWrap${drink.gno}').on('mouseout', function () {
+      $('#menuImage${drink.gno}').css('opacity', '1');
+      $('#btnWrap${drink.gno}').attr('hidden', true);
+    });
+
+    $('#btnCart${drink.gno}').on('click', function () {
+      if (sessionCheck() === 'true') {
+        return;
+      }
+      $.ajax({
+        type: 'post',
+        url: '/store/cart-add',
+        data: {
+          'gno':${drink.gno}
+        },
+        success: function (result) {
+          if (result === 'success') {
+            $('#cartSize').load(location.href + ' #cartSize');
+            $('#headerCartSize').load(location.href + ' #headerCartSize');
+          } else if(result==='LOGIN_ERR'){
+            alert("세션이 만료되어 로그인 화면으로 이동합니다.");
+            location.href='/user/login';
+            return;
+          } else if (result === 'quantityError') {
+            alert("4개이상 추가할 수 없습니다.");
+            return;
+          }
+          let choice = confirm(`장바구니에 추가되었습니다.
+                  확인하시겠습니까?`);
+          if (choice) {
+            // alert("구매하기로 가야함")
+            location.href = "/store/cart"
+          }
+
+        },
+        error: function () {
+          alert("카트에 아이템 추가 비통신에러");
+        }
+      })
+    });
+    </c:forEach>
+  });
+
+  function sessionCheck() { //세션이 없으면 컨펌창을 뛰우고 로그인하지 않겠다고 하면 return
+    if (${empty sessionScope.user}) {
+      let loginChoice = confirm('로그인 후 이용가능한 서비스 입니다. 로그인 하러 가시겠습니까?');
+      if (loginChoice) {
+        location.href = '/user/login?toUrl=/store/display';
+      }
     }
+    return '${empty sessionScope.user}';
+  }
 </script>
 </body>
 </html>
