@@ -191,6 +191,7 @@ public class UserController {
     @GetMapping("/profile")
     public String profile(HttpSession session, Model model) {
         String id = "";
+        int price = 0 ;
         if (session.getAttribute("accessToken") != null) {
             Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
             id = (String) user.get("id");
@@ -201,37 +202,45 @@ public class UserController {
         }
 
         model.addAttribute("ticketHistory", ticketService.selectById(id));
-
-        int price = ticketService.sumPrice(id);
-        if (price < 100000) {
+        try {
+            price = ticketService.sumPrice(id);
+            if (price < 100000) {
+                model.addAttribute("sumPrice", ticketService.sumPrice(id));
+                model.addAttribute("rank", "BRONZE");
+                model.addAttribute("nextRank", 100000 - price);
+                model.addAttribute("gage", "20%");
+                return "/profile";
+            } else if (price < 200000) {
+                model.addAttribute("sumPrice", ticketService.sumPrice(id));
+                model.addAttribute("rank", "SILVER");
+                model.addAttribute("nextRank", 200000 - price);
+                model.addAttribute("gage", "40%");
+                return "/profile";
+            } else if (price < 300000) {
+                model.addAttribute("sumPrice", ticketService.sumPrice(id));
+                model.addAttribute("rank", "GOLD");
+                model.addAttribute("nextRank", 300000 - price);
+                model.addAttribute("gage", "60%");
+                return "/profile";
+            } else if (price < 400000) {
+                model.addAttribute("sumPrice", ticketService.sumPrice(id));
+                model.addAttribute("rank", "VIP");
+                model.addAttribute("nextRank", 400000 - price);
+                model.addAttribute("gage", "80%");
+                return "/profile";
+            } else {
+                model.addAttribute("sumPrice", ticketService.sumPrice(id));
+                model.addAttribute("rank", "VVIP");
+                model.addAttribute("nextRank", -1);
+                model.addAttribute("gage", "100%");
+                return "/profile";
+            }
+        }catch (NullPointerException e){
+            e.printStackTrace();
             model.addAttribute("sumPrice", ticketService.sumPrice(id));
             model.addAttribute("rank", "BRONZE");
             model.addAttribute("nextRank", 100000 - price);
-            model.addAttribute("gage", "20%");
-            return "/profile";
-        } else if (price < 200000) {
-            model.addAttribute("sumPrice", ticketService.sumPrice(id));
-            model.addAttribute("rank", "SILVER");
-            model.addAttribute("nextRank", 200000 - price);
-            model.addAttribute("gage", "40%");
-            return "/profile";
-        } else if (price < 300000) {
-            model.addAttribute("sumPrice", ticketService.sumPrice(id));
-            model.addAttribute("rank", "GOLD");
-            model.addAttribute("nextRank", 300000 - price);
-            model.addAttribute("gage", "60%");
-            return "/profile";
-        } else if (price < 400000) {
-            model.addAttribute("sumPrice", ticketService.sumPrice(id));
-            model.addAttribute("rank", "VIP");
-            model.addAttribute("nextRank", 400000 - price);
-            model.addAttribute("gage", "80%");
-            return "/profile";
-        } else {
-            model.addAttribute("sumPrice", ticketService.sumPrice(id));
-            model.addAttribute("rank", "VVIP");
-            model.addAttribute("nextRank", -1);
-            model.addAttribute("gage", "100%");
+            model.addAttribute("gage", "0%");
             return "/profile";
         }
     }

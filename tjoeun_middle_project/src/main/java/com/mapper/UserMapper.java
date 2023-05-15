@@ -14,4 +14,6 @@ public interface UserMapper {
     int deleteById(String id);
 
     User searchIdPw(User user);
+
+    void updateRank(Map<String, String> map);
 }

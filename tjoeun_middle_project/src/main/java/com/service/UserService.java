@@ -9,7 +9,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.HashMap;
+import java.util.Map;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -24,6 +27,48 @@ public class UserService {
     @Autowired
     public UserService(UserMapper userMapper) {
         this.userMapper = userMapper;
+    }
+
+    public String updateRank(String id, int sumPrice) {
+        String rank = "";
+        Map<String,String> map = new HashMap<>();
+        if(sumPrice == 0){
+            rank = "BRONZE";
+            map.put("rank",rank);
+            map.put("id", id);
+            userMapper.updateRank(map);
+            return rank;
+        }else if (sumPrice < 100000) {
+            rank = "BRONZE";
+            map.put("rank",rank);
+            map.put("id", id);
+            userMapper.updateRank(map);
+            return rank;
+        } else if (sumPrice < 200000) {
+            rank = "SILVER";
+            map.put("rank",rank);
+            map.put("id", id);
+            userMapper.updateRank(map);
+            return rank;
+        } else if (sumPrice < 300000) {
+            rank = "GOLD";
+            map.put("rank",rank);
+            map.put("id", id);
+            userMapper.updateRank(map);
+            return rank;
+        } else if (sumPrice < 400000) {
+            rank = "VIP";
+            map.put("rank",rank);
+            map.put("id", id);
+            userMapper.updateRank(map);
+            return rank;
+        } else {
+            rank = "VVIP";
+            map.put("rank",rank);
+            map.put("id", id);
+            userMapper.updateRank(map);
+            return rank;
+        }
     }
 
     public void register(User user) throws Exception {

@@ -19,4 +19,7 @@
   <delete id="deleteById" parameterType="String">
     <!-- 나중에 추가 예정 -->
   </delete>
+  <update id="updateRank" parameterType="java.util.Map">
+    update User set `rank` = #{rank} where id = #{id};
+  </update>
 </mapper>

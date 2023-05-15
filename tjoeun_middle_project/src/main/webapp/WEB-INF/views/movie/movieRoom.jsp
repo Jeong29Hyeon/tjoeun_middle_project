@@ -243,10 +243,35 @@
 
     <!-- 인원수에 대한 가격 표시 -->
     $("#selectNumber").on('click', function () {
-      var priceOfAdult = Number($('#numberOfAdult').val() * 14000);
-      var priceOfTeen = Number($('#numberOfTeen').val() * 12000);
-      $('#priceInput').attr('value',
-          (priceOfAdult + priceOfTeen).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+        <%--alert('${sessionScope.user.rank}')--%>
+        var sessionRank = ('${sessionScope.user.rank}'.toUpperCase());
+        var priceOfAdult = Number($('#numberOfAdult').val() * 14000);
+        var priceOfTeen = Number($('#numberOfTeen').val() * 12000);
+        if(sessionRank ==='bronze'.toUpperCase()){
+            $('#priceInput').attr('value',
+                (priceOfAdult + priceOfTeen).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+        }else if(sessionRank ==='silver'.toUpperCase()){
+            var silverA = (priceOfAdult*0.95);
+            var silverT = (priceOfTeen*0.95);
+            $('#priceInput').attr('value',
+                (silverA + silverT).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+        } else if(sessionRank ==='gold'.toUpperCase()){
+            var goldA = (priceOfAdult*0.9);
+            var goldT = (priceOfTeen*0.9);
+            $('#priceInput').attr('value',
+                (goldA + goldT).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+        }else if(sessionRank ==='vip'.toUpperCase()){
+            var vipA = (priceOfAdult*0.85);
+            var vipT = (priceOfTeen*0.85);
+            $('#priceInput').attr('value',
+                (vipA + vipT).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+        }else if(sessionRank ==='vvip'.toUpperCase()){
+            var vvipA = (priceOfAdult*0.8);
+            var vvipT = (priceOfTeen*0.8);
+            $('#priceInput').attr('value',
+                (vvipA + vvipT).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+        }
+
     });
 
     <!-- 좌석선택 버튼 비동기 통신 -->
