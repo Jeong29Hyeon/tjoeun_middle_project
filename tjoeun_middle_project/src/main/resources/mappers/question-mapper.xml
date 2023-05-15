@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.QuestionMapper">
+    <select id="selectAll" parameterType="int" resultType="Question">
+        select qno, title, content, writer, password, state, reg_date as regDate from Question ORDER BY reg_date DESC LIMIT #{offset},10;
+    </select>
+    <select id="getTotalCount" resultType="java.lang.Integer">
+        select count(*) from Question;
+    </select>
+    <insert id="insertQuestion" parameterType="Question" keyProperty="qno" useGeneratedKeys="true">
+        insert into Question(title, content, writer, password, reg_date) VALUES (#{title},#{content},#{writer},#{password},now());
+    </insert>
+    <select id="selectByQnoPw" parameterType="java.util.Map" resultType="Question">
+        select * from Question where qno=#{qno} and password=#{password};
+    </select>
+</mapper>
