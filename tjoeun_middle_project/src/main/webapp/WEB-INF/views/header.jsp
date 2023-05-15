@@ -68,13 +68,31 @@
                         </div>
                     </li>
                     <c:if test="${not empty sessionScope.user}">
-                    <li>
+                    <li  class="nav-item dropdown mb-3">
                     <a href="<c:url value="/store/cart"/>">
                         <button id="goCart" class="navbar-toggler collapsed" >
                             <i class="fa-solid fa-cart-shopping"></i><span> 장바구니 <span id="headerCartSize" class="badge rounded-pill bg-danger">${empty sessionScope.cart ? '0' : sessionScope.cart.size()}</span></span>
                     </button></a>
                     </li>
                     </c:if>
+                    <li>
+                    <button class="navbar-toggler collapsed" type="button">
+                        <a class="nav-link" href="<c:url value="/info"/>"><span>소개</span></a>
+                    </button>
+<%--                        <div class="navbar-collapse collapse " id="infoTap" style="">--%>
+<%--                            <ul class="navbar-nav me-auto mb-2">--%>
+<%--                                <li class="nav-item">--%>
+<%--                                    <a class="nav-link" href="/info">영화관 소개</a>--%>
+<%--                                </li>--%>
+<%--                                <li class="nav-item">--%>
+<%--                                    <a class="nav-link" href="/info">시설 안내</a>--%>
+<%--                                </li>--%>
+<%--                                <li class="nav-item">--%>
+<%--                                    <a class="nav-link" href="/info">오시는 길</a>--%>
+<%--                                </li>--%>
+<%--                            </ul>--%>
+<%--                        </div>--%>
+                    </li>
                 </ul>
             </div>
             <c:set var="joinOrNotLink" value="${sessionScope.user.id==null ? '/user/join' : ''}"/>
