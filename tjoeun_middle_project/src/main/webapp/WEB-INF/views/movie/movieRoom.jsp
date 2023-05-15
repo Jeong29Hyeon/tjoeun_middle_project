@@ -22,7 +22,7 @@
             <div class="col-8" style="margin-left: 20px">
                 <h3>선택하신 영화 정보</h3><br>
                 <input type="text" name="userId" id="userIdInfo" value="${userId}" hidden/>
-                <input type="text" class="form-control-plaintext" name="ageRating" id="ageRating" value="${movie.ageRating}" disabled>
+                <input type="text" class="form-control-plaintext" style="font-size: 25px; font-weight: bold" name="ageRating" id="ageRating" value="${movie.ageRating}" disabled>
                 <input type="text" class="form-control-plaintext" name="titleInfo" id="titleInfo"
                        value="${ticket.titleInfo}" disabled>
                 <input type="text" class="form-control-plaintext" name="hallInfo" id="hallInfo"
