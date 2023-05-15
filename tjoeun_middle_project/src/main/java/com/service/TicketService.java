@@ -97,6 +97,10 @@ public class TicketService {
         ticketMapper.deleteTicket(tno);
     }
     public Integer sumPrice(String id){
-        return ticketMapper.sumPrice(id);
+        Integer price = ticketMapper.sumPrice(id);
+        if(price == null){
+            return 0 ;
+        }
+        return price;
     }
 }

@@ -4,12 +4,15 @@ import com.dto.Movie;
 //import com.dto.Ticket;
 import com.dto.Payment;
 import com.dto.Ticket;
+import com.dto.User;
 import com.service.MovieService;
 import com.service.PaymentService;
 import com.service.TicketService;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,28 +27,35 @@ import java.util.Calendar;
 import java.util.List;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class ReserveController {
 
     TicketService ticketService;
     MovieService movieService;
-
+    UserService userService;
     PaymentService paymentService;
     @Autowired
-    public ReserveController(TicketService ticketService, MovieService movieService,
+    public ReserveController(TicketService ticketService, MovieService movieService,UserService userService,
         PaymentService paymentService) {
         this.ticketService = ticketService;
         this.movieService = movieService;
+        this.userService = userService;
         this.paymentService = paymentService;
     }
 
 
 
     @PostMapping("/movieRoom")
-    public String movieRoom(Model model, Ticket ticket,String userId, RedirectAttributes ra) {
+    public String movieRoom(Model model, Ticket ticket, String userId, RedirectAttributes ra, Movie movie, String movieSeq) {
         System.out.println("movieRoom ticket: "+ticket.toString());
         model.addAttribute("ticket", ticket);
         model.addAttribute("userId",userId);
+        System.out.println(movieSeq);
+        model.addAttribute("movie",movieService.getMovie(movieSeq));
         try {
             List<String> choiceSeatList = ticketService.selectChoiceSeats(ticket.getHallInfo(),ticket.getDayInfo(),ticket.getTimeInfo());
             if(choiceSeatList.isEmpty()){
@@ -68,12 +78,18 @@ public class ReserveController {
 
     @PostMapping("/ticketing")
     @ResponseBody
-    public Map<String,Object> ticketing(Ticket ticket, String imp_uid,Integer paid_amount){
+    public Map<String,Object> ticketing(Ticket ticket, String imp_uid, Integer paid_amount, HttpSession session){
         System.out.println("ticketing controller : "+ticket.toString());
         System.out.println("imp_uid = " + imp_uid);
         Map<String,Object> map = new HashMap<>();
         try {
             ticketService.insertTicket(ticket, imp_uid, paid_amount);
+            //예매후 금액에 따른 등급 뉴 유저 업데이트
+            User user = (User) session.getAttribute("user");
+            int sumPrice = ticketService.sumPrice(user.getId());
+            userService.updateRank(user.getId(),sumPrice);
+            User updateUser = new User(user.getId(),user.getPassword(),user.getName(), user.getBirth(), user.getGender(), user.getEmail(), user.getPhone(), userService.updateRank(user.getId(),sumPrice), user.getReg_day());
+            session.setAttribute("user",updateUser);
             map.put("msg","success");
         } catch (Exception e) {
             e.printStackTrace();
@@ -115,12 +131,19 @@ public class ReserveController {
 
     @PostMapping("/deleteTicket")
     @ResponseBody
-    public String deleteTicket(Integer tno){
+    public String deleteTicket(Integer tno, HttpSession session){
+        int sumPrice = 0;
         try {
             String accessToken = paymentService.getAccessToken();
             String imp_uid = paymentService.getImpUidByTno(tno);
             paymentService.payCancel(accessToken,imp_uid);
             ticketService.deleteTicket(tno);
+            //삭제후 금액에 따른 등급 뉴 유저 업데이트
+            User user = (User) session.getAttribute("user");
+            sumPrice = ticketService.sumPrice(user.getId());
+            userService.updateRank(user.getId(),sumPrice);
+            User updateUser = new User(user.getId(),user.getPassword(),user.getName(), user.getBirth(), user.getGender(), user.getEmail(), user.getPhone(), userService.updateRank(user.getId(),sumPrice), user.getReg_day());
+            session.setAttribute("user",updateUser);
         }catch (Exception e){
             e.printStackTrace();
             return "fail";

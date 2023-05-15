@@ -18,7 +18,7 @@
 <body>
 <nav class="navbar bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand mx-auto" href="<c:url value="/"/>"><i class="fa-solid fa-hurricane"></i>TJOEUN CINEMA</a>
+        <a class="navbar-brand mx-auto" href="<c:url value="/"/>"><i class="fa-solid fa-video fa-lg"></i> TJOEUN CINEMA</a>
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasNavbar"
                 aria-controls="offcanvasNavbar">
@@ -33,7 +33,7 @@
         </button>
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">메뉴</h5>
+                <h5 class="offcanvas-title" id="offcanvasNavbarLabel"><i class="fa-solid fa-bars"></i> 메뉴</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close">
                 </button>
             </div>
@@ -43,15 +43,12 @@
                         <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#reserveTap" aria-controls="reserveTap" aria-expanded="false"
                                 aria-label="Toggle navigation">
-                            <span>예매</span>
+                            <i class="fa-solid fa-film"></i> <span>예매</span>
                         </button>
                         <div class="navbar-collapse collapse show" id="reserveTap" style="">
                             <ul class="navbar-nav me-auto mb-2">
-                                <li class="nav-item">
+                                <li class="nav-item mt-3">
                                     <a class="nav-link" href="/movieSelect">예매하기</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">상영시간표</a>
                                 </li>
                             </ul>
                         </div>
@@ -60,15 +57,12 @@
                         <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#storeTap" aria-controls="storeTap" aria-expanded="false"
                                 aria-label="Toggle navigation">
-                            <span>스토어</span>
+                            <i class="fa-solid fa-store"></i><span> 스토어</span>
                         </button>
                         <div class="navbar-collapse collapse show" id="storeTap" style="">
                             <ul class="navbar-nav me-auto mb-2">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/store/display">매점</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">기프티콘</a>
+                                    <a class="nav-link mt-3" href="/store/display">매점</a>
                                 </li>
                             </ul>
                         </div>
@@ -77,7 +71,7 @@
                     <li>
                     <a href="<c:url value="/store/cart"/>">
                         <button id="goCart" class="navbar-toggler collapsed" >
-                        <span>장바구니 <span id="headerCartSize" class="badge rounded-pill bg-danger">${empty sessionScope.cart ? '0' : sessionScope.cart.size()}</span></span>
+                            <i class="fa-solid fa-cart-shopping"></i><span> 장바구니 <span id="headerCartSize" class="badge rounded-pill bg-danger">${empty sessionScope.cart ? '0' : sessionScope.cart.size()}</span></span>
                     </button></a>
                     </li>
                     </c:if>
@@ -107,10 +101,16 @@
                             <li><a class="dropdown-item" href="${joinOrNotLink}">${joinOrId}</a></li>
                             <li><a class="dropdown-item" href="${searchIdPwLink}">${searchIdPw}</a></li>
                         </c:when>
-                        <c:when test="${not empty sessionScope.user}">
+                        <c:when test="${sessionScope.user.id ne 'admin'}">
                             <li><a class="dropdown-item" href="${profileLink}">${profile}</a></li>
                             <li><a class="dropdown-item" href="${Reservation}">${ReservationInfo}</a></li>
                             <li><a class="dropdown-item" href="/user/couponRoom">Coupon</a></li>
+                        </c:when>
+                        <c:when test="${sessionScope.user.id eq 'admin'}">
+                            <li><a class="dropdown-item" href="${profileLink}">${profile}</a></li>
+                            <li><a class="dropdown-item" href="${Reservation}">${ReservationInfo}</a></li>
+                            <li><a class="dropdown-item" href="/user/couponRoom">Coupon</a></li>
+                            <li><a class="dropdown-item" href="/store/add_store">ADD-STORE</a></li>
                         </c:when>
                     </c:choose>
                     <li>
