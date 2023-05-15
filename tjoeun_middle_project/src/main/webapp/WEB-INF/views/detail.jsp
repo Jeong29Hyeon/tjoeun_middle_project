@@ -137,14 +137,41 @@
             <div class="row">
                 <c:forEach begin="0" end="${fn:length(movie.stillCut)}" var="i">
                     <div class="col-4 mt-3">
-                        <img src="${movie.stillCut[i]}" alt="">
+                        <button type="button" class="btn" data-toggle="modal" data-target="#Modal${i}">
+                            <img src="${movie.stillCut[i]}" alt="">
+                        </button>
                     </div>
+                    <%--            모달 영역--%>
+
+                    <div class="modal fade" id="Modal${i}" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl" style="width: 50%" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <p class="card-title fw-bold mb-0  text-center"
+                                       style="font-size: 40px">${movie.title}</p>
+                                </div>
+                                <div class="modal-body">
+                                    <img src="${movie.stillCut[i]}" class="w-75" alt="">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <%--             모달 영역 끝--%>
+
+
                 </c:forEach>
             </div>
         </div>
     </div>
 
 </c:if>
+
+
+
 <%@include file="footer.jsp" %>
 <script>
     $(document).ready(function () {
