@@ -73,6 +73,20 @@
                             </ul>
                         </div>
                     </li>
+                    <li class="nav-item dropdown mb-3">
+                    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#supportTap" aria-controls="storeTap" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                        <span>문의</span>
+                    </button>
+                    <div class="navbar-collapse collapse show" id="supportTap" style="">
+                        <ul class="navbar-nav me-auto mb-2">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/support/list">1대1 문의</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
                     <c:if test="${not empty sessionScope.user}">
                     <li>
                     <a href="<c:url value="/store/cart"/>">

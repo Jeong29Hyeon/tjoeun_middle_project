@@ -21,9 +21,13 @@ public class UserIdCheckAspect {
             .getRequest();
 
         HttpSession session = request.getSession();
+        String param="";
+        if(request.getQueryString() != null){
+            param = request.getQueryString().replace("&","~");
+        }
 
         if(session.getAttribute("user")==null){
-            return "redirect:/user/login?toUrl="+request.getRequestURI()+(request.getQueryString() == null?"":"?"+request.getQueryString());
+            return "redirect:/user/login?toUrl="+request.getRequestURI()+(request.getQueryString() == null?"":"?"+param);
         }
 
             return joinPoint.proceed();

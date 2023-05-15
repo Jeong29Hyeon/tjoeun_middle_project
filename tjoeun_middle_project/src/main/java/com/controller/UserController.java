@@ -103,7 +103,7 @@ public class UserController {
             response.addCookie(cookie);
         }
 
-        return "redirect:" + (toUrl == null || toUrl.equals("") ? '/' : toUrl);
+        return "redirect:" + (toUrl == null || toUrl.equals("") ? '/' : toUrl.replace("~","&"));
     }
 
     @PostMapping("/loginModal")
