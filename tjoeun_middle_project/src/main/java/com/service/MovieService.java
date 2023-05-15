@@ -129,6 +129,7 @@ public class MovieService {
             movie.setStory(movieStory);
             movie.setCumulativeUser(su);
             movie.setDetailInfo(detailInfo);
+
             
             //스티컷 여러개 가져오기
             Document doc2 = Jsoup.connect("https://www.megabox.co.kr/on/oh/oha/Movie/selectMovieStillList.do")

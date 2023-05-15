@@ -54,11 +54,11 @@
             </button>
         </li>
 
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="trailer-tab" data-bs-toggle="tab" data-bs-target="#trailer" type="button"
-                    role="tab" aria-controls="trailer" aria-selected="false">트레일러
-            </button>
-        </li>
+<%--        <li class="nav-item" role="presentation">--%>
+<%--            <button class="nav-link" id="trailer-tab" data-bs-toggle="tab" data-bs-target="#trailer" type="button"--%>
+<%--                    role="tab" aria-controls="trailer" aria-selected="false">트레일러--%>
+<%--            </button>--%>
+<%--        </li>--%>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="stillcut-tab" data-bs-toggle="tab" data-bs-target="#stillcut" type="button"
                     role="tab" aria-controls="stillcut" aria-selected="false">스틸컷
@@ -129,9 +129,12 @@
             </div>
         </div>
     </div>
-    <div class="tab-pane fade text-center" id="trailer" role="tabpanel" aria-labelledby="trailer-tab">트레일러 유튜브 링크 딱
-        걸면? 딱!
-    </div>
+<%--    <div class="tab-pane fade text-center" id="trailer" role="tabpanel" aria-labelledby="trailer-tab">--%>
+<%--        <video id="videoTag" controls poster="${movie.img}">--%>
+<%--            <source src="${movie.video}" type="video/mp4">--%>
+<%--        </video>--%>
+<%--            ${movie.video}--%>
+<%--    </div>--%>
     <div class="tab-pane fade text-center" id="stillcut" role="tabpanel" aria-labelledby="stillcut-tab">
         <div class="container">
             <div class="row">
