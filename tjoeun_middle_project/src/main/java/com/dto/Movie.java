@@ -9,7 +9,7 @@ public class Movie {
 //    private String actor;                   //  감독 ( 이제희 감독 정민규 조연 이정현 조연)   이미지 삽입시 고민 해야댐
 //    private String director;
     private String cumulativeUser;            // 누적 관객수
-//    private String ageRating;              // 영화 관람 등급 12세 15세 청불
+    private String ageRating;              // 영화 관람 등급 12세 15세 청불
 //    private String runningTime;            // 상영시간
 
     private String detailInfo;
@@ -24,6 +24,33 @@ public class Movie {
     private String[] stillCut;
 
     public Movie() {
+    }
+
+    public Movie(String seq) {
+        this.seq = seq;
+    }
+
+    public Movie(String seq, String category, String cumulativeUser, String detailInfo, String story, String star, String img, String rank, String title, String rateInfo, String openingDate, String[] stillCut) {
+        this.seq = seq;
+        this.category = category;
+        this.cumulativeUser = cumulativeUser;
+        this.detailInfo = detailInfo;
+        this.story = story;
+        this.star = star;
+        this.img = img;
+        this.rank = rank;
+        this.title = title;
+        this.rateInfo = rateInfo;
+        this.openingDate = openingDate;
+        this.stillCut = stillCut;
+    }
+
+    public String getAgeRating() {
+        return ageRating;
+    }
+
+    public void setAgeRating(String ageRating) {
+        this.ageRating = ageRating;
     }
 
     public String getDetailInfo() {

@@ -108,6 +108,7 @@ public class MovieService {
                     movie.setTitle(eachMovie.get("movieNm").toString());
                     movie.setRateInfo(eachMovie.get("boxoBokdRt").toString());
                     movie.setOpeningDate(eachMovie.get("rfilmDe").toString());
+                    movie.setAgeRating(eachMovie.get("admisClassNm").toString());
                     break;
                 }
             }

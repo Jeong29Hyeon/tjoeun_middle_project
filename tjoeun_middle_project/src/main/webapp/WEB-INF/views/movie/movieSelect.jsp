@@ -84,11 +84,14 @@
         <input type="text" id="hallInfo" name="hallInfo" value="" hidden>
         <input type="text" id="timeInfo" name="timeInfo" value="" hidden>
         <input type="text" id="ageInfo" name="ageInfo" value="" hidden>
+        <input type="text" id="movieSeq" name="movieSeq" value="" hidden>
     </div>
     <div class="container mt-5">
-        <button class="container btn-close-white" type="button" onclick="click_btn()">
+        <%--        <c:forEach var="movie" items="${movies}">--%>
+        <button class="container btn-close-white" id="" type="button" onclick="click_btn()">
             좌석 확인 하러가기
         </button>
+        <%--        </c:forEach>--%>
     </div>
 </form>
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginHeader"
@@ -151,241 +154,252 @@
 
 <%@ include file="/WEB-INF/views/footer.jsp" %>
 <script>
-  function hallClick(selectedHall) {
-    $('#hallInfo').val(selectedHall.text);
-    $('#timeWrap').attr('hidden', false);
-    $('#timeWrap').html("");
-    $('#timeInfo').val("");
-    selectedHall.style.color = 'blue';
-    selectedHall.style.fontSize = '18px';
-    var links = document.querySelectorAll('#hall a');
-    links.forEach(function (link) {
-      link.addEventListener('click', function () {
+    function hallClick(selectedHall) {
+        $('#hallInfo').val(selectedHall.text);
+        $('#timeWrap').attr('hidden', false);
+        $('#timeWrap').html("");
+        $('#timeInfo').val("");
+        selectedHall.style.color = 'blue';
+        selectedHall.style.fontSize = '18px';
+        var links = document.querySelectorAll('#hall a');
         links.forEach(function (link) {
-          link.style.color = 'black';
-          link.style.fontSize = '14px';
+            link.addEventListener('click', function () {
+                links.forEach(function (link) {
+                    link.style.color = 'black';
+                    link.style.fontSize = '14px';
+                });
+                this.style.color = 'blue';
+                this.style.fontSize = '18px';
+            });
         });
-        this.style.color = 'blue';
-        this.style.fontSize = '18px';
-      });
-    });
-    selectedHall.style.color = "blue";
-    let selectedDay = $('#dayInfo').val().replace(/[^0-9]/g, "");
-    let date = new Date();
-    let dateFormat = date.getFullYear() + "" + ((date.getMonth() + 1) <= 9 ? "0" + (date.getMonth()
-        + 1) : (date.getMonth() + 1)) + "" + ((selectedDay) <= 9 ? "0" + (selectedDay)
-        : (selectedDay));
-    $.ajax({
-      type: 'post',
-      url: 'https://www.megabox.co.kr/on/oh/ohc/Brch/schedulePage.do',
-      data: {
-        "masterType": "brch",
-        "detailType": "area",
-        "brchNo": "1351",
-        "firstAt": "Y",
-        "brchNo1": "1351",
-        "playDe": dateFormat
-      },
-      success: function (result) {
-        const str = JSON.stringify(result);
-        const obj = JSON.parse(str);
-        const movieList = obj.megaMap.movieFormList;
-        console.log(movieList);
-        $.each(movieList, function (key, value) {
-          if (value.movieNm === $('#titleInfo').val()
-              && $('#hallInfo').val() === value.theabExpoNm) {
-            console.log(value.playStartTime + "~" + value.playEndTime);
-            $('#timeWrap').append(
-                '<a onclick="timeClick(this)" id="selectTime' + value.playStartTime
-                + '" href="#" style="text-decoration-line: none; color: black" class="mt-3">'
-                + value.playStartTime + "~" + value.playEndTime + '</a><br>');
-          }
-        });
-      }
-    });
-  }
-
-  function timeClick(selectedTime) {
-    $('#timeInfo').val(selectedTime.text);
-    selectedTime.style.color = 'blue';
-    selectedTime.style.fontSize = '18px';
-    var links = document.querySelectorAll('#timeWrap a');
-    links.forEach(function (link) {
-      link.addEventListener('click', function () {
-        // 모든 링크의 색상을 초기화합니다.
-        links.forEach(function (link) {
-          link.style.color = 'black';
-          link.style.fontSize = '14px';
-        });
-        // 선택된 링크의 색상을 변경합니다.
-        this.style.color = 'blue';
-        this.style.fontSize = '18px';
-      });
-    });
-  }
-
-  $(document).ready(function () {
-    <c:forEach var="movie" items="${movies}">
-    $('#selectTitle${movie.seq}').on('click', function () {
-      $('#dayWrap').attr('hidden', false);
-      $('#hall').html("")
-      $('#titleInfo').val("${movie.title}")
-      $('#timeWrap').html('');
-      $('#timeInfo').val("");
-      $('#dayInfo').val("");
-      $('#hallInfo').val("");
-      this.style.color = 'blue';
-      this.style.fontSize = '18px';
-      var links = document.querySelectorAll('#titleWrap a');
-      links.forEach(function (link) {
-        link.addEventListener('click', function () {
-          // 모든 링크의 색상을 초기화합니다.
-          links.forEach(function (link) {
-            link.style.color = 'black';
-            link.style.fontSize = '14px';
-          });
-          // 선택된 링크의 색상을 변경합니다.
-          this.style.color = 'blue';
-          this.style.fontSize = '18px';
-        });
-      });
-    });
-    </c:forEach>
-
-
-    <c:forEach var="day" items="${dayList}">
-    $('#selectDay${day}').on('click', function () {
-      $('#dayInfo').val($('#selectDay${day}').text());
-      $('#hall').html("");
-      $('#hallInfo').val("");
-      $('#timeInfo').val("");
-      $('#timeWrap').html("");
-      this.style.color = 'blue';
-      this.style.fontSize = '18px';
-      var links = document.querySelectorAll('#dayWrap a');
-      links.forEach(function (link) {
-        link.addEventListener('click', function () {
-          // 모든 링크의 색상을 초기화합니다.
-          links.forEach(function (link) {
-            link.style.color = 'black';
-            link.style.fontSize = '14px';
-          });
-          // 선택된 링크의 색상을 변경합니다.
-          this.style.color = 'blue';
-          this.style.fontSize = '18px';
-        });
-      });
-      let selectedDay = $('#selectDay${day}').text().replace(/[^0-9]/g, "");
-      let date = new Date();
-      let dateFormat = date.getFullYear() + "" + ((date.getMonth() + 1) <= 9 ? "0"
-          + (date.getMonth() + 1) : (date.getMonth() + 1)) + "" + ((selectedDay) <= 9 ? "0"
-          + (selectedDay) : (selectedDay));
-      $.ajax({
-        type: 'post',
-        url: 'https://www.megabox.co.kr/on/oh/ohc/Brch/schedulePage.do',
-        data: {
-          "masterType": "brch",
-          "detailType": "area",
-          "brchNo": "1351",
-          "firstAt": "Y",
-          "brchNo1": "1351",
-          "playDe": dateFormat
-        },
-        success: function (result) {
-          var addedTheabExpoNm = [];
-          const str = JSON.stringify(result);
-          const obj = JSON.parse(str);
-          const movieList = obj.megaMap.movieFormList;
-          $.each(movieList, function (key, value) {
-            if (value.movieNm === $('#titleInfo').val()) {
-              console.log(value.playStartTime + "~" + value.playEndTime);
-              if (addedTheabExpoNm.indexOf(value.theabExpoNm) === -1) {
-                $('#hall').append('<a onclick="hallClick(this)" id="hall' + value.theabNo
-                    + '" href="#" style="text-decoration-line: none; color: black" class="mt-3">'
-                    + value.theabExpoNm + '</a><br>');
-                addedTheabExpoNm.push(value.theabExpoNm); // 추가된 theabExpoNm을 배열에 저장
-              }
+        selectedHall.style.color = "blue";
+        let selectedDay = $('#dayInfo').val().replace(/[^0-9]/g, "");
+        let date = new Date();
+        let dateFormat = date.getFullYear() + "" + ((date.getMonth() + 1) <= 9 ? "0" + (date.getMonth()
+            + 1) : (date.getMonth() + 1)) + "" + ((selectedDay) <= 9 ? "0" + (selectedDay)
+            : (selectedDay));
+        $.ajax({
+            type: 'post',
+            url: 'https://www.megabox.co.kr/on/oh/ohc/Brch/schedulePage.do',
+            data: {
+                "masterType": "brch",
+                "detailType": "area",
+                "brchNo": "1351",
+                "firstAt": "Y",
+                "brchNo1": "1351",
+                "playDe": dateFormat
+            },
+            success: function (result) {
+                const str = JSON.stringify(result);
+                const obj = JSON.parse(str);
+                const movieList = obj.megaMap.movieFormList;
+                console.log(movieList);
+                $.each(movieList, function (key, value) {
+                    if (value.movieNm === $('#titleInfo').val()
+                        && $('#hallInfo').val() === value.theabExpoNm) {
+                        console.log(value.playStartTime + "~" + value.playEndTime);
+                        $('#timeWrap').append(
+                            '<a onclick="timeClick(this)" id="selectTime' + value.playStartTime
+                            + '" href="#" style="text-decoration-line: none; color: black" class="mt-3">'
+                            + value.playStartTime + "~" + value.playEndTime + '</a><br>');
+                    }
+                });
             }
-          });
-          if ($('#hall').html().trim() === '') {
-            $('#hall').append("다른 날을 선택해주세요")
-          }
-        }
-      });
+        });
+    }
+
+    function timeClick(selectedTime) {
+        $('#timeInfo').val(selectedTime.text);
+        selectedTime.style.color = 'blue';
+        selectedTime.style.fontSize = '18px';
+        var links = document.querySelectorAll('#timeWrap a');
+        links.forEach(function (link) {
+            link.addEventListener('click', function () {
+                // 모든 링크의 색상을 초기화합니다.
+                links.forEach(function (link) {
+                    link.style.color = 'black';
+                    link.style.fontSize = '14px';
+                });
+                // 선택된 링크의 색상을 변경합니다.
+                this.style.color = 'blue';
+                this.style.fontSize = '18px';
+            });
+        });
+    }
+
+    $(document).ready(function () {
+        <c:forEach var="movie" items="${movies}">
+        $('#selectTitle${movie.seq}').on('click', function () {
+            $('#dayWrap').attr('hidden', false);
+            $('#hall').html("")
+            $('#titleInfo').val("${movie.title}")
+            $('#timeWrap').html('');
+            $('#timeInfo').val("");
+            $('#dayInfo').val("");
+            $('#hallInfo').val("");
+            this.style.color = 'blue';
+            this.style.fontSize = '18px';
+            var links = document.querySelectorAll('#titleWrap a');
+            links.forEach(function (link) {
+                link.addEventListener('click', function () {
+                    // 모든 링크의 색상을 초기화합니다.
+                    links.forEach(function (link) {
+                        link.style.color = 'black';
+                        link.style.fontSize = '14px';
+                    });
+                    // 선택된 링크의 색상을 변경합니다.
+                    this.style.color = 'blue';
+                    this.style.fontSize = '18px';
+                });
+            });
+        });
+        </c:forEach>
+
+
+        <c:forEach var="day" items="${dayList}">
+        $('#selectDay${day}').on('click', function () {
+            $('#dayInfo').val($('#selectDay${day}').text());
+            $('#hall').html("");
+            $('#hallInfo').val("");
+            $('#timeInfo').val("");
+            $('#timeWrap').html("");
+            this.style.color = 'blue';
+            this.style.fontSize = '18px';
+            var links = document.querySelectorAll('#dayWrap a');
+            links.forEach(function (link) {
+                link.addEventListener('click', function () {
+                    // 모든 링크의 색상을 초기화합니다.
+                    links.forEach(function (link) {
+                        link.style.color = 'black';
+                        link.style.fontSize = '14px';
+                    });
+                    // 선택된 링크의 색상을 변경합니다.
+                    this.style.color = 'blue';
+                    this.style.fontSize = '18px';
+                });
+            });
+            let selectedDay = $('#selectDay${day}').text().replace(/[^0-9]/g, "");
+            let date = new Date();
+            let dateFormat = date.getFullYear() + "" + ((date.getMonth() + 1) <= 9 ? "0"
+                + (date.getMonth() + 1) : (date.getMonth() + 1)) + "" + ((selectedDay) <= 9 ? "0"
+                + (selectedDay) : (selectedDay));
+            $.ajax({
+                type: 'post',
+                url: 'https://www.megabox.co.kr/on/oh/ohc/Brch/schedulePage.do',
+                data: {
+                    "masterType": "brch",
+                    "detailType": "area",
+                    "brchNo": "1351",
+                    "firstAt": "Y",
+                    "brchNo1": "1351",
+                    "playDe": dateFormat
+                },
+                success: function (result) {
+                    var addedTheabExpoNm = [];
+                    const str = JSON.stringify(result);
+                    const obj = JSON.parse(str);
+                    const movieList = obj.megaMap.movieFormList;
+                    $.each(movieList, function (key, value) {
+                        if (value.movieNm === $('#titleInfo').val()) {
+                            console.log(value.playStartTime + "~" + value.playEndTime);
+                            if (addedTheabExpoNm.indexOf(value.theabExpoNm) === -1) {
+                                $('#hall').append('<a onclick="hallClick(this)" id="hall' + value.theabNo
+                                    + '" href="#" style="text-decoration-line: none; color: black" class="mt-3">'
+                                    + value.theabExpoNm + '</a><br>');
+                                addedTheabExpoNm.push(value.theabExpoNm); // 추가된 theabExpoNm을 배열에 저장
+                            }
+                        }
+                    });
+                    if ($('#hall').html().trim() === '') {
+                        $('#hall').append("다른 날을 선택해주세요")
+                    }
+                }
+            });
+        });
+        </c:forEach>
     });
-    </c:forEach>
-  });
 
-  function click_btn() {
-    if ($('#titleInfo').val() === '') {
-      alert('영화를 선택해주세요!');
-      return;
-    } else if ($('#dayInfo').val() === '') {
-      alert('날짜를 선택해주세요!')
-      return;
-    } else if ($('#hallInfo').val() === '') {
-      alert('상영관을 선택해주세요!')
-      return;
-    } else if ($('#timeInfo').val() === '') {
-      alert('시간을 선택해주세요!')
-      return;
-    }
-    if ($('#userIdInfo').val() === '') {
-      $('#loginModal').modal('show');
-    } else {
-      let selectedDay = $('#dayInfo').val().replace(/[^0-9]/g, "");
-      let date = new Date();
-      let dateFormat = date.getFullYear() + "-" + ((date.getMonth() + 1) <= 9 ? "0"
-          + (date.getMonth()
-              + 1) : (date.getMonth() + 1)) + "-" + ((selectedDay) <= 9 ? "0" + (selectedDay)
-          : (selectedDay));
-      $('#dayInfo').val(dateFormat);
-      document.getElementById('movieSelectForm').submit();
-    }
-  }
-
-  var form = document.loginForm;
-
-  function checkLogin() {
-    if (form.id.value === "") {
-      alert("아이디를 입력해주세요.");
-      form.id.select();
-      return;
-    } else if (form.password.value === "") {
-      alert("비밀번호를 입력해주세요.")
-      form.password.select();
-      return;
-    }
-    let id = $('#id').val();
-    let password = $('#password').val();
-    let saveId = $('#saveId').val();
-    $.ajax({
-      type: "post",
-      url: "/user/loginModal",
-      data: {
-        'id': id,
-        'password': password
-      },
-      success: function (result) {
-        if (result === 'success') {
-          let selectedDay = $('#dayInfo').val().replace(/[^0-9]/g, "");
-          let date = new Date();
-          let dateFormat = date.getFullYear() + "-" + ((date.getMonth() + 1) <= 9 ? "0"
-              + (date.getMonth()
-                  + 1) : (date.getMonth() + 1)) + "-" + ((selectedDay) <= 9 ? "0" + (selectedDay)
-              : (selectedDay));
-          $('#dayInfo').val(dateFormat);
-          $('#userIdInfo').val(id);
-          document.getElementById('movieSelectForm').submit();
+    function click_btn() {
+        if ($('#titleInfo').val() === '') {
+            alert('영화를 선택해주세요!');
+            return;
+        } else if ($('#dayInfo').val() === '') {
+            alert('날짜를 선택해주세요!')
+            return;
+        } else if ($('#hallInfo').val() === '') {
+            alert('상영관을 선택해주세요!')
+            return;
+        } else if ($('#timeInfo').val() === '') {
+            alert('시간을 선택해주세요!')
+            return;
+        }
+        if ($('#userIdInfo').val() === '') {
+            $('#loginModal').modal('show');
         } else {
-          alert('아이디 혹은 비밀번호가 일치하지 않습니다.');
+            let selectedDay = $('#dayInfo').val().replace(/[^0-9]/g, "");
+            let date = new Date();
+            let dateFormat = date.getFullYear() + "-" + ((date.getMonth() + 1) <= 9 ? "0"
+                + (date.getMonth()
+                    + 1) : (date.getMonth() + 1)) + "-" + ((selectedDay) <= 9 ? "0" + (selectedDay)
+                : (selectedDay));
+            $('#dayInfo').val(dateFormat);
+
+            <c:forEach var="movie" items="${movies}">
+            if ($('#titleInfo').val() === '${movie.title}') {
+                $('#movieSeq').val('${movie.seq}')
+            }
+            </c:forEach>
+            document.getElementById('movieSelectForm').submit();
         }
-      },
-      error: function () {
-        alert('비동기 통신 실패');
-      }
-    });
-  }
+    }
+
+    var form = document.loginForm;
+
+    function checkLogin() {
+        if (form.id.value === "") {
+            alert("아이디를 입력해주세요.");
+            form.id.select();
+            return;
+        } else if (form.password.value === "") {
+            alert("비밀번호를 입력해주세요.")
+            form.password.select();
+            return;
+        }
+        let id = $('#id').val();
+        let password = $('#password').val();
+        let saveId = $('#saveId').val();
+        $.ajax({
+            type: "post",
+            url: "/user/loginModal",
+            data: {
+                'id': id,
+                'password': password
+            },
+            success: function (result) {
+                if (result === 'success') {
+                    let selectedDay = $('#dayInfo').val().replace(/[^0-9]/g, "");
+                    let date = new Date();
+                    let dateFormat = date.getFullYear() + "-" + ((date.getMonth() + 1) <= 9 ? "0"
+                        + (date.getMonth()
+                            + 1) : (date.getMonth() + 1)) + "-" + ((selectedDay) <= 9 ? "0" + (selectedDay)
+                        : (selectedDay));
+                    $('#dayInfo').val(dateFormat);
+                    $('#userIdInfo').val(id);
+                    <c:forEach var="movie" items="${movies}">
+                    if ($('#titleInfo').val() === '${movie.title}') {
+                        $('#movieSeq').val('${movie.seq}')
+                    }
+                    </c:forEach>
+                    document.getElementById('movieSelectForm').submit();
+                } else {
+                    alert('아이디 혹은 비밀번호가 일치하지 않습니다.');
+                }
+            },
+            error: function () {
+                alert('비동기 통신 실패');
+            }
+        });
+    }
 </script>
 </body>
 </html>

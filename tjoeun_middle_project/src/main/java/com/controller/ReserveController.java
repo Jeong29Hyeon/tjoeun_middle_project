@@ -28,6 +28,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -49,10 +50,12 @@ public class ReserveController {
 
 
     @PostMapping("/movieRoom")
-    public String movieRoom(Model model, Ticket ticket,String userId, RedirectAttributes ra) {
+    public String movieRoom(Model model, Ticket ticket, String userId, RedirectAttributes ra, Movie movie, String movieSeq) {
         System.out.println("movieRoom ticket: "+ticket.toString());
         model.addAttribute("ticket", ticket);
         model.addAttribute("userId",userId);
+        System.out.println(movieSeq);
+        model.addAttribute("movie",movieService.getMovie(movieSeq));
         try {
             List<String> choiceSeatList = ticketService.selectChoiceSeats(ticket.getHallInfo(),ticket.getDayInfo(),ticket.getTimeInfo());
             if(choiceSeatList.isEmpty()){
