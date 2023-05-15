@@ -8,52 +8,125 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>지도</title>
+    <title>영화관 소개</title>
+    <style>
+        #quick-menu {
+            position: fixed;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+    </style>
 
 </head>
 <body>
 <jsp:include page="WEB-INF/views/header.jsp"/>
 <div class="container">
     <div class="row">
-        <div class="col-2">
-            <div id="list-example" class="list-group">
-                <a class="list-group-item list-group-item-action" href="#list-item-1">영화관 소개</a>
-                <a class="list-group-item list-group-item-action" href="#list-item-2">Item 2</a>
-                <a class="list-group-item list-group-item-action" href="#list-item-3">Item 3</a>
-                <a class="list-group-item list-group-item-action" href="#list-item-4">오시는 길</a>
+        <div class="col-1">
+            <!-- 왼쪽 퀵 메뉴 -->
+            <div id="quick-menu" class=" list-group">
+                <a class="list-group-item list-group-item-action" href="#section1">영화관 소개</a>
+                <a class="list-group-item list-group-item-action" href="#section2">시설 안내</a>
+                <a class="list-group-item list-group-item-action" href="#section3">오시는 길</a>
+                <!-- 추가적인 섹션 메뉴 아이템들 -->
             </div>
         </div>
-        <div class="col-8">
-            <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true"
-                 class="scrollspy-example" tabindex="0">
-                <h4 class="mt-3" id="list-item-1">영화관 소개</h4>
-                <img  src="https://ic.tjoeun.co.kr/upload/campus/2020/2020042215523917332375178.jpg" alt="">
-                <h4>Design</h4>
-                <ul>
-                    <li>섬세하게 디자인된 인테리어와 넓은 개인 공간</li>
-                    <li>실용성에 아름다움을 더한 시트와 모니터</li>
-                </ul>
-                <p>...</p>
-                <h4 id="list-item-2">Item 2</h4>
-                <p>...</p>
-                <h4 id="list-item-3">Item 3</h4>
-                <p>...</p>
-                <h4 id="list-item-4">오시는 길</h4>
-                <div class="row">
-                    <div class="col-6">
-                        <div id="map" style="width:450px;height:400px;"></div>
+        <div class="col-10">
+            <div data-bs-spy="scroll" data-bs-target="#quick-menu" data-bs-smooth-scroll="true" class="col-10"
+                 tabindex="0">
+                <!-- 섹션들 -->
+                <div id="section1" class="section">
+                    <h2><b>영화관 소개</b></h2>
+                    <img src="https://www.coex.co.kr/wp-content/uploads/2015/04/%EC%BD%94%EC%97%91%EC%8A%A4%EC%84%BC%ED%84%B0%EC%A0%84%EA%B2%BD_%EC%95%BC%EA%B0%843.jpg" alt="">
+                    <div class="row">
+                        <div class="col-6 mt-3">
+                            <h4><b>DESIGN</b></h4>
+                            <ul>
+                                <li>섬세하게 디자인된 인테리어와 넓은 개인 공간</li>
+                                <li>실용성에 아름다움을 더한 스칸디나비안 리클라이너 시트와 가구세트</li>
+                            </ul>
+                        </div>
+                        <div class="col-6 mt-3">
+                            <h4><b>DESSCREEN · SOUNDIGN</b></h4>
+                            <ul>
+                                <li>선명한 화질과 색감의 4K프로젝션 시스템</li>
+                                <li>세계 최고 공연장이 선택한 MEYER/JBL 사운드</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="col-6 text-center">
-                        <p class="mt-5"><b>서울특별시 종로구 우정국로2길 21 (대왕빌딩) 7층</b>
-                        <p>[1호선] 종각역 4번출구 50M 직진 대왕빌딩 7층
-                        <p>Tel. 02-738-5001Fax.02-738-5002
+                    <div class="row">
+                        <div class="col-7 mt-4">
+                            <img src="https://img.megabox.co.kr/static/pc/images/theater/img-theater-boutique-suite-06.jpg"
+                                 alt="">
+                        </div>
+                        <div class="col-5 mt-4">
+                            <h3><b>SERVICE</b></h3>
+                            <ul>
+                                <li>상영관 내 음식 주문이 가능한 룸서비스</li>
+                                <li>편안한 관람을 위해 제공되는 스위트 패키지 <br>(프리미엄 웰컴 음료, 무릎담요, 실내용 슬리퍼, 물티슈)</li>
+                                <li>와인 콜키지 서비스</li>
+                                <li>상영관 좌석까지 안내하는 에스코트 서비스와<br>이용의 편의를 제공하는 컨시어지 서비스</li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+
+                </div>
+                <div id="section2" class="section">
+                    <h2><b>시설 안내</b></h2>
+                    <div>
+                        <h2>2004년 아시아 최고의 영화관 선정,<br> 2005년 관객수 619만으로 월드 레코드 등재<br>
+                            VIP 시사회, 제작발표회, 레드 카펫 행사 등 다양한 행사 유치</h2>
+
+                    </div>
+                    <div>
+                        <p><b>50년 연속 관객수 9천만 이상인 국내 최대 멀티플렉스 시네마</b>
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-film fa-2xl"></i>
+                        <i class="fa-solid fa-wine-glass fa-2xl"></i>
+                        <i class="fa-solid fa-wheelchair-move fa-2xl"></i>
+                        <i class="fa-solid fa-couch fa-2xl"></i>
+                    </div>
+
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+
+                </div>
+                <div id="section3" class="section">
+                    <div class="row">
+                        <h1>오시는 길</h1>
+                        <div class="col-6">
+                            <div id="map" style="width:450px;height:400px;"></div>
+                        </div>
+                        <div class="col-6 text-center">
+                            <p class="mt-5"><b>서울특별시 종로구 우정국로2길 21 (대왕빌딩) 7층</b>
+                            <p>[1호선] 종각역 4번출구 50M 직진 대왕빌딩 7층
+                            <p>주차장 없음
+
+                        </div>
                     </div>
                 </div>
-                <p>...</p>
+                <!-- 추가적인 섹션들 -->
             </div>
         </div>
     </div>
-
 </div>
 
 
@@ -92,13 +165,10 @@
     var zoomControl = new kakao.maps.ZoomControl();
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
-    $(document).ready(function(){
-        var currentPosition = parseInt($(".quickmenu").css("top"));
-        $(window).scroll(function() {
-            var position = $(window).scrollTop();
-            $(".quickmenu").stop().animate({"top":position+currentPosition+"px"},1000);
-        });
+    $(function () {
+        $('body').scrollspy({target: '#quick-menu'});
     });
+
 </script>
 
 <jsp:include page="WEB-INF/views/footer.jsp"/>
