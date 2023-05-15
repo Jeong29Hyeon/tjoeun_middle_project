@@ -16,6 +16,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
@@ -128,6 +129,23 @@ public class MovieService {
             movie.setStory(movieStory);
             movie.setCumulativeUser(su);
             movie.setDetailInfo(detailInfo);
+
+            
+            //스티컷 여러개 가져오기
+            Document doc2 = Jsoup.connect("https://www.megabox.co.kr/on/oh/oha/Movie/selectMovieStillList.do")
+                    .data("rpstMovieNo",movie.getSeq())
+                    .data("currentPage","1")
+                    .data("recordCountPage","1")
+                    .post();
+            Elements images = doc2.select("div.thumb > a > img");
+            String[] stillCut = new String[images.size()];
+            for (int i = 0; i < images.size(); i++) {
+                Element image = images.get(i);
+                String src = image.attr("src");
+                stillCut[i]=src;
+            }
+            movie.setStillCut(stillCut);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

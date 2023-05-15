@@ -22,6 +22,15 @@ public class Movie {
     private String rateInfo; //예매율
     private String openingDate; //개봉일
     private String[] stillCut;
+    private String video;
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
+    }
 
     public Movie() {
     }
@@ -124,20 +133,23 @@ public class Movie {
         this.stillCut = stillCut;
     }
 
+
     @Override
     public String toString() {
         return "Movie{" +
-            "seq='" + seq + '\'' +
-            ", category='" + category + '\'' +
-            ", cumulativeUser='" + cumulativeUser + '\'' +
-            ", story='" + story + '\'' +
-            ", star='" + star + '\'' +
-            ", img='" + img + '\'' +
-            ", rank='" + rank + '\'' +
-            ", title='" + title + '\'' +
-            ", rateInfo='" + rateInfo + '\'' +
-            ", openingDate='" + openingDate + '\'' +
-            ", stillCut=" + Arrays.toString(stillCut) +
-            '}';
+                "seq='" + seq + '\'' +
+                ", category='" + category + '\'' +
+                ", cumulativeUser='" + cumulativeUser + '\'' +
+                ", detailInfo='" + detailInfo + '\'' +
+                ", story='" + story + '\'' +
+                ", star='" + star + '\'' +
+                ", img='" + img + '\'' +
+                ", rank='" + rank + '\'' +
+                ", title='" + title + '\'' +
+                ", rateInfo='" + rateInfo + '\'' +
+                ", openingDate='" + openingDate + '\'' +
+                ", stillCut=" + Arrays.toString(stillCut) +
+                ", video='" + video + '\'' +
+                '}';
     }
 }
