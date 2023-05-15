@@ -20,13 +20,13 @@
 
 </head>
 <body>
-<jsp:include page="WEB-INF/views/header.jsp"/>
+<jsp:include page="header.jsp"/>
 <div class="container">
     <div class="row">
         <div class="col-1">
             <!-- 왼쪽 퀵 메뉴 -->
             <div id="quick-menu" class=" list-group">
-                <a class="list-group-item list-group-item-action" href="#section1">영화관 소개</a>
+                <a class="list-group-item list-group-item-action active" href="#section1">영화관 소개</a>
                 <a class="list-group-item list-group-item-action" href="#section2">시설 안내</a>
                 <a class="list-group-item list-group-item-action" href="#section3">오시는 길</a>
                 <!-- 추가적인 섹션 메뉴 아이템들 -->
@@ -84,7 +84,7 @@
                 <div id="section2" class="section">
                     <h2><b>시설 안내</b></h2>
                     <div>
-                        <h2>2004년 아시아 최고의 영화관 선정,<br> 2005년 관객수 619만으로 월드 레코드 등재<br>
+                        <h2>2023년 아시아 최고의 영화관 선정,<br> 2005년 관객수 6198만으로 월드 레코드 등재<br>
                             VIP 시사회, 제작발표회, 레드 카펫 행사 등 다양한 행사 유치</h2>
 
                     </div>
@@ -171,6 +171,6 @@
 
 </script>
 
-<jsp:include page="WEB-INF/views/footer.jsp"/>
+<jsp:include page="footer.jsp"/>
 </body>
 </html>
