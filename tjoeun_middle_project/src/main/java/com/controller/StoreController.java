@@ -5,7 +5,6 @@ import com.aop.UserIdCheck;
 import com.dto.Goods;
 import com.dto.User;
 import com.service.CouponService;
-import com.service.CouponServiceImpl;
 import com.service.GoodsService;
 import com.service.PaymentService;
 import java.io.File;
@@ -40,9 +39,11 @@ public class StoreController {
         return "store/main";
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "store/insertTest";
+    @GetMapping("/add_store")
+    public String add_store(Model model) {
+        ArrayList<Goods> list = (ArrayList<Goods>)goodsService.getCategoryList("0");
+        model.addAttribute("categoryImg",list);
+        return "store/adminAddStore";
     }
 
     @GetMapping("/display")
@@ -51,9 +52,9 @@ public class StoreController {
         try {
             goodsList = goodsService.getGoodsList();
             model.addAttribute("goodsList", goodsList);
-            model.addAttribute("setMenuList", goodsService.getCategoryList("setMenu"));
-            model.addAttribute("popcornList", goodsService.getCategoryList("popcorn"));
-            model.addAttribute("drinkList", goodsService.getCategoryList("drink"));
+            model.addAttribute("setMenuList", goodsService.getCategoryList("1"));
+            model.addAttribute("popcornList", goodsService.getCategoryList("2"));
+            model.addAttribute("drinkList", goodsService.getCategoryList("3"));
         } catch (Exception e) {
             e.printStackTrace();
             //해결점
@@ -84,6 +85,7 @@ public class StoreController {
             goodsService.insertGoods(goods);
         } catch (Exception e) {
             e.printStackTrace();
+            return "store/adminAddStore";
         }
 
         return "redirect:/store/display";

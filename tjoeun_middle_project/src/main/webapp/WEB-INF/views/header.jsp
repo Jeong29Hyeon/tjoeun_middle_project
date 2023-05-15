@@ -107,10 +107,16 @@
                             <li><a class="dropdown-item" href="${joinOrNotLink}">${joinOrId}</a></li>
                             <li><a class="dropdown-item" href="${searchIdPwLink}">${searchIdPw}</a></li>
                         </c:when>
-                        <c:when test="${not empty sessionScope.user}">
+                        <c:when test="${sessionScope.user.id ne 'admin'}">
                             <li><a class="dropdown-item" href="${profileLink}">${profile}</a></li>
                             <li><a class="dropdown-item" href="${Reservation}">${ReservationInfo}</a></li>
                             <li><a class="dropdown-item" href="/user/couponRoom">Coupon</a></li>
+                        </c:when>
+                        <c:when test="${sessionScope.user.id eq 'admin'}">
+                            <li><a class="dropdown-item" href="${profileLink}">${profile}</a></li>
+                            <li><a class="dropdown-item" href="${Reservation}">${ReservationInfo}</a></li>
+                            <li><a class="dropdown-item" href="/user/couponRoom">Coupon</a></li>
+                            <li><a class="dropdown-item" href="/store/add_store">ADD-STORE</a></li>
                         </c:when>
                     </c:choose>
                     <li>
