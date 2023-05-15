@@ -1,4 +1,5 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
   Created by IntelliJ IDEA.
   User: lunat
@@ -9,6 +10,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <title>영화정보</title>
 </head>
 <body>
@@ -70,7 +74,8 @@
 
             <div class="container mt-md-3">
                 <div class="row g-3 d-flex justify-content-center align-items-center">
-                    <div id="reviewWriter" class="col-md-2 text-center">${not empty sessionScope.user.id ? sessionScope.user.id : '로그인 후 이용해주세요'}</div>
+                    <div id="reviewWriter"
+                         class="col-md-2 text-center">${not empty sessionScope.user.id ? sessionScope.user.id : '로그인 후 이용해주세요'}</div>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="reviewContent" name="reviewContent">
                     </div>
@@ -113,7 +118,9 @@
                             </div>
                             <button type="button" id="likebtn${review.rno}"
                                     class="btn btn-outline-danger border-0"${sessionScope.user.id eq review.id ||sessionScope.user ==null ? 'disabled' : ''} >
-                                <i id="i${review.rno}" class="fa-regular fa-heart"><p style="font-size: 10px" id="likeCount${review.rno}">${review.likeCount}</p></i></button>
+                                <i id="i${review.rno}" class="fa-regular fa-heart"><p style="font-size: 10px"
+                                                                                      id="likeCount${review.rno}">${review.likeCount}</p>
+                                </i></button>
                             <input type="hidden" id="likecheck${review.rno}" value="${review.likeCount}">
                         </div>
 
@@ -125,15 +132,22 @@
     <div class="tab-pane fade text-center" id="trailer" role="tabpanel" aria-labelledby="trailer-tab">트레일러 유튜브 링크 딱
         걸면? 딱!
     </div>
-    <div class="tab-pane fade text-center" id="stillcut" role="tabpanel" aria-labelledby="stillcut-tab"> 스틸컷 가져와서
-        넣자
-
+    <div class="tab-pane fade text-center" id="stillcut" role="tabpanel" aria-labelledby="stillcut-tab">
+        <div class="container">
+            <div class="row">
+                <c:forEach begin="0" end="${fn:length(movie.stillCut)}" var="i">
+                    <div class="col-4 mt-3">
+                        <img src="${movie.stillCut[i]}" alt="">
+                    </div>
+                </c:forEach>
+            </div>
+        </div>
     </div>
 
 </c:if>
 <%@include file="footer.jsp" %>
 <script>
-    $(document).ready(function (){
+    $(document).ready(function () {
         <c:forEach var="like" items="${likeList}">
         $('#i${like.rno}').removeClass("fa-regular");
         $('#i${like.rno}').addClass("fa-solid");
@@ -161,9 +175,9 @@
             success: function (result) {
                 if (result === "success") {
                     location.reload();
-                } else if(result ==="LOGIN_ERR"){
-                  alert("세션이 만료되어 로그인 페이지로 이동합니다.");
-                  location.href="/";
+                } else if (result === "LOGIN_ERR") {
+                    alert("세션이 만료되어 로그인 페이지로 이동합니다.");
+                    location.href = "/";
                 } else {
                     alert("작성 실패");
                     location.reload();
@@ -199,9 +213,9 @@
             success: function (result) {
                 if (result === "success") {
                     location.reload(); // 로케이션 리로드 하면 페이지 스크롤 상태가 그대로임
-                } else if(result ==="LOGIN_ERR"){
-                  alert("세션이 만료되어 로그인 페이지로 이동합니다.");
-                  location.href="/";
+                } else if (result === "LOGIN_ERR") {
+                    alert("세션이 만료되어 로그인 페이지로 이동합니다.");
+                    location.href = "/";
                 } else {
                     alert("수정에러 발생");
                     location.reload();
@@ -225,9 +239,9 @@
                 success: function (result) {
                     if (result === "success") {
                         location.reload(); // 로케이션 리로드 하면 페이지 스크롤 상태가 그대로임
-                    } else if(result ==="LOGIN_ERR"){
-                      alert("세션이 만료되어 로그인 페이지로 이동합니다.");
-                      location.href="/";
+                    } else if (result === "LOGIN_ERR") {
+                        alert("세션이 만료되어 로그인 페이지로 이동합니다.");
+                        location.href = "/";
                     } else {
                         alert("수정에러 발생");
                         location.reload();
@@ -245,7 +259,7 @@
 
 
     $('#likebtn${review.rno}').click(function () {
-        if(sessionCheck()=='true'){
+        if (sessionCheck() == 'true') {
             return;
         }
         $.ajax({
@@ -254,22 +268,22 @@
             data: {
                 'rno': ${review.rno},
                 'id': '${sessionScope.user.id}',
-                'seq':'${review.seq}'
+                'seq': '${review.seq}'
             },
             success: function (result) {
-                if(result===1){
+                if (result === 1) {
                     $('#i${review.rno}').removeClass("fa-regular");
                     $('#i${review.rno}').addClass("fa-solid");
 
-                } else if(result ==="LOGIN_ERR"){
-                  alert("세션이 만료되어 로그인 페이지로 이동합니다.");
-                  location.href="/";
-                  return;
+                } else if (result === "LOGIN_ERR") {
+                    alert("세션이 만료되어 로그인 페이지로 이동합니다.");
+                    location.href = "/";
+                    return;
                 } else {
                     $('#i${review.rno}').removeClass("fa-solid");
                     $('#i${review.rno}').addClass("fa-regular");
                 }
-                $('#likeCount${review.rno}').load(location.href+" #likeCount${review.rno}")
+                $('#likeCount${review.rno}').load(location.href + " #likeCount${review.rno}")
 
             }, error: function (result) {
                 console.log("에러" + result.result)
