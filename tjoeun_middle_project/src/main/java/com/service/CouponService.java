@@ -8,6 +8,6 @@ import java.util.Map;
 public interface CouponService {
     void insertCoupon(Map<String, Goods> cart, String imp_uid, Integer paid_amount, String userId);
     List<Coupon> selectAllById(String id);
-    int deleteByImpUid(String imp_uid);
+    int deleteByCno(String cno);
 
 }

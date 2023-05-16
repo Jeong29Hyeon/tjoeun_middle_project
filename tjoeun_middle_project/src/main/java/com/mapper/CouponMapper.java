@@ -13,5 +13,5 @@ public interface CouponMapper {
 
     List<Coupon> selectAllById(String id);
 
-    int deleteByImpUid(String imp_uid);
+    int deleteByCno(String cno);
 }

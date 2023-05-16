@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.aop.AjaxUserIdCheck;
 import com.aop.UserIdCheck;
 import com.dto.Coupon;
 import com.dto.User;
@@ -30,7 +31,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class UserController {
     UserService userService;
     TicketService ticketService;
-
     CouponService couponService;
     PaymentService paymentService;
 
@@ -288,13 +288,13 @@ public class UserController {
     }
     @PostMapping("/deleteCoupon")
     @ResponseBody
-    public String deleteCoupon(String imp_uid){
-
+    @UserIdCheck
+    public String deleteCoupon(String cno){
         String token = null;
         try {
-            token = paymentService.getAccessToken();
-            paymentService.payCancel(token,imp_uid);
-            couponService.deleteByImpUid(imp_uid);
+//            token = paymentService.getAccessToken();
+//            paymentService.payCancel(token,imp_uid);
+            couponService.deleteByCno(cno);
         } catch (Exception e) {
             e.printStackTrace();
             return "fail";
