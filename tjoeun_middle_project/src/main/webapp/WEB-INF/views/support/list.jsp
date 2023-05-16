@@ -19,13 +19,13 @@
 </div>
 <div class="container mb-1">
     <div class="d-flex flex-row-reverse gap-2">
-        <a href="/support/write"><button class="btn btn-outline-primary">질문하기</button></a>
+        <a href="/support/write"><button class="btn btn-outline-dark"><i class="fa-regular fa-circle-question"></i> 질문하기</button></a>
         <c:choose>
             <c:when test="${empty myQuestion}">
-                <a href="<c:url value="/support/list?writer=${sessionScope.user.id}"/>"><button class="btn btn-outline-primary">내가 쓴 글 확인</button></a>
+                <a href="<c:url value="/support/list?writer=${sessionScope.user.id}"/>"><button class="btn btn-outline-dark">내가 쓴 글 확인</button></a>
             </c:when>
             <c:otherwise>
-                <a href="<c:url value="/support/list"/>"><button class="btn btn-outline-primary">돌아가기</button></a>
+                <a href="<c:url value="/support/list"/>"><button class="btn btn-outline-dark"><i class="fa-solid fa-arrow-left-long"></i> 돌아가기</button></a>
             </c:otherwise>
         </c:choose>
     </div>
@@ -51,9 +51,9 @@
                 </tr>
                 </thead>
                 <tbody class="align-middle table-group-divider">
-                <c:forEach var="question" items="${list}">
+                <c:forEach var="question" items="${list}" varStatus="i">
                     <tr>
-                        <td>${question.qno}</td>
+                        <td>${(ph.totalCnt-((ph.page-1)*10))-i.index}</td>
                         <td><a id="title${question.qno}" class="text-decoration-none"
                                style="color:black"
                                href="<c:url value="/support/view${ph.getQueryString(ph.page)}&qno=${question.qno}"/>">${question.title}</a>
