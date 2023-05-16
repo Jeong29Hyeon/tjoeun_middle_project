@@ -40,7 +40,7 @@
                     <label for="birth" class="form-label">${searchPw}</label>
                     <c:choose>
                         <c:when test="${empty user}">
-                            <input class="form-control" type="text" id="birth" name="birth" placeholder="생년월일(YYYY--MM-DD) 입력">
+                            <input class="form-control" type="text" id="birth" name="birth" placeholder="생년월일(YYYY-MM-DD) 입력">
                         </c:when>
                         <c:when test="${not empty user}">
                             <input type="text" class="form-control" value="${user.password}" disabled>
@@ -76,7 +76,7 @@
                 form.name.select();
                 return;
             }else if(form.birth.value===""){
-                alert("생년월일(YYYY--MM-DD)을 입력해주세요.")
+                alert("생년월일(YYYY-MM-DD)을 입력해주세요.")
                 form.birth.select();
                 return;
             }

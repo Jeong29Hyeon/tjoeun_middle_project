@@ -14,7 +14,7 @@
 <%@include file="WEB-INF/views/header.jsp"%>
 <button type="button" onclick="btn()">modalTest</button>
 
-<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginHeader"
+<div class="modal fade" id="msgModal" aria-labelledby="msgModalHeader"
      aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -23,7 +23,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form name="loginForm">
+                <form name="msgModalForm">
                     <div class="row mt-md-3">
                         <div class="col-md-12">
                           타인의 게시물은 염탐이 불가능합니다.
@@ -48,7 +48,7 @@
 </body>
 <script>
     function btn(){
-      $('#loginModal').modal('show');
+      $('#msgModal').modal('show');
     }
 </script>
 </html>
