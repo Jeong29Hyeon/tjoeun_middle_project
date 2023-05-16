@@ -104,9 +104,7 @@
                     <div class="col-md-2 text-center">
                         <div class="btn-group" role="group" aria-label="Basic outlined example">
                             <button type="button" id="reviewEdit${review.rno}"
-                                    class="btn btn-outline-warning text-decoration-none" ${sessionScope.user.id eq review.id ? '' : 'hidden'}
-                            >수정
-                            </button>
+                                    class="btn btn-outline-warning text-decoration-none" ${sessionScope.user.id eq review.id ? '' : 'hidden'}>수정</button>
                             <button type="button" id="reviewRemove${review.rno}"
                                     class="btn btn-outline-danger text-decoration-none" ${sessionScope.user.id eq review.id ? '' : 'hidden'}
                             >삭제
