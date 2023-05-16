@@ -39,7 +39,7 @@ public class StoreController {
         return "store/main";
     }
 
-    @GetMapping("/add_store")
+    @GetMapping("/add-store")
     public String add_store(Model model) {
         ArrayList<Goods> list = (ArrayList<Goods>)goodsService.getCategoryList("0");
         model.addAttribute("categoryImg",list);
