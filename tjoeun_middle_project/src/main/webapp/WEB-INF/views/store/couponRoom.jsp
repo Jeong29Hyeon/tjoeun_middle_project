@@ -107,6 +107,13 @@
                                     <img class="col-6" src="/resources/img/goods/5c974982ed854707a0d2bd3149308132.jpg"/>
                                     <img class="col-6" src="${coupon.goods.uploadPath}/${coupon.goods.fileName}"/>
                                 </div>
+                                <div class="row mt-3">
+                                    <div class="col-12">
+                                        <button class="btn btn-outline-warning" id="delete${coupon.cno}"
+                                                style="color: black">쿠폰취소
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -120,6 +127,28 @@
     $('#useCoupon-tab').on('click', function () {
 
     })
+    <c:forEach var="coupon" items="${falseCoupon}">
+    $('#delete${coupon.cno}').on('click',function (){
+      $.ajax({
+        url: "/user/deleteCoupon",
+        type: "post",
+        data: {
+            "cno": '${coupon.cno}'
+        },
+        success:function (result){
+          if(result==='success'){
+            alert('쿠폰취소완료')
+            location.reload();
+          }else{
+            alert('환불실패')
+          }
+        },
+        error:function (){
+          alert('통신에러')
+        }
+      });
+    });
+    </c:forEach>
 </script>
 </body>
 </html>

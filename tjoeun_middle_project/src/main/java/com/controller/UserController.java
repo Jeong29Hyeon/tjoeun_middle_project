@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.aop.AjaxUserIdCheck;
 import com.aop.UserIdCheck;
 import com.dto.Coupon;
 import com.dto.User;
@@ -30,7 +31,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class UserController {
     UserService userService;
     TicketService ticketService;
-
     CouponService couponService;
     PaymentService paymentService;
 
@@ -129,13 +129,13 @@ public class UserController {
     @GetMapping("/ticketHistory")
     public String ticketHistory(HttpSession session, Model model) {
         String userId = "";
-        if (session.getAttribute("accessToken") != null) {
-            Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
-            userId = (String) user.get("id");
-        } else {
+//        if (session.getAttribute("accessToken") != null) {
+//            Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
+//            userId = (String) user.get("id");
+//        } else {
             User user = (User) session.getAttribute("user");
             userId = user.getId();
-        }
+//        }
         model.addAttribute("pastTicketList", ticketService.pastTicketById(userId));
         model.addAttribute("currentTicketList", ticketService.currentTicketById(userId));
         model.addAttribute("futureTicketList", ticketService.futureTicketById(userId));
@@ -163,10 +163,8 @@ public class UserController {
         String accessToken = userService.getAccessToken(code);
         System.out.println("accessToken = " + accessToken);
         session.setAttribute("accessToken", accessToken);
-        HashMap<String, Object> user = userService.getUserInfo(accessToken);
+        User user = userService.getUserInfo(accessToken);
         System.out.println("accessToken = " + accessToken);
-        System.out.println("nickname : " + user.get("name"));
-        System.out.println("mail : " + user.get("id"));
         session.setAttribute("user", user);
         return "redirect:/";
     }
@@ -192,14 +190,14 @@ public class UserController {
     public String profile(HttpSession session, Model model) {
         String id = "";
         int price = 0 ;
-        if (session.getAttribute("accessToken") != null) {
-            Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
-            id = (String) user.get("id");
-        } else {
+//        if (session.getAttribute("accessToken") != null) {
+//            Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
+//            id = (String) user.get("id");
+//        } else {
             User user = (User) session.getAttribute("user");
             id = user.getId();
             model.addAttribute("couponList", couponService.selectAllById(id));
-        }
+//        }
 
         model.addAttribute("ticketHistory", ticketService.selectById(id));
         try {
@@ -288,13 +286,13 @@ public class UserController {
     }
     @PostMapping("/deleteCoupon")
     @ResponseBody
-    public String deleteCoupon(String imp_uid){
-
+    @UserIdCheck
+    public String deleteCoupon(String cno){
         String token = null;
         try {
-            token = paymentService.getAccessToken();
-            paymentService.payCancel(token,imp_uid);
-            couponService.deleteByImpUid(imp_uid);
+//            token = paymentService.getAccessToken();
+//            paymentService.payCancel(token,imp_uid);
+            couponService.deleteByCno(cno);
         } catch (Exception e) {
             e.printStackTrace();
             return "fail";

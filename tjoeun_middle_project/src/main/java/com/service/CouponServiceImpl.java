@@ -57,7 +57,7 @@ public class CouponServiceImpl implements CouponService {
         return couponMapper.selectAllById(id);
     }
 
-    public int deleteByImpUid(String imp_uid){
-        return couponMapper.deleteByImpUid(imp_uid);
+    public int deleteByCno(String cno){
+        return couponMapper.deleteByCno(cno);
     }
 }

@@ -45,7 +45,7 @@
         where id=#{id};
   </select>
 
-    <delete id="deleteByImpUid" parameterType="String">
-        delete from Coupon where imp_uid = #{imp_uid}
+    <delete id="deleteByCno" parameterType="String">
+        delete from Coupon where cno = #{cno}
     </delete>
 </mapper>

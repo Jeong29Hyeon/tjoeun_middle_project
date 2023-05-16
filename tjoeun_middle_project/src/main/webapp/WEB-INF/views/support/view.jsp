@@ -12,7 +12,6 @@
         box-sizing: border-box;
         margin: 0;
         padding: 0;
-        font-family: "Noto Sans KR", sans-serif;
       }
 
       .container {
@@ -70,7 +69,7 @@
 
 <jsp:include page="../header.jsp"/>
 <div class="container">
-    <h2 class="writing-header">1대1 문의글</h2>
+    <h2 class="writing-header">질문</h2>
     <c:if test="${not empty msg}">
     <div class="alert alert-primary alert-dismissible fade show" role="alert">
             ${msg}
@@ -78,36 +77,47 @@
     </div>
     </c:if>
     <form id="form" class="frm" action="" method="post">
-        <input type="hidden" name="bno" value="${question.qno}">
-        <input name="title" type="text" value="${question.title}" placeholder="  제목을 입력해 주세요."
+        <input type="hidden" name="qno" value="${question.qno}">
+        <input type="hidden" name="page" value="${ph.page}"/>
+        <input type="hidden" name="writer" value="${ph.writer}"/>
+        <input id="title" name="title" type="text" value="${question.title}"
+               placeholder="  제목을 입력해 주세요."
                readonly='readonly'><br>
-        <textarea aria-disabled="true" name="content" rows="20" placeholder=" 내용을 입력해 주세요."
+        <textarea id="content" aria-disabled="true" name="content" rows="20"
+                  placeholder=" 내용을 입력해 주세요."
                   readonly='readonly'>${question.content}</textarea><br>
-        <c:if test="${question.writer eq sessionScope.user.id}">
-            <button type="button" id="modifyBtn" class="btn btn-modify"><i class="fa fa-edit"></i>수정
-            </button>
-            <button type="button" id="removeBtn" class="btn btn-remove"><i class="fa fa-trash"></i>삭제
-            </button>
-            <button type="button" id="cancelBtn" class="btn btn-cancel"
-                    onclick="location.href='<c:url
-                            value="/support/view?qno=${question.qno}&page=${page}&password=${password}"/>'"
-                    hidden><i class="fa fa-arrow-left"></i> 취소
+        <c:if test="${question.state == '미답변' && question.writer==sessionScope.user.id}">
+            <button type="button" id="modifyBtn" class="btn"><i class="fa fa-edit"></i>수정
             </button>
         </c:if>
-        <button type="button" id="listBtn" class="btn btn-list"><i class="fa fa-bars"></i> 목록
+        <button type="button" id="removeBtn" class="btn"><i class="fa fa-trash"></i>삭제
+        </button>
+        <button type="button" id="cancelBtn" class="btn"
+                onclick="location.reload();" hidden><i class="fa fa-arrow-left"></i> 취소
+        </button>
+        <button type="button" id="listBtn" class="btn"><i class="fa fa-bars"></i> 목록
         </button>
     </form>
-    <div class="container mt-md-3">
-        <div class="row g-3 d-flex justify-content-center align-items-center">
-            <div id="commentWriter" class="col-md-2 text-center">${sessionScope.user.id}</div>
-            <div class="col-md-8">
-                <input type="text" class="form-control" id="commentContent" name="commentContent">
+    <div class="container mt-md-3 d-flex flex-column">
+        <span style="font-size: 2rem;">답변</span>
+        <hr/>
+        <div class="mb-2">
+            <c:if test="${not empty answer || sessionScope.user.id=='admin'}">
+                <span class="ms-1 mb-1"><fmt:formatDate value="${answer.answerDate}"
+                                                        pattern="MM-dd HH:mm" type="both"/></span>
+            <div class="col-12">
+                <textarea type="text" class="form-control" id="answer" name="answer"
+                          placeholder="답변을 작성해주세요."
+                    ${empty answer?'':'disabled'}>${answer.content}</textarea>
             </div>
-            <div class="col-md-2 d-grid gap-2">
-                <button class="btn btn-outline-dark" type="button" id="commentWrite">답변작성
-                </button>
-            </div>
+            </c:if>
         </div>
+        <c:if test="${sessionScope.user.id == 'admin' && empty answer}">
+        <div class="d-flex flex-row-reverse">
+            <button class="btn btn-outline-dark" type="button" id="answerWrite">답변작성
+            </button>
+        </div>
+        </c:if>
     </div>
     <jsp:include page="../footer.jsp"/>
     <script>
@@ -129,27 +139,27 @@
 
         $("#modifyBtn").on("click", function () {
           let form = $("#form");
-          let isReadonly = $("input[name=title]").attr('readonly');
+          let isReadonly = $("#title").attr('readonly');
           // 1. 읽기 상태이면, 수정 상태로 변경
           if (isReadonly === 'readonly') {
-            $(".writing-header").html("게시판 수정");
-            $("input[name=title]").attr('readonly', false);
+            $(".writing-header").html("문의내용 수정");
+            $("#title").attr('readonly', false);
             $("#writeNewBtn").attr('hidden', true);
             $("#cancelBtn").attr('hidden', false);
             $("#removeBtn").attr('hidden', true);
-            $("textarea").attr('readonly', false);
+            $("#content").attr('readonly', false);
             $("#modifyBtn").html("<i class='fa fa-pencil'></i> 등록");
             return;
           }
           // 2. 수정 상태이면, 수정된 내용을 서버로 전송
-          form.attr("action", "#");
+          form.attr("action", "/support/edit");
           form.attr("method", "post");
           if (formCheck())
             form.submit();
         });
 
         $("#listBtn").on("click", function () {
-          location.href = "<c:url value='/support/list?page=${page}'/>";
+          location.href = "<c:url value='/support/list${ph.getQueryString(ph.page)}'/>";
         });
 
         $("#removeBtn").on("click", function () {
@@ -158,6 +168,33 @@
           form.attr("action", "<c:url value='/support/remove'/>");
           form.attr("method", "post");
           form.submit();
+        });
+
+        $('#answerWrite').on('click', function () {
+          let answer = $('#answer');
+          if (answer.val() === '') {
+            alert("답변을 작성해주세요.");
+            return;
+          }
+          $.ajax({
+            type: 'post',
+            url: '/support/answer-write',
+            data: {
+              'qno':${question.qno},
+              'content': answer.val()
+            },
+            success: function (result) {
+              if (result === 'success') {
+                location.reload();
+              } else {
+                alert("답변 작성실패");
+              }
+            },
+            error: function () {
+              alert("비동기통신 에러");
+            }
+          });
+
         });
       });
     </script>

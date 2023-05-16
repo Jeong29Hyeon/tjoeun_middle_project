@@ -10,7 +10,7 @@
     <h4 class="display-4">1:1 문의</h4>
     <ul>
         <li style="font-size: 0.8rem">
-            더조은 시네마에 문의하실 내용을 '1:1문의'를 통해 접수해주세요.
+            더조은 시네마에 문의하실 내용을 '질문하기'를 통해 접수해주세요.
         </li>
         <li style="font-size: 0.8rem">
             접수하신 글은 비밀글로 등록되어 작성자와 관리자만 확인 가능합니다.
@@ -19,8 +19,15 @@
 </div>
 <div class="container mb-1">
     <div class="d-flex flex-row-reverse gap-2">
-        <a href="/support/write"><button class="btn btn-outline-primary">1대1 문의</button></a>
-        <a href="#"><button class="btn btn-outline-primary">내가 쓴 글 확인</button></a>
+        <a href="/support/write"><button class="btn btn-outline-dark"><i class="fa-regular fa-circle-question"></i> 질문하기</button></a>
+        <c:choose>
+            <c:when test="${empty myQuestion}">
+                <a href="<c:url value="/support/list?writer=${sessionScope.user.id}"/>"><button class="btn btn-outline-dark">내가 쓴 글 확인</button></a>
+            </c:when>
+            <c:otherwise>
+                <a href="<c:url value="/support/list"/>"><button class="btn btn-outline-dark"><i class="fa-solid fa-arrow-left-long"></i> 돌아가기</button></a>
+            </c:otherwise>
+        </c:choose>
     </div>
 </div>
 <!-- 게시글 목록 -->
@@ -44,12 +51,12 @@
                 </tr>
                 </thead>
                 <tbody class="align-middle table-group-divider">
-                <c:forEach var="question" items="${list}">
+                <c:forEach var="question" items="${list}" varStatus="i">
                     <tr>
-                        <td>${question.qno}</td>
+                        <td>${(ph.totalCnt-((ph.page-1)*10))-i.index}</td>
                         <td><a id="title${question.qno}" class="text-decoration-none"
                                style="color:black"
-                               href="#">${question.title}</a>
+                               href="<c:url value="/support/view${ph.getQueryString(ph.page)}&qno=${question.qno}"/>">${question.title}</a>
                         </td>
                         <td>${question.state}</td>
                         <td>
@@ -73,15 +80,15 @@
             <nav aria-label="...">
                 <ul class="pagination justify-content-center">
                     <li class="page-item ${ph.showPrev ? '' : 'disabled'}">
-                        <a class="page-link" href="<c:url value='/support/list?page=${ph.beginPage-1}'/>">이전</a>
+                        <a class="page-link" href="<c:url value='/support/list${ph.getQueryString(ph.beginPage-1)}'/>">이전</a>
                     </li>
                     <c:forEach var="i" begin="${ph.beginPage}" end="${ph.endPage}">
                         <li class="page-item ${i eq ph.page ? 'active' : ''}">
-                            <a class="page-link" href="<c:url value='/support/list?page=${i}'/>">${i}</a>
+                            <a class="page-link" href="<c:url value='/support/list${ph.getQueryString(i)}'/>">${i}</a>
                         </li>
                     </c:forEach>
                     <li class="page-item ${ph.showNext ? '' : 'disabled'}">
-                        <a class="page-link" href="<c:url value='/support/list?page=${ph.endPage+1}'/>">다음</a>
+                        <a class="page-link" href="<c:url value='/support/list${ph.getQueryString(ph.endPage+1)}'/>">다음</a>
                     </li>
                 </ul>
             </nav>
@@ -89,35 +96,5 @@
     </div>
 </div>
 <%@include file="../footer.jsp" %>
-<script>
-    $(document).ready(function (){
-      <c:forEach var="question" items="${list}">
-        $('#title${question.qno}').on('click',function (){
-          let input = prompt("비밀번호 입력","비밀번호 4자리");
-          if(input ===''){
-            return;
-          }
-          let password = input.replace(/[^0-9]/g,"");
-          $.ajax({
-            type:'post',
-            url:'/support/password-check',
-            data:{
-              'qno':${question.qno},
-              'password':password
-            },
-            dataType:'JSON',
-            success:function (result){
-              if(result.msg==='success'){
-                location.href="/support/view?qno=${question.qno}&page=${ph.page}&password="+result.pw;
-                return;
-              }
-              alert("비밀번호가 일치하지않습니다.");
-              location.reload();
-            }
-          });
-        });
-      </c:forEach>
-    });
-</script>
 </body>
 </html>

@@ -14,5 +14,15 @@ public interface QuestionMapper {
 
     int insertQuestion(Question question);
 
-    Question selectByQnoPw(Map<String, Object> map);
+    Question selectByQno(Integer qno);
+
+    int updateQuestion(Question question);
+
+    int deleteQuestionById(int qno);
+
+    int updateStatus(Map<String,Object>map);
+
+    List<Question> selectById(Map<String,Object>map);
+
+    int getTotalCntById(String writer);
 }

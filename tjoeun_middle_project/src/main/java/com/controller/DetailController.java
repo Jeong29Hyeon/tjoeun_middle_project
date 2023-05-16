@@ -32,15 +32,14 @@ public class DetailController {
     LikeService likeService;
 
     MovieService movieService;
+
     @Autowired
     public DetailController(ReviewService reviewService, LikeService likeService,
-        MovieService movieService) {
+                            MovieService movieService) {
         this.reviewService = reviewService;
         this.likeService = likeService;
         this.movieService = movieService;
     }
-
-
 
 
     //일단 테스트로 다 긁어옴
@@ -50,25 +49,20 @@ public class DetailController {
         List<Review> reviewList = new ArrayList<>();
         List<Like> likeList = new ArrayList<>();
         String userId = "";
-        if(session.getAttribute("accessToken")!=null){
-            Map<String,Object> user = (Map<String, Object>) session.getAttribute("user");
-            userId = (String) user.get("id");
-        }else{
-            if(session.getAttribute("user")!=null){
-                User user = (User) session.getAttribute("user");
-                userId = user.getId();
-            }
-        }
+
+        User user = (User) session.getAttribute("user");
+        userId = user.getId();
+
 
         try {
-            likeList = likeService.selectByUserIdSeq(userId,seq);
+            likeList = likeService.selectByUserIdSeq(userId, seq);
             reviewList = reviewService.selectAllBySeq(seq);
         } catch (Exception e) {
             e.printStackTrace();
             //에러 잡아야함
         }
         //댓글들 다 가져오고
-        model.addAttribute("likeList",likeList);
+        model.addAttribute("likeList", likeList);
         model.addAttribute("movie", movie);
         model.addAttribute("reviewList", reviewList);
 

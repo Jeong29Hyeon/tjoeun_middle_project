@@ -4,15 +4,30 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mapper.QuestionMapper">
     <select id="selectAll" parameterType="int" resultType="Question">
-        select qno, title, content, writer, password, state, reg_date as regDate from Question ORDER BY reg_date DESC LIMIT #{offset},10;
+        select qno, title, content, writer, state, reg_date as regDate from Question ORDER BY reg_date DESC LIMIT #{offset},10;
     </select>
     <select id="getTotalCount" resultType="java.lang.Integer">
         select count(*) from Question;
     </select>
+    <select id="getTotalCntById" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from Question where writer = #{writer};
+    </select>
     <insert id="insertQuestion" parameterType="Question" keyProperty="qno" useGeneratedKeys="true">
-        insert into Question(title, content, writer, password, reg_date) VALUES (#{title},#{content},#{writer},#{password},now());
+        insert into Question(title, content, writer, reg_date) VALUES (#{title},#{content},#{writer},now());
     </insert>
-    <select id="selectByQnoPw" parameterType="java.util.Map" resultType="Question">
-        select * from Question where qno=#{qno} and password=#{password};
+    <select id="selectByQno" parameterType="java.lang.Integer" resultType="Question">
+        select * from Question where qno=#{qno};
+    </select>
+    <update id="updateQuestion" parameterType="Question">
+        update Question set title=#{title}, content=#{content} where qno = #{qno};
+    </update>
+    <delete id="deleteQuestionById" parameterType="int">
+        delete from Question where qno=#{qno};
+    </delete>
+    <update id="updateStatus" parameterType="java.util.Map">
+        update Question set state=#{state} where qno=#{qno};
+    </update>
+    <select id="selectById" parameterType="java.util.Map" resultType="Question">
+        select qno, title, content, writer, state, reg_date as regDate from Question where writer=#{writer} ORDER BY reg_date DESC LIMIT #{offset},10;
     </select>
 </mapper>
