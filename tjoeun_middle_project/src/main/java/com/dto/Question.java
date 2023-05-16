@@ -7,7 +7,6 @@ public class Question {
     private String title;
     private String content;
     private String writer;
-    private String password;
 
     private String state;
     private Date regDate;
@@ -48,13 +47,7 @@ public class Question {
         this.writer = writer;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getState() {
         return state;

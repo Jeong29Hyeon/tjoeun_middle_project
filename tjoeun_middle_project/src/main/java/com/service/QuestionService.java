@@ -67,4 +67,5 @@ public class QuestionService {
     public int getTotalCntById(String writer) {
         return questionMapper.getTotalCntById(writer);
     }
+
 }
