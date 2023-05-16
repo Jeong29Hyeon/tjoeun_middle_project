@@ -144,8 +144,8 @@ public class UserService {
         return accessToken;
     }
 
-    public HashMap<String, Object> getUserInfo(String accessToken) {
-        HashMap<String, Object> userInfo = new HashMap<>();
+    public User getUserInfo(String accessToken) {
+        User user = new User();
         String reqURL = "https://kapi.kakao.com/v2/user/me";
         try {
             URL url = new URL(reqURL);
@@ -173,19 +173,19 @@ public class UserService {
                 JSONObject kakao_account = (JSONObject) obj.get("kakao_account");
                 boolean email_needs_agreement = (boolean) kakao_account.get("email_needs_agreement");
                 String nickname = properties.get("nickname").toString();
-                userInfo.put("name", nickname);
+                user.setName(nickname);
                 if(!email_needs_agreement){//이메일 동의가 필요한가 -> false 면 이메일이 있음
                     String email = kakao_account.get("email").toString();
-                    userInfo.put("id", email);
+                    user.setId(email);
                 }else{
                     String id = obj.get("id").toString();
-                    userInfo.put("id",id);
+                    user.setId(id);
                 }
             }
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
-        return userInfo;
+        return user;
     }
 
     public void kakaoLogout(String accessToken) {

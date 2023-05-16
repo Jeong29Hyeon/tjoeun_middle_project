@@ -81,14 +81,29 @@
 </div>
 <ul class="nav nav-tabs justify-content-center mt-4 nav-fill" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="myInfo-tab" data-bs-toggle="tab" data-bs-target="#myInfo" type="button"
-                role="tab" aria-controls="myInfo" aria-selected="false">회원 정보
-        </button>
+        <c:if test="${empty sessionScope.accessToken}">
+            <button class="nav-link" id="myInfo-tab" data-bs-toggle="tab" data-bs-target="#myInfo" type="button"
+                    role="tab" aria-controls="myInfo" aria-selected="false">회원 정보
+            </button>
+        </c:if>
+        <c:if test="${not empty sessionScope.accessToken}">
+            <button class="nav-link" id="myInfo-tab" data-bs-toggle="tab" data-bs-target="#myInfo" type="button"
+                    role="tab" aria-controls="myInfo" aria-selected="false" disabled>회원 정보
+            </button>
+        </c:if>
+
     </li>
     <li class="nav-item active" role="presentation">
+        <c:if test="${not empty sessionScope.accessToken}">
         <button class="nav-link" id="changeInfo-tab" data-bs-toggle="tab" data-bs-target="#changeInfo"
-                type="button" role="tab" aria-controls="changeInfo" aria-selected="false">회원정보 변경
+                type="button" role="tab" aria-controls="changeInfo" aria-selected="false" disabled>회원정보 변경
         </button>
+        </c:if>
+        <c:if test="${empty sessionScope.accessToken}">
+            <button class="nav-link" id="changeInfo-tab" data-bs-toggle="tab" data-bs-target="#changeInfo"
+                    type="button" role="tab" aria-controls="changeInfo" aria-selected="false">회원정보 변경
+            </button>
+        </c:if>
     </li>
 
     <li class="nav-item" role="presentation">
