@@ -1,5 +1,6 @@
 package com.service;
 
+import com.dto.Answer;
 import com.dto.Question;
 import com.mapper.QuestionMapper;
 import java.util.HashMap;
@@ -34,14 +35,36 @@ public class QuestionService {
     }
 
 
-    public Question getQuestionByQnoPw(Integer qno, Integer password) throws Exception {
-        Map<String,Object> map = new HashMap<>();
-        map.put("qno",qno);
-        map.put("password",password);
-        Question question =questionMapper.selectByQnoPw(map);
+    public Question getQuestionByQno(Integer qno) throws Exception {
+        Question question =questionMapper.selectByQno(qno);
         if(question == null){
-            throw new Exception("qno 혹은 비밀번호가 일치하지 않음");
+            throw new Exception("해당하는 글이 없음");
         }
         return question;
+    }
+
+    public void updateQuestion(Question question) throws Exception {
+        int result = questionMapper.updateQuestion(question);
+        if(result < 1){
+            throw new Exception("게시글 수정 실패");
+        }
+    }
+
+    public void deleteQuestionById(int qno) throws Exception {
+        int result = questionMapper.deleteQuestionById(qno);
+        if(result < 1){
+            throw new Exception("게시글 삭제 실패");
+        }
+    }
+
+    public List<Question> getQuestionById(String id,int page) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("writer",id);
+        map.put("offset",(page-1)*10);
+        return questionMapper.selectById(map);
+    }
+
+    public int getTotalCntById(String writer) {
+        return questionMapper.getTotalCntById(writer);
     }
 }

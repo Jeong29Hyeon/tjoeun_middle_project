@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
     <style>
         * {
-            font-family: 'Nanum Gothic', sans-serif;
+          font-family: "Noto Sans KR", sans-serif;
         }
     </style>
 </head>

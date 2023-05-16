@@ -1,5 +1,7 @@
 package com.service;
 
+import org.springframework.web.util.UriComponentsBuilder;
+
 public class PageHandler {
     private int page = 1;
     private int pageSize=10;
@@ -12,6 +14,8 @@ public class PageHandler {
 
     private boolean showNext;
 
+    private String writer="";
+
     public PageHandler() {
     }
 
@@ -21,12 +25,27 @@ public class PageHandler {
         doPaging();
     }
 
-    private void doPaging() {
+    public PageHandler(int page, int totalCnt, String writer) {
+        this.page = page;
+        this.totalCnt = totalCnt;
+        this.writer = writer;
+        doPaging();
+    }
+
+    public void doPaging() {
         totalPage = (int) Math.ceil(totalCnt/(double)pageSize);
         beginPage = (page-1) / naviSize * naviSize +1;
         endPage = Math.min(totalPage,beginPage+naviSize-1);
         showPrev = beginPage != 1;
         showNext = endPage != totalPage;
+    }
+
+    public String getWriter() {
+        return writer;
+    }
+
+    public void setWriter(String writer) {
+        this.writer = writer;
     }
 
     public int getPage() {
@@ -99,5 +118,12 @@ public class PageHandler {
 
     public void setShowNext(boolean showNext) {
         this.showNext = showNext;
+    }
+
+    public String getQueryString(Integer page){
+        return UriComponentsBuilder.newInstance()
+            .queryParam("page",page)
+            .queryParam("writer",writer)
+            .build().toString();
     }
 }
