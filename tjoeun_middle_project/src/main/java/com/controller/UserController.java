@@ -77,7 +77,7 @@ public class UserController {
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         if (session.getAttribute("accessToken") != null) {
-            return "redirect:https://kauth.kakao.com/oauth/logout?client_id=e765b37b419e417d6a4d99f777b7eac2&logout_redirect_uri=http://localhost:8080/user/kakaoLogout";
+            return "redirect:https://kauth.kakao.com/oauth/logout?client_id=e765b37b419e417d6a4d99f777b7eac2&logout_redirect_uri=http://43.200.171.39/user/kakaoLogout";
         }
         session.invalidate();
         return "redirect:/";
@@ -144,7 +144,7 @@ public class UserController {
 
     @GetMapping("/kakaoLogin")
     public String kakaoLogin() {
-        return "redirect:https://kauth.kakao.com/oauth/authorize?client_id=e765b37b419e417d6a4d99f777b7eac2&redirect_uri=http://localhost:8080/user/kakaoAuth&response_type=code";
+        return "redirect:https://kauth.kakao.com/oauth/authorize?client_id=e765b37b419e417d6a4d99f777b7eac2&redirect_uri=http://43.200.171.39/user/kakaoAuth&response_type=code";
     }
 
     @GetMapping("/kakaoLogout")

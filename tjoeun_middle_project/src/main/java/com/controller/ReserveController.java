@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.aop.UserIdCheck;
 import com.dto.Movie;
 //import com.dto.Ticket;
 import com.dto.Payment;
@@ -89,7 +90,6 @@ public class ReserveController {
             //예매후 금액에 따른 등급 뉴 유저 업데이트
             User user = (User) session.getAttribute("user");
             int sumPrice = ticketService.sumPrice(user.getId());
-            userService.updateRank(user.getId(),sumPrice);
             User updateUser = new User(user.getId(),user.getPassword(),user.getName(), user.getBirth(), user.getGender(), user.getEmail(), user.getPhone(), userService.updateRank(user.getId(),sumPrice), user.getReg_day());
             session.setAttribute("user",updateUser);
             map.put("msg","success");
