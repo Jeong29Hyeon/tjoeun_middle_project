@@ -19,6 +19,7 @@ import java.util.TimeZone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -53,7 +54,7 @@ public class ReserveController {
 
 
     @PostMapping("/movieRoom")
-    public String movieRoom(Model model, Ticket ticket, String userId, RedirectAttributes ra, Movie movie, String movieSeq) {
+    public String movieRoom(Model model, Ticket ticket, String userId, RedirectAttributes ra, String movieSeq) {
         System.out.println("movieRoom ticket: "+ticket.toString());
         model.addAttribute("ticket", ticket);
         model.addAttribute("userId",userId);
@@ -86,6 +87,9 @@ public class ReserveController {
         System.out.println("imp_uid = " + imp_uid);
         Map<String,Object> map = new HashMap<>();
         try {
+            if(paid_amount == null) {
+                paid_amount = ticket.getPrice();
+            }
             ticketService.insertTicket(ticket, imp_uid, paid_amount);
             //예매후 금액에 따른 등급 뉴 유저 업데이트
             User user = (User) session.getAttribute("user");
@@ -101,6 +105,33 @@ public class ReserveController {
             return map;
         }
         return map;
+    }
+
+    @GetMapping("/mobile-ticketing")
+    public String mobileTicketing(Ticket ticket, String imp_uid, Integer paid_amount,boolean imp_success, HttpSession session,
+        RedirectAttributes ra){
+        System.out.println("Mobile ticketing controller : "+ticket.toString());
+        System.out.println("imp_uid = " + imp_uid);
+        try {
+            if(imp_success){
+                ticketService.insertTicket(ticket, imp_uid, paid_amount);
+                //예매후 금액에 따른 등급 뉴 유저 업데이트
+                User user = (User) session.getAttribute("user");
+                int sumPrice = ticketService.sumPrice(user.getId());
+                User updateUser = new User(user.getId(),user.getPassword(),user.getName(), user.getBirth(), user.getGender(), user.getEmail(), user.getPhone(), userService.updateRank(user.getId(),sumPrice), user.getReg_day());
+                session.setAttribute("user",updateUser);
+                ra.addFlashAttribute("msg","영화 예매가 완료되었습니다. 티켓정보는 내정보에서 확인하세요");
+            }else{
+                ra.addFlashAttribute("msg","결제를 취소하셨습니다.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            String accessToken = paymentService.getAccessToken();
+            paymentService.payCancel(accessToken,imp_uid);
+            ra.addFlashAttribute("msg","이미 결제된 좌석입니다, 처음부터 다시 예약을 진행해주세요.");
+            return "redirect:/";
+        }
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/movieSelect", method = RequestMethod.GET)

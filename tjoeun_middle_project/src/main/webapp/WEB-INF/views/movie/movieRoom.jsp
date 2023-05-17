@@ -234,16 +234,17 @@
 <script>
   //      관람등급 색 변경
   // $('#ageRating').css('color','red');
-  var age = $('#ageRating').val();
+  let ageRatingInput = $('#ageRating');
+  let ageRating = ageRatingInput.val();
 
-  if (age === '15세이상관람가') {
-    $('#ageRating').css('color', 'blue');
-  } else if (age === '청소년관람불가') {
-    $('#ageRating').css('color', 'red');
-  } else if (age === '12세이상관람가') {
-    $('#ageRating').css('color', 'orange');
-  } else if (age === '전체관람가') {
-    $('#ageRating').css('color', 'green');
+  if (ageRating === '15세이상관람가') {
+    ageRatingInput.css('color', 'blue');
+  } else if (ageRating === '청소년관람불가') {
+    ageRatingInput.css('color', 'red');
+  } else if (ageRating === '12세이상관람가') {
+    ageRatingInput.css('color', 'orange');
+  } else if (ageRating === '전체관람가') {
+    ageRatingInput.css('color', 'green');
   }
 
   let seatsList = [];
@@ -291,68 +292,86 @@
             %>
 
     <!-- 인원수에 대한 가격 표시 -->
-    $("#onlyAdultNumber").on('click', function () {
+    $("#onlyAdult").on('change', function () {
       <%--alert('${sessionScope.user.rank}')--%>
-      var sessionRank = ('${sessionScope.user.rank}'.toUpperCase());
-      var onlyAdultPrice = Number($('#onlyAdult').val() * 14000);
+      let onlyAdultPrice = Number($('#onlyAdult').val()) * 14000;
       if (${not empty sessionScope.accessToken}) {
-        $('#priceInput').attr('value',
-            onlyAdultPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+        $('#priceInput').val(onlyAdultPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+        return;
       }
-      if (sessionRank === 'bronze'.toUpperCase()) {
-        $('#priceInput').attr('value',
-            onlyAdultPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
-      } else if (sessionRank === 'silver'.toUpperCase()) {
+      let sessionRank = ('${sessionScope.user.rank}'.toUpperCase());
+      if (sessionRank === 'BRONZE') {
+        $('#priceInput').val(onlyAdultPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+      } else if (sessionRank === 'SILVER') {
         var silverA = (onlyAdultPrice * 0.95);
-        $('#priceInput').attr('value',
-            silverA.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
-      } else if (sessionRank === 'gold'.toUpperCase()) {
+        $('#priceInput').val(silverA.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+      } else if (sessionRank === 'GOLD') {
         var goldA = (onlyAdultPrice * 0.9);
-        $('#priceInput').attr('value',
-            goldA.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
-      } else if (sessionRank === 'vip'.toUpperCase()) {
+        $('#priceInput').val(goldA.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+      } else if (sessionRank === 'VIP') {
         var vipA = (onlyAdultPrice * 0.85);
-        $('#priceInput').attr('value',
-            vipA.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
-      } else if (sessionRank === 'vvip'.toUpperCase()) {
+        $('#priceInput').val(vipA.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+      } else if (sessionRank === 'VVIP') {
         var vvipA = (onlyAdultPrice * 0.8);
-        $('#priceInput').attr('value',
-            vvipA.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+        $('#priceInput').val(vvipA.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
       }
     });
 
-    $("#selectNumber").on('click', function () {
-      <%--alert('${sessionScope.user.rank}')--%>
-      var sessionRank = ('${sessionScope.user.rank}'.toUpperCase());
-      var priceOfAdult = Number($('#numberOfAdult').val() * 14000);
-      var priceOfTeen = Number($('#numberOfTeen').val() * 12000);
+    $("#numberOfAdult").on('change', function () {
+      var priceOfAdult = Number($('#numberOfAdult').val()) * 14000;
+      var priceOfTeen = Number($('#numberOfTeen').val()) * 12000;
       if (${not empty sessionScope.accessToken}) {
-        $('#priceInput').attr('value',
-            (priceOfAdult + priceOfTeen).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+        $('#priceInput').val((priceOfAdult + priceOfTeen).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+        return;
       }
+      var sessionRank = ('${sessionScope.user.rank}'.toUpperCase());
       if (sessionRank === 'bronze'.toUpperCase()) {
-        $('#priceInput').attr('value',
-            (priceOfAdult + priceOfTeen).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+        $('#priceInput').val((priceOfAdult + priceOfTeen).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
       } else if (sessionRank === 'silver'.toUpperCase()) {
         var silverA = (priceOfAdult * 0.95);
         var silverT = (priceOfTeen * 0.95);
-        $('#priceInput').attr('value',
-            (silverA + silverT).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+        $('#priceInput').val((silverA + silverT).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
       } else if (sessionRank === 'gold'.toUpperCase()) {
         var goldA = (priceOfAdult * 0.9);
         var goldT = (priceOfTeen * 0.9);
-        $('#priceInput').attr('value',
-            (goldA + goldT).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+        $('#priceInput').val((goldA + goldT).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
       } else if (sessionRank === 'vip'.toUpperCase()) {
         var vipA = (priceOfAdult * 0.85);
         var vipT = (priceOfTeen * 0.85);
-        $('#priceInput').attr('value',
-            (vipA + vipT).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+        $('#priceInput').val((vipA + vipT).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
       } else if (sessionRank === 'vvip'.toUpperCase()) {
         var vvipA = (priceOfAdult * 0.8);
         var vvipT = (priceOfTeen * 0.8);
-        $('#priceInput').attr('value',
-            (vvipA + vvipT).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+        $('#priceInput').val((vvipA + vvipT).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+      }
+    });
+
+    $("#numberOfTeen").on('change', function () {
+      var priceOfAdult = Number($('#numberOfAdult').val()) * 14000;
+      var priceOfTeen = Number($('#numberOfTeen').val()) * 12000;
+      if (${not empty sessionScope.accessToken}) {
+        $('#priceInput').val((priceOfAdult + priceOfTeen).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+        return;
+      }
+      var sessionRank = ('${sessionScope.user.rank}'.toUpperCase());
+      if (sessionRank === 'bronze'.toUpperCase()) {
+        $('#priceInput').val((priceOfAdult + priceOfTeen).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+      } else if (sessionRank === 'silver'.toUpperCase()) {
+        var silverA = (priceOfAdult * 0.95);
+        var silverT = (priceOfTeen * 0.95);
+        $('#priceInput').val((silverA + silverT).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+      } else if (sessionRank === 'gold'.toUpperCase()) {
+        var goldA = (priceOfAdult * 0.9);
+        var goldT = (priceOfTeen * 0.9);
+        $('#priceInput').val((goldA + goldT).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+      } else if (sessionRank === 'vip'.toUpperCase()) {
+        var vipA = (priceOfAdult * 0.85);
+        var vipT = (priceOfTeen * 0.85);
+        $('#priceInput').val((vipA + vipT).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+      } else if (sessionRank === 'vvip'.toUpperCase()) {
+        var vvipA = (priceOfAdult * 0.8);
+        var vvipT = (priceOfTeen * 0.8);
+        $('#priceInput').val((vvipA + vvipT).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
       }
     });
 
@@ -371,6 +390,9 @@
         merchant_uid: 'merchant_' + new Date().getTime(),
         name: '더조은 시네마 - 영화예매',
         amount: $('#priceInput').val().replace(/[^0-9]/g, ""),
+        m_redirect_url:'http://43.200.171.39/mobile-ticketing?id='+$('#userIdInfo').val()+'&titleInfo='+$('#titleInfo').val()+"&dayInfo="+$('#dayInfo').val()+
+            '&hallInfo='+$('#hallInfo').val()+'&timeInfo='+$('#timeInfo').val()+'&numberOfAdult='+$('#numberOfAdult').val()+'&numberOfTeen='+$('#numberOfTeen').val()+
+            '&seats='+$('#seatsInput').val() + ",&price="+$('#priceInput').val().replace(/[^0-9]/g, "")
       }, function (rsp) {
         console.log(rsp);
         if (rsp.success) {

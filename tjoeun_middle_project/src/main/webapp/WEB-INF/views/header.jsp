@@ -111,15 +111,15 @@
             </div>
             <c:set var="joinOrNotLink" value="${sessionScope.user.id==null ? '/user/join' : ''}"/>
             <c:set var="logInOrOutLink" value="${sessionScope.user.id==null ? '/user/login' : '/user/logout'}"/>
-            <c:set var="logInOrOut" value="${sessionScope.user.id==null ? 'Sign In' : 'Sign Out'}"/>
+            <c:set var="logInOrOut" value="${sessionScope.user.id==null ? '로그인' : '로그아웃'}"/>
             <c:set var="joinOrId" value="${sessionScope.user.id==null ? '회원가입' : ''}"/>
             <c:set var="logInOrName" value="${sessionScope.user.id==null ? '로그인후 이용해주세요' : sessionScope.user.name}"/>
             <c:set var="profileLink" value="${sessionScope.user.id==null ? '' : '/user/profile'}"/>
-            <c:set var="profile" value="${sessionScope.user.id==null ? '' : 'Profile'}"/>
+            <c:set var="profile" value="${sessionScope.user.id==null ? '' : '내정보'}"/>
             <c:set var="Reservation" value="${sessionScope.user.id==null ? '' : '/user/ticketHistory'}"/>
-            <c:set var="ReservationInfo" value="${sessionScope.user.id==null ? '' : 'Reservation'}"/>
+            <c:set var="ReservationInfo" value="${sessionScope.user.id==null ? '' : '예약확인'}"/>
             <c:set var="searchIdPwLink" value="${sessionScope.user.id==null ? '/user/searchIdPw' : ''}"/>
-            <c:set var="searchIdPw" value="${sessionScope.user.id==null ? 'SEARCH ID&PW' : ''}"/>
+            <c:set var="searchIdPw" value="${sessionScope.user.id==null ? 'ID/PW찾기' : ''}"/>
 
             <div class="dropup ms-3 mb-3">
                 <a href="#" class="d-flex align-items-center text-black text-decoration-none dropdown-toggle"
@@ -136,12 +136,12 @@
                         <c:when test="${sessionScope.user.id ne 'admin'}">
                             <li><a class="dropdown-item" href="${profileLink}">${profile}</a></li>
                             <li><a class="dropdown-item" href="${Reservation}">${ReservationInfo}</a></li>
-                            <li><a class="dropdown-item" href="/user/couponRoom">Coupon</a></li>
+                            <li><a class="dropdown-item" href="/user/couponRoom">쿠폰함</a></li>
                         </c:when>
                         <c:when test="${sessionScope.user.id eq 'admin'}">
                             <li><a class="dropdown-item" href="${profileLink}">${profile}</a></li>
                             <li><a class="dropdown-item" href="${Reservation}">${ReservationInfo}</a></li>
-                            <li><a class="dropdown-item" href="/user/couponRoom">Coupon</a></li>
+                            <li><a class="dropdown-item" href="/user/couponRoom">쿠폰함</a></li>
                             <li><a class="dropdown-item" href="/store/add-store">ADD-STORE</a></li>
                         </c:when>
                     </c:choose>
