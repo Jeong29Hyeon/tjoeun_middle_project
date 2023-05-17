@@ -57,18 +57,18 @@
         <c:if test="${not empty sessionScope.cart}">
             <c:forEach var="goods" items="${sessionScope.cart}">
                 <li class="row my-4">
-                    <div class="col-2">
+                    <div class="col-2 col-lg-2 col-md-2 col-sm-2">
                         <img src="${goods.value.uploadPath}/${goods.value.fileName}"
-                             alt="" class=" rounded mx-auto d-block" style="height: 170px">
+                             alt="" class=" rounded mx-auto d-block img-fluid">
                     </div>
-                    <div class="col-2 d-flex justify-content-center align-items-center">
+                    <div class="col-2 col-lg-2 col-md-2 col-sm-2 d-flex justify-content-center align-items-center text-sm text-lg text-md">
                             ${goods.value.name}
                     </div>
                     <div id="salePrice${goods.value.gno}"
-                         class="col-2 d-flex justify-content-center align-items-center">
+                         class="col-2 col-lg-2 col-md-2 col-sm-2 d-flex justify-content-center align-items-center text-sm text-lg text-md">
                             ${goods.value.price}원
                     </div>
-                    <div class="col-2 d-flex justify-content-center align-items-center">
+                    <div class="col-2 col-lg-2 col-md-2 col-sm-2 d-flex justify-content-center align-items-center text-sm text-lg text-md">
                         <select id="selectNum${goods.value.gno}" class="form-select-sm"
                                 style="width: 50px; margin-left: 10px">
                             <option ${goods.value.quantity == 1 ? 'selected':''}>1</option>
@@ -77,12 +77,12 @@
                             <option ${goods.value.quantity == 4 ? 'selected':''}>4</option>
                         </select>
                     </div>
-                    <div class="col-2 d-flex justify-content-center align-items-center">
+                    <div class="col-2 col-lg-2 col-md-2 col-sm-2 d-flex justify-content-center align-items-center">
                         <input type="text" class="form-control-plaintext mx-auto" style="width:78px"
                                id="eachPrice${goods.value.gno}"
                                value="${goods.value.price * goods.value.quantity}원">
                     </div>
-                    <div class="col-2 d-flex justify-content-center align-items-center">
+                    <div class="col-2 col-lg-2 col-md-2 col-sm-2 d-flex justify-content-center align-items-center">
                         <button class="btn btn-default" id="btnDelete${goods.value.gno}">
                             <i class="fa-regular fa-circle-xmark fa-2xl"></i>
                         </button>
