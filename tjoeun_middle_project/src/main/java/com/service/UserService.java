@@ -10,6 +10,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -112,7 +113,7 @@ public class UserService {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=e765b37b419e417d6a4d99f777b7eac2");
-            sb.append("&redirect_uri=http://localhost:8080/user/kakaoAuth");
+            sb.append("&redirect_uri=http://43.200.171.39/user/kakaoAuth");
             sb.append("&code=").append(authorizeCode);
             bw.write(sb.toString());
             bw.flush();
@@ -120,7 +121,8 @@ public class UserService {
             int responseCode = conn.getResponseCode(); //200이면 성공
             System.out.println("responseCode = " + responseCode);
             if(responseCode == 200){
-                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(),
+                    StandardCharsets.UTF_8));
                 String line = "";
                 StringBuilder result = new StringBuilder();
 
@@ -158,7 +160,8 @@ public class UserService {
             int responseCode = conn.getResponseCode();
             System.out.println("responseCode : " + responseCode);
             if(responseCode == 200){
-                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(),
+                    StandardCharsets.UTF_8));
                 String line = "";
                 StringBuilder result = new StringBuilder();
 
