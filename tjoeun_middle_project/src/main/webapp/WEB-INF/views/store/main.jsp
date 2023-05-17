@@ -36,7 +36,7 @@
         </c:if>
     </div>
 </div>
-<div class="container">
+<div class="container my-4">
     <ul class="nav nav-tabs nav-fill justify-content-center mt-4" id="myTap" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="setMenu-tab" data-bs-toggle="tab"
@@ -62,9 +62,9 @@
         <div class="container tab-pane fade show active text-center" id="setMenu" role="tabpanel"
              aria-labelledby="setMenu-tab">
             <div class="container mt-5">
-                <div class="row">
+                <div class="row row-cols-sm-2 row-cols-md-3">
                     <c:forEach var="setMenu" items="${setMenuList}" varStatus="i">
-                        <div class="col-4"> <!-- a태그 네임 추가 -->
+                        <div class="col col-sm-6 col-md-4"> <!-- a태그 네임 추가 -->
                             <span id="imgWrap${setMenu.gno}" class="position-relative rounded-2">
                                     <a href="<c:url value="/store/detail?gno=${setMenu.gno}"/>"
                                        style="text-decoration-line: none; color: black">
@@ -97,9 +97,9 @@
              aria-labelledby="popcorn-tab">
             <div class="container mt-5">
                 <input type="hidden" id="popcorn_hidden" value="팝콘">
-                <div class="row">
-                    <c:forEach var="popcorn" items="${popcornList}" varStatus="i">
-                        <div id="popcorn${popcorn.gno}" class="col-4">
+                <div class="row row-cols-sm-2 row-cols-md-3">
+                <c:forEach var="popcorn" items="${popcornList}" varStatus="i">
+                        <div id="popcorn${popcorn.gno}" class="col col-sm-6 col-md-4">
                             <span id="imgWrap${popcorn.gno}" class="position-relative rounded-2">
                                     <a href="<c:url value="/store/detail?gno=${popcorn.gno}"/>"
                                        style="text-decoration-line: none; color: black">
@@ -131,9 +131,9 @@
         <div class="container tab-pane fade text-center" id="drink" role="tabpanel"
              aria-labelledby="drink-tab">
             <div class="container mt-5">
-                <div class="row">
+                <div class="row row-cols-sm-2 row-cols-md-3">
                     <c:forEach var="drink" items="${drinkList}" varStatus="i">
-                        <div id="drink${drink.gno}" class="col-4">
+                        <div id="drink${drink.gno}" class="col col-sm-6 col-md-4">
                              <span id="imgWrap${drink.gno}" class="position-relative rounded-2">
                                     <a href="<c:url value="/store/detail?gno=${drink.gno}"/>"
                                        style="text-decoration-line: none; color: black">

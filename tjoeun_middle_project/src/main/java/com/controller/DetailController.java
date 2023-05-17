@@ -49,10 +49,10 @@ public class DetailController {
         List<Review> reviewList = new ArrayList<>();
         List<Like> likeList = new ArrayList<>();
         String userId = "";
-
-        User user = (User) session.getAttribute("user");
-        userId = user.getId();
-
+        if(session.getAttribute("user") != null){
+            User user = (User) session.getAttribute("user");
+            userId = user.getId();
+        }
 
         try {
             likeList = likeService.selectByUserIdSeq(userId, seq);
@@ -67,8 +67,6 @@ public class DetailController {
         model.addAttribute("reviewList", reviewList);
 
         //좋아요 컨트롤러 추가
-
-
         return "detail";
     }
 
