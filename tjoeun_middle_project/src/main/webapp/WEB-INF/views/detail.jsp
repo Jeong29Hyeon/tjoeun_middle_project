@@ -89,19 +89,19 @@
                     <div class="col-md-2">
                             ${review.id}
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 col-lg-7 col-sm-7">
                         <input class="form-control-plaintext pt-0"
                                type="text" name="reviewEditContent"
                                id="reviewEditContent${review.rno}"
                                value="${review.content}"
                                readonly>
                     </div>
-                    <div class="col-md-1 text-end" style="font-size: 71%">
+                    <div class="col-md-1 col-lg-1 col-sm-1 text-end" style="font-size: 71%">
                         <fmt:formatDate value="${review.reg_date}"
                                         type="both"
                                         pattern="MM-dd HH시 mm분"/>
                     </div>
-                    <div class="col-md-2 text-center">
+                    <div class="col-md-2 col-lg-2 col-sm-2 text-center">
                         <div class="btn-group" role="group" aria-label="Basic outlined example">
                             <button type="button" id="reviewEdit${review.rno}"
                                     class="btn btn-outline-warning text-decoration-none" ${sessionScope.user.id eq review.id ? '' : 'hidden'}>수정</button>
@@ -134,7 +134,7 @@
                 <c:forEach begin="0" end="${fn:length(movie.stillCut)}" var="i">
                     <div class="col-4 mt-3">
                         <button type="button" class="btn" data-toggle="modal" data-target="#Modal${i}">
-                            <img src="${movie.stillCut[i]}" alt="">
+                            <img src="${movie.stillCut[i]}" alt="" class="img-fluid">
                         </button>
                     </div>
                     <%--            모달 영역--%>
