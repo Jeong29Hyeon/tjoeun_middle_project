@@ -80,40 +80,40 @@
                     </button>
                 </div>
             </div>
-            <div class="row">
+            <div class="row my-3">
                 리뷰 (${reviewList.size()})
             </div>
             <c:forEach var="review" items="${reviewList}" varStatus="status">
-                <div class="row g-3 my-2">
+                <div class="d-flex justify-content-between gap-2 align-items-center">
                     <div hidden>${review.rno}</div>
-                    <div class="col-md-2">
+                    <div class="col-2 text-start me-2">
                             ${review.id}
                     </div>
-                    <div class="col-md-7 col-lg-7 col-sm-7">
+                    <div class="flex-grow-1">
                         <input class="form-control-plaintext pt-0"
                                type="text" name="reviewEditContent"
                                id="reviewEditContent${review.rno}"
                                value="${review.content}"
                                readonly>
                     </div>
-                    <div class="col-md-1 col-lg-1 col-sm-1 text-end" style="font-size: 71%">
+                    <div class="" style="font-size: 71%">
                         <fmt:formatDate value="${review.reg_date}"
                                         type="both"
                                         pattern="MM-dd HH시 mm분"/>
                     </div>
-                    <div class="col-md-2 col-lg-2 col-sm-2 text-center">
+                    <div class="">
                         <div class="btn-group" role="group" aria-label="Basic outlined example">
                             <button type="button" id="reviewEdit${review.rno}"
-                                    class="btn btn-outline-warning text-decoration-none" ${sessionScope.user.id eq review.id ? '' : 'hidden'}>수정</button>
+                                    class="btn text-decoration-none" style="color:orange; font-size: 0.7rem" ${sessionScope.user.id eq review.id ? '' : 'hidden'}>수정</button>
                             <button type="button" id="reviewRemove${review.rno}"
-                                    class="btn btn-outline-danger text-decoration-none" ${sessionScope.user.id eq review.id ? '' : 'hidden'}
-                            >삭제
-                            </button>
+                                    class="btn text-decoration-none" style="color:indianred;font-size: 0.7rem " ${sessionScope.user.id eq review.id ? '' : 'hidden'}>삭제</button>
                         </div>
+                    </div>
+                    <div>
                         <button type="button" id="likebtn${review.rno}"
-                                class="btn btn-outline-danger border-0"${sessionScope.user.id eq review.id ||sessionScope.user ==null ? 'disabled' : ''} >
-                            <i id="i${review.rno}" class="fa-regular fa-heart"><p style="font-size: 10px"
-                                                                                  id="likeCount${review.rno}">${review.likeCount}</p>
+                                class="btn btn-outline-danger border-0 mb-0"${sessionScope.user.id eq review.id ||sessionScope.user ==null ? 'disabled' : ''} >
+                            <i id="i${review.rno}" class="fa-regular fa-heart"> <span style="font-size: 10px"
+                                                                                  id="likeCount${review.rno}">${review.likeCount}</span>
                             </i></button>
                         <input type="hidden" id="likecheck${review.rno}" value="${review.likeCount}">
                     </div>
