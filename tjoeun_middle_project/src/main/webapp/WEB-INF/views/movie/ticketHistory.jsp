@@ -36,9 +36,9 @@
 <div class="container tab-content justify-content-center" id="ticket">
     <div class="container tab-pane fade  text-center" id="pastTicket" role="tabpanel" aria-labelledby="pastTicket-tab">
         <div class="container mt-5">
-            <div class="row">
+            <div class="row row-cols-auto row-cols-sm-auto row-cols-md-auto row-cols-lg-auto">
                 <c:forEach var="past" items="${pastTicketList}">
-                    <div class="col-4">
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-4">
                         <div class="card text-black bg-light mb-3 mt-3" style=" max-width: 18rem;">
                             <div class="card-header">예약 정보</div>
                             <div class="card-body">
@@ -76,9 +76,9 @@
     <div class="container tab-pane fade show active text-center" id="currentTicket" role="tabpanel"
          aria-labelledby="currentTicket-tab"><p>
         <div class="container mt-5">
-            <div class="row">
+            <div class="row row-cols-auto row-cols-sm-auto row-cols-md-auto row-cols-lg-auto">
                 <c:forEach var="current" items="${currentTicketList}">
-                    <div class="col-4">
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-4">
                         <div class="card text-black bg-info mb-3 mt-3" style=" max-width: 18rem;">
                             <div class="card-header">예약 정보</div>
                             <div class="card-body">
@@ -131,9 +131,9 @@
          aria-labelledby="futureTicket-tab">
         <p>
         <div class="container mt-5">
-            <div class="row">
+            <div class="row row-cols-auto row-cols-sm-auto row-cols-md-auto row-cols-lg-auto">
                 <c:forEach var="future" items="${futureTicketList}">
-                    <div class="col-4">
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-4">
                         <div class="card text-black bg-info mb-3 mt-3" style=" max-width: 18rem;">
                             <div class="card-header">예약 정보</div>
                             <div class="card-body">
