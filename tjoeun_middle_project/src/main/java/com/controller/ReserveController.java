@@ -10,9 +10,11 @@ import com.service.PaymentService;
 import com.service.TicketService;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import com.service.UserService;
+import java.util.TimeZone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -118,7 +120,7 @@ public class ReserveController {
         ArrayList<String> weekOfDays = new ArrayList<>();
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat(
-            "d일_E요일");      // 원래 d일(E)로 표현했으나 jquery에서 ()특수문자 못받아드림
+            "d일_E요일",Locale.KOREA);      // 원래 d일(E)로 표현했으나 jquery에서 ()특수문자 못받아드림
         weekOfDays.add(0, sdf.format(cal.getTime()));
         for (int i = 1; i < 7; i++) {
             cal.add(Calendar.DAY_OF_WEEK, 1);

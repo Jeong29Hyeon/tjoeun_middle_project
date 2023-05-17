@@ -39,7 +39,7 @@
     </div>
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img src="https://caching2.lottecinema.co.kr/lotte_image/2023/MOON/0427/MOON_1920774.jpg"
+            <img src="https://caching2.lottecinema.co.kr/lotte_image/2023/BIG/BIG_1920774.jpg"
                  class="d-block w-100" alt="...">
         </div>
         <div class="carousel-item">
