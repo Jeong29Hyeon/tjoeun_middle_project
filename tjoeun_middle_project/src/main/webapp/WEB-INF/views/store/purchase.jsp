@@ -51,6 +51,16 @@
         <p class="col-2">
     </div>
 </div>
+<!-- msg 창 -->
+<div class="container">
+    <c:if test="${not empty msg}">
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                ${msg}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                    aria-label="Close"></button>
+        </div>
+    </c:if>
+</div>
 <div class="container w-75 text-center">
     <c:if test="${not empty sessionScope.cart}">
         <ul class="container-fluid" style="list-style: none">
@@ -58,7 +68,7 @@
                 <li class="row my-4">
                     <div class="col-2">
                         <img src="${goods.value.uploadPath}/${goods.value.fileName}"
-                             alt="" class=" rounded mx-auto d-block" style="height: 170px">
+                             alt="" class="rounded mx-auto d-block" style="height: 170px">
                     </div>
                     <div class="col-2 d-flex justify-content-center align-items-center">
                             ${goods.value.name}
@@ -128,6 +138,7 @@
       merchant_uid: 'merchant_' + new Date().getTime(),
       name: '더조은 시네마 - 매점결제',
       amount: totalPrice,
+      m_redirect_url: 'http://43.200.171.39/store/mobile-purchase?paid_amount='+totalPrice
     }, function (rsp) {
       console.log(rsp);
       if (rsp.success) {

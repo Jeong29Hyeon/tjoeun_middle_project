@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/store")
@@ -166,6 +167,30 @@ public class StoreController {
         }
         session.removeAttribute("cart");  //카트 세션 삭제
         return "success";
+    }
+
+    @GetMapping("/mobile-purchase")
+    public String mobilePurchase(HttpSession session, String imp_uid, Integer paid_amount,boolean imp_success,
+        RedirectAttributes ra) {
+        Map<String, Goods> cart = (Map<String, Goods>) session.getAttribute("cart");
+        User user = (User) session.getAttribute("user");
+        try {
+            if(imp_success){
+
+                couponService.insertCoupon(cart, imp_uid, paid_amount, user.getId());
+            }else{
+                ra.addFlashAttribute("msg","결제를 취소하셨습니다.");
+                return "redirect:/store/purchase";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            String accessToken = paymentService.getAccessToken();
+            paymentService.payCancel(accessToken,imp_uid);
+            ra.addFlashAttribute("msg","서버 장애로 인해 결제가 취소되었습니다, 다시 시도해주세요.");
+            return "redirect:/store/purchase";
+        }
+        session.removeAttribute("cart");  //카트 세션 삭제
+        return "redirect:/store/purchase-complete";
     }
 
     @PostMapping("/delete")
