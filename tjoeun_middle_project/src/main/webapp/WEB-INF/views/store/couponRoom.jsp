@@ -33,9 +33,9 @@
 <div class="container tab-content justify-content-center" id="myCoupon">
     <div class="container tab-pane fade  text-center" id="useCoupon" role="tabpanel" aria-labelledby="useCoupon-tab">
         <div class="container mt-5">
-            <div class="row">
+            <div class="row row-cols-auto row-cols-sm-auto row-cols-md-auto row-cols-lg-auto">
                 <c:forEach var="coupon" items="${trueCoupon}">
-                    <div class="col-4">
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-4">
                         <div class="card text-black bg-light mb-3 mt-3" style=" max-width: 18rem;">
                             <div class="card-header">쿠폰 정보</div>
                             <div class="card-body">
@@ -75,9 +75,9 @@
     <div class="container tab-pane fade show active text-center" id="coupon" role="tabpanel"
          aria-labelledby="coupon-tab"><p>
         <div class="container mt-5">
-            <div class="row">
+        <div class="row row-cols-auto row-cols-sm-auto row-cols-md-auto row-cols-lg-auto">
                 <c:forEach var="coupon" items="${falseCoupon}">
-                    <div class="col-4">
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-4">
                         <div class="card text-black bg-light mb-3 mt-3" style=" max-width: 18rem;">
                             <div class="card-header">쿠폰 정보</div>
                             <div class="card-body">
