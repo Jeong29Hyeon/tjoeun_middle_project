@@ -108,13 +108,13 @@ public class ReserveController {
     }
 
     @GetMapping("/mobile-ticketing")
-    public String mobileTicketing(Ticket ticket, String imp_uid, Integer paid_amount,boolean imp_success, HttpSession session,
+    public String mobileTicketing(Ticket ticket, String imp_uid,boolean imp_success, HttpSession session,
         RedirectAttributes ra){
         System.out.println("Mobile ticketing controller : "+ticket.toString());
         System.out.println("imp_uid = " + imp_uid);
         try {
             if(imp_success){
-                ticketService.insertTicket(ticket, imp_uid, paid_amount);
+                ticketService.insertTicket(ticket, imp_uid, ticket.getPrice());
                 //예매후 금액에 따른 등급 뉴 유저 업데이트
                 User user = (User) session.getAttribute("user");
                 int sumPrice = ticketService.sumPrice(user.getId());
@@ -151,7 +151,7 @@ public class ReserveController {
         ArrayList<String> weekOfDays = new ArrayList<>();
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat(
-            "d일_E요일",Locale.KOREA);      // 원래 d일(E)로 표현했으나 jquery에서 ()특수문자 못받아드림
+            "d일 E요일",Locale.KOREA);      // 원래 d일(E)로 표현했으나 jquery에서 ()특수문자 못받아드림
         weekOfDays.add(0, sdf.format(cal.getTime()));
         for (int i = 1; i < 7; i++) {
             cal.add(Calendar.DAY_OF_WEEK, 1);
