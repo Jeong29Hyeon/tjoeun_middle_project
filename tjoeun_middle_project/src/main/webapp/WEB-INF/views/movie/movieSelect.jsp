@@ -44,10 +44,9 @@
         <div class="col">
             <h3>DAY</h3>
             <div id="dayWrap" hidden>
-                <c:forEach var="day" items="${dayList}">
+                <c:forEach var="day" items="${dayList}" varStatus="i">
                     <div class="container mb-4">
-                        <a href="#" style="text-decoration-line: none; color: black" class="mt-3"
-                           id="selectDay${day}">${day}</a>
+                        <a href="#" style="text-decoration-line: none;color:black" class="mt-3" id="selectDay${i.index}">${day}</a>
                     </div>
                 </c:forEach>
             </div>
@@ -70,7 +69,9 @@
         <input type="text" id="userIdInfo" name="userId"
                value="${empty sessionScope.user?'': sessionScope.user.id}" hidden>
         <input type="text" id="titleInfo" name="titleInfo" value="" hidden>
-        <input type="text" id="dayInfo" name="dayInfo" hidden>
+        <input type="text" id="dayInfo" name="noFormattingDayInfo" hidden>
+        <!--/movieRoom 으로 보내는 실제 dayInfo -->
+        <input type="text" id="formattingDayInfo" name="dayInfo" hidden>
         <input type="text" id="hallInfo" name="hallInfo" value="" hidden>
         <input type="text" id="timeInfo" name="timeInfo" value="" hidden>
         <input type="text" id="ageInfo" name="ageInfo" value="" hidden>
@@ -246,9 +247,9 @@
     </c:forEach>
 
 
-    <c:forEach var="day" items="${dayList}">
-    $('#selectDay${day}').on('click', function () {
-      $('#dayInfo').val($('#selectDay${day}').text());
+    <c:forEach var="day" items="${dayList}" varStatus="i">
+    $('#selectDay${i.index}').on('click', function () {
+      $('#dayInfo').val($('#selectDay${i.index}').text());
       $('#hallWrap').html("");
       $('#hallInfo').val("");
       $('#timeInfo').val("");
@@ -268,7 +269,7 @@
           this.style.fontSize = '18px';
         });
       });
-      let selectedDay = $('#selectDay${day}').text().replace(/[^0-9]/g, "");
+      let selectedDay = $('#selectDay${i.index}').text().replace(/[^0-9]/g, "");
       let date = new Date();
       let dateFormat = date.getFullYear() + "" + ((date.getMonth() + 1) <= 9 ? "0"
           + (date.getMonth() + 1) : (date.getMonth() + 1)) + "" + ((selectedDay) <= 9 ? "0"
@@ -332,7 +333,7 @@
           + (date.getMonth()
               + 1) : (date.getMonth() + 1)) + "-" + ((selectedDay) <= 9 ? "0" + (selectedDay)
           : (selectedDay));
-      $('#dayInfo').val(dateFormat);
+      $('#formattingDayInfo').val(dateFormat);
 
       <c:forEach var="movie" items="${movies}">
       if ($('#titleInfo').val() === '${movie.title}') {
@@ -373,7 +374,7 @@
               + (date.getMonth()
                   + 1) : (date.getMonth() + 1)) + "-" + ((selectedDay) <= 9 ? "0" + (selectedDay)
               : (selectedDay));
-          $('#dayInfo').val(dateFormat);
+          $('#formattingDayInfo').val(dateFormat);
           $('#userIdInfo').val(id);
           <c:forEach var="movie" items="${movies}">
           if ($('#titleInfo').val() === '${movie.title}') {

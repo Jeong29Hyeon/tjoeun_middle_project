@@ -14,26 +14,18 @@
 <%@ include file="../header.jsp" %>
 
 <div class="container mt-5">
-    <%--    row-cols-4 row-cols-sm-4--%>
     <div class="row row-cols-auto row-cols-sm-auto row-cols-md-auto row-cols-lg-auto mb-3">
         <div class="col col-6 col-sm-6 col-md-6 col-lg-6 d-flex">
             <div class="col col-4 col-sm-4 col-md-4 col-lg-4">
                 <img class="w-100" src="${movie.img}">
             </div>
             <div class="col col-8 col-sm-8 col-md-8 col-lg-8" style="margin-left: 20px">
-                <h3>선택하신 영화 정보</h3><br>
                 <input type="text" name="userId" id="userIdInfo" value="${userId}" hidden/>
-                <input type="text" class="form-control-plaintext"
-                       style="font-size: 25px; font-weight: bold" name="ageRating" id="ageRating"
-                       value="${movie.ageRating}" disabled>
-                <input type="text" class="form-control-plaintext" name="titleInfo" id="titleInfo"
-                       value="${ticket.titleInfo}" disabled>
-                <input type="text" class="form-control-plaintext" name="hallInfo" id="hallInfo"
-                       value="${ticket.hallInfo}" disabled>
-                <input type="text" class="form-control-plaintext" name="dayInfo" id="dayInfo"
-                       value="${ticket.dayInfo}" disabled>
-                <input type="text" class="form-control-plaintext" name="timeInfo" id="timeInfo"
-                       value="${ticket.timeInfo}" disabled>
+                <p id="titleInfo" style="font-size: 1.5rem; font-weight: bold">${ticket.titleInfo}</p>
+                <p id="ageRating" >${movie.ageRating}</p>
+                <p id="hallInfo">${ticket.hallInfo}</p>
+                <p id="dayInfo">${ticket.dayInfo}</p>
+                <p id="timeInfo">${ticket.timeInfo}</p>
             </div>
         </div>
 
@@ -232,19 +224,18 @@
 </div>
 <%@ include file="../footer.jsp" %>
 <script>
-  //      관람등급 색 변경
-  // $('#ageRating').css('color','red');
-  let ageRatingInput = $('#ageRating');
-  let ageRating = ageRatingInput.val();
+  // 관람등급 색 변경
+  let ageRatingTag = $('#ageRating');
+  let ageRating = ageRatingTag.text();
 
   if (ageRating === '15세이상관람가') {
-    ageRatingInput.css('color', 'blue');
+    ageRatingTag.css('color', 'blue');
   } else if (ageRating === '청소년관람불가') {
-    ageRatingInput.css('color', 'red');
+    ageRatingTag.css('color', 'red');
   } else if (ageRating === '12세이상관람가') {
-    ageRatingInput.css('color', 'orange');
+    ageRatingTag.css('color', 'orange');
   } else if (ageRating === '전체관람가') {
-    ageRatingInput.css('color', 'green');
+    ageRatingTag.css('color', 'green');
   }
 
   let seatsList = [];
@@ -390,8 +381,8 @@
         merchant_uid: 'merchant_' + new Date().getTime(),
         name: '더조은 시네마 - 영화예매',
         amount: $('#priceInput').val().replace(/[^0-9]/g, ""),
-        m_redirect_url:'http://43.200.171.39/mobile-ticketing?id='+$('#userIdInfo').val()+'&titleInfo='+$('#titleInfo').val()+"&dayInfo="+$('#dayInfo').val()+
-            '&hallInfo='+$('#hallInfo').val()+'&timeInfo='+$('#timeInfo').val()+'&numberOfAdult='+$('#numberOfAdult').val()+'&numberOfTeen='+$('#numberOfTeen').val()+
+        m_redirect_url:'http://43.200.171.39/mobile-ticketing?id='+$('#userIdInfo').val()+'&titleInfo='+$('#titleInfo').text()+"&dayInfo="+$('#dayInfo').text()+
+            '&hallInfo='+$('#hallInfo').text()+'&timeInfo='+$('#timeInfo').text()+'&numberOfAdult='+$('#numberOfAdult').val()+'&numberOfTeen='+$('#numberOfTeen').val()+
             '&seats='+$('#seatsInput').val() + ",&price="+$('#priceInput').val().replace(/[^0-9]/g, "")
       }, function (rsp) {
         console.log(rsp);
@@ -401,10 +392,10 @@
             type: 'post',
             data: {
               'id': $('#userIdInfo').val(),
-              'titleInfo': $('#titleInfo').val(),
-              'dayInfo': $('#dayInfo').val(),
-              'hallInfo': $('#hallInfo').val(),
-              'timeInfo': $('#timeInfo').val(),
+              'titleInfo': $('#titleInfo').text(),
+              'dayInfo': $('#dayInfo').text(),
+              'hallInfo': $('#hallInfo').text(),
+              'timeInfo': $('#timeInfo').text(),
               'numberOfAdult': $('#numberOfAdult').val(),
               'numberOfTeen': $('#numberOfTeen').val(),
               'seats': $('#seatsInput').val() + ",",
