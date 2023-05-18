@@ -69,22 +69,24 @@
                 <div class="col-md-4">
                     <select class="form-select" id="month" name="month" aria-label="this is birth2">
                         <option selected>월</option>
-                        <option value="1">01</option>
-                        <option value="2">02</option>
-                        <option value="3">03</option>
-                        <option value="4">04</option>
-                        <option value="5">05</option>
-                        <option value="6">06</option>
-                        <option value="7">07</option>
-                        <option value="8">08</option>
-                        <option value="9">09</option>
+                        <option value="01">01</option>
+                        <option value="02">02</option>
+                        <option value="03">03</option>
+                        <option value="04">04</option>
+                        <option value="05">05</option>
+                        <option value="06">06</option>
+                        <option value="07">07</option>
+                        <option value="08">08</option>
+                        <option value="09">09</option>
                         <option value="10">10</option>
                         <option value="11">11</option>
                         <option value="12">12</option>
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <input class="form-control" type="text" id="day" name="day" placeholder="일(날짜)" aria-label="this is day">
+                    <select class="form-select" id="day" name="day" aria-label="this is day">
+                        <option selected>일</option>
+                    </select>
                 </div>
             </div>
             <div class="row mt-md-3">
@@ -136,6 +138,15 @@
       var regExpPhone = /^010[0-9]{8}$/;
 
 
+      $('#month').on('change',function (){
+        $('#day').html("<option selected>일</option>");
+        var lastDay = new Date(Number(form.year.value),Number(form.month.value),0).getDate();
+        for(let i = 1; i <= lastDay; i++){
+          let eachDay = ((i) <= 9 ? "0" + (i) : (i));
+          $('#day').append("<option value='"+eachDay+"'>"+eachDay+"</option>");
+        }
+      })
+
       function checkForm(){
         var current = new Date();
         if(form.id.value === ""){
@@ -176,19 +187,12 @@
         }else if(form.month.value==="월"){
           alert("태어난 월을 선택하세요.");
           return;
-        }else if(!regExpDay.test(form.day.value)){
-          alert("일(날짜)를 다시 확인해주세요.");
-          form.day.select();
+        }else if(form.day.value==='일'){
+          alert("태어난 일을 선택하세요.");
           return;
         }else if(Number(form.year.value)>current.getFullYear()){
           alert("미래에서 오셨군요.^^");
           form.year.select();
-          return;
-        }
-        var lastDay = new Date(Number(form.year.value),Number(form.month.value),0).getDate();
-        if(Number(form.day.value) > lastDay){
-          alert("일(날짜)를 다시 확인해주세요.");
-          form.day.select();
           return;
         }
         if(form.gender.value==="성별"){

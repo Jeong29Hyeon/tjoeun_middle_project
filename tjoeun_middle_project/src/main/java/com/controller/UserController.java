@@ -48,7 +48,7 @@ public class UserController {
     }
 
     @PostMapping("/join")
-    public String register(User user, HttpServletRequest request, Model model) {
+    public String register(User user, HttpServletRequest request, RedirectAttributes ra) {
         String birth = request.getParameter("year") + "-" + request.getParameter("month") + "-" + request.getParameter("day");
         String email = request.getParameter("email1") + "@" + request.getParameter("email2");
         user.setBirth(birth);
@@ -56,10 +56,10 @@ public class UserController {
         try {
             userService.register(user);
         } catch (Exception e) {
-            model.addAttribute("msg", "가입 에러, 재시도");
-            return "join";
+            ra.addFlashAttribute("msg", "가입 에러, 재시도");
+            return "redirect:/user/join";
         }
-        model.addAttribute("msg", "환영합니다 회원가입이 완료 되었습니다!");
+        ra.addFlashAttribute("msg", "환영합니다 회원가입이 완료 되었습니다!");
         return "redirect:/";
     }
 
