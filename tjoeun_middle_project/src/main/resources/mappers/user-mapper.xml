@@ -22,4 +22,7 @@
   <update id="updateRank" parameterType="java.util.Map">
     update User set `rank` = #{rank} where id = #{id};
   </update>
+  <select id="selectAllUser" resultType="User">
+    select * from User ORDER BY reg_day;
+  </select>
 </mapper>
