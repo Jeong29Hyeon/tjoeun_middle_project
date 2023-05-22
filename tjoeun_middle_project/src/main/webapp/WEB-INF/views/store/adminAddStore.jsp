@@ -1,11 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: USER
-  Date: 2023-05-09
-  Time: 오전 11:12
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -13,10 +6,10 @@
 </head>
 <body>
 <%@include file="/WEB-INF/views/header.jsp" %>
-<form action="<c:url value='/store/insert-goods'/>" method="post" enctype="multipart/form-data" class="container mt-5">
+<form id="fileForm" action="<c:url value='/store/insert-goods'/>" method="post" enctype="multipart/form-data" class="container mt-5">
 <%--    <div class="row">--%>
         <div class="col-3">
-            <img class="w-100 form-control" src="${categoryImg.get(1).uploadPath}/${categoryImg.get(1).fileName}">
+            <img class="w-100 form-control" src="/getImage?fileName=${categoryImg.get(1).fileName}">
         </div>
     <div class="mb-3" style="width: 50%; margin: 0 auto;">
         상품 카테고리( 세트 1 / 팝콘 2 / 음료 3 / 쿠폰 4 )
@@ -45,12 +38,32 @@
     <div class="row d-flex">
     <div class="col-5"></div>
     <div class="col-2">
-        <button type="submit" class="btn btn-primary">굿즈 등록</button>
+        <button type="button" class="btn btn-primary" id="submitBtn">굿즈 등록</button>
         <input type="reset" class="btn btn-primary" value="리 &nbsp; 셋">
     </div>
     <div class="col-5"></div>
     </div>
 </form>
 <%@include file="/WEB-INF/views/footer.jsp" %>
+<script>
+    $('#submitBtn').on('click',function (){
+      let formData = new FormData($('#fileForm')[0]);
+      $.ajax({
+        url:'/store/insert-goods',
+        type:'post',
+        enctype:'multipart/form-data',
+        data:formData,
+        processData: false,
+        contentType: false,
+        dataType:'json',
+        success:function (result){
+          alert(result.msg);
+        },
+        error:function (jqXHR){
+          alert(jqXHR.responseJSON.errorMsg);
+        }
+      })
+    });
+</script>
 </body>
 </html>

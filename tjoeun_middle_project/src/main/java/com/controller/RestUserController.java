@@ -29,17 +29,18 @@ public class RestUserController {
     @GetMapping("/users/{id}")
     public ResponseEntity<User> getUserById(@PathVariable String id){
         User user = userService.selectById(id);
-        MultiValueMap<String,String> headers = new LinkedMultiValueMap<>();
-        return new ResponseEntity<>(user,headers,HttpStatus.OK);
+        return new ResponseEntity<>(user,HttpStatus.OK);
     }
 
     @DeleteMapping("/users/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable String id){
+        MultiValueMap<String,String> headers = new LinkedMultiValueMap<>();
+        headers.add("Content-Type","application/json");
         try {
             userService.deleteById(id);
         } catch (Exception e) {
             String msg = "해당 아이디가 존재하지 않습니다.";
-            return ResponseEntity.badRequest().body(msg);
+            return new ResponseEntity<>(msg,headers,HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }

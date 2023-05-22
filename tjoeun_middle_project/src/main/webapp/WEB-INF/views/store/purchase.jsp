@@ -67,7 +67,7 @@
             <c:forEach var="goods" items="${sessionScope.cart}">
                 <li class="row my-4">
                     <div class="col-2">
-                        <img src="${goods.value.uploadPath}/${goods.value.fileName}"
+                        <img src="/getImage?fileName=${goods.value.fileName}"
                              alt="" class="rounded mx-auto d-block" style="height: 170px">
                     </div>
                     <div class="col-2 d-flex justify-content-center align-items-center">

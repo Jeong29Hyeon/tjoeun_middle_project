@@ -106,4 +106,20 @@ public class Goods {
     public void setUploadPath(String uploadPath) {
         this.uploadPath = uploadPath;
     }
+
+    @Override
+    public String toString() {
+        return "Goods{" +
+            "gno=" + gno +
+            ", category='" + category + '\'' +
+            ", name='" + name + '\'' +
+            ", goodsInfo='" + goodsInfo + '\'' +
+            ", components='" + components + '\'' +
+            ", price=" + price +
+            ", fileRealName='" + fileRealName + '\'' +
+            ", fileName='" + fileName + '\'' +
+            ", uploadPath='" + uploadPath + '\'' +
+            ", quantity=" + quantity +
+            '}';
+    }
 }

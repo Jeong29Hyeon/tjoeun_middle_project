@@ -63,7 +63,7 @@
                                 </div>
                                 <div class="row mt-1">
                                     <div class="col-6" style="font-weight: bold; font-size: 25px; margin-top: 30px">사용만료</div>
-                                    <img class="col-6" src="${coupon.goods.uploadPath}/${coupon.goods.fileName}"/>
+                                    <img class="col-6" src="/getImage?fileName=${coupon.goods.fileName}"/>
                                 </div>
                             </div>
                         </div>
@@ -105,7 +105,7 @@
                                 </div>
                                 <div class="row mt-1">
                                     <img class="col-6" src="/resources/img/goods/5c974982ed854707a0d2bd3149308132.jpg"/>
-                                    <img class="col-6" src="${coupon.goods.uploadPath}/${coupon.goods.fileName}"/>
+                                    <img class="col-6" src="/getImage?fileName=${coupon.goods.fileName}"/>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-12">
