@@ -14,15 +14,16 @@
 <body>
 <%@include file="/WEB-INF/views/header.jsp" %>
 <form action="<c:url value='/store/insert-goods'/>" method="post" enctype="multipart/form-data" class="container mt-5">
-<%--    <div class="row">--%>
-        <div class="col-3">
-            <img class="w-100 form-control" src="${categoryImg.get(1).uploadPath}/${categoryImg.get(1).fileName}">
+    <div class="row d-flex">
+        <div class="d-flex justify-content-center mb-3">
+            <img style="width: 200px; height: 200px" class="form-control" src="${categoryImg.get(1).uploadPath}/${categoryImg.get(1).fileName}">
         </div>
+    </div>
     <div class="mb-3" style="width: 50%; margin: 0 auto;">
         상품 카테고리( 세트 1 / 팝콘 2 / 음료 3 / 쿠폰 4 )
         <input type="text" class="form-control" name="category">
+
     </div>
-<%--    </div>--%>
     <div class="mb-3" style="width: 50%; margin: 0 auto;">
         상품 이름
         <input type="text" class="form-control" name="name">
@@ -50,6 +51,7 @@
     </div>
     <div class="col-5"></div>
     </div>
+
 </form>
 <%@include file="/WEB-INF/views/footer.jsp" %>
 </body>

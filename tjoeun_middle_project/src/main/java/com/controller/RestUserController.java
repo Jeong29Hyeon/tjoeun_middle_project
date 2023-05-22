@@ -9,7 +9,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -39,7 +41,7 @@ public class RestUserController {
             userService.deleteById(id);
         } catch (Exception e) {
             String msg = "해당 아이디가 존재하지 않습니다.";
-            return ResponseEntity.badRequest().body(msg);
+            return new ResponseEntity<>(msg,HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }

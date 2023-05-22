@@ -67,6 +67,7 @@
             </c:choose>
         </form>
     </div>
+</div>
     <jsp:include page="footer.jsp"/>
     <script>
         var form = document.searchForm;
