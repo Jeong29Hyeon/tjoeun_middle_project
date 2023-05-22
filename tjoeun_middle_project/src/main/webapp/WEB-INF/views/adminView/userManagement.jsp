@@ -134,6 +134,7 @@
 
   //아이디로 찾기
   $('#idViewBtn').on('click',function (){
+    $('#userInfo').html('');
     var inputId = $('#inputId').val();
     $.ajax({
       url:'/users/'+inputId,
