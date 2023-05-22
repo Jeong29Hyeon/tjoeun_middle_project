@@ -1,5 +1,6 @@
 package com.mapper;
 import com.dto.User;
+import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -16,4 +17,7 @@ public interface UserMapper {
     User searchIdPw(User user);
 
     void updateRank(Map<String, String> map);
+
+    List<User> selectAllUser();
+
 }

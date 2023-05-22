@@ -12,8 +12,10 @@ import java.util.*;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -64,32 +66,52 @@ public class StoreController {
     }
 
     @PostMapping("/insert-goods")
-    public String insertGoods(@RequestParam("image") MultipartFile file, Goods goods) {
+    public @ResponseBody ResponseEntity<Map<String,Object>> insertGoods(@RequestParam("image") MultipartFile file, Goods goods) {
+        Map<String,Object> responseMap = new HashMap<>();
+        System.out.println("goods = " + goods);
         try {
-            String uploadPath = "C:\\Users\\USER\\Documents\\github\\tjoeun_middle_project\\tjoeun_middle_project\\src\\main\\webapp\\resources\\img\\goods";
-            System.out.println("uploadPath = " + uploadPath);
+            String uploadPath = "C://upload/img/goods";
             File folder = new File(uploadPath);
             if (!folder.exists()) {
-                folder.mkdir();
+                boolean mkdirs = folder.mkdirs();
             }
             String fileRealName = file.getOriginalFilename();
             UUID uuid = UUID.randomUUID();
             String uuids = uuid.toString().replace("-", "");
-            String fileExtension = fileRealName.substring(fileRealName.indexOf("."));
-            String fileName = uuids + fileExtension;
-
+            String contentType = file.getContentType();
+            String extension = "";
+            if(StringUtils.hasText(contentType)){
+                if(contentType.equals("image/jpeg")){
+                    extension = ".jpg";
+                }
+                else if(contentType.equals("image/png")){
+                    extension = ".png";
+                }
+                else if(contentType.equals("image/gif")){
+                    extension = ".gif";
+                }
+                else{
+                    responseMap.put("errorMsg","이미지파일만 업로드할 수 있습니다.");
+                    return ResponseEntity.badRequest().body(responseMap);
+                }
+            }else {
+                responseMap.put("errorMsg","파일에 확장자가 존재하지 않습니다.");
+                return ResponseEntity.badRequest().body(responseMap);
+            }
+            String fileName = uuids + extension;
             File saveFile = new File(uploadPath + "/" + fileName);
             file.transferTo(saveFile);
             goods.setFileName(fileName);
             goods.setFileRealName(fileRealName);
-            goods.setUploadPath("/resources/img/goods");
+            goods.setUploadPath(uploadPath);
             goodsService.insertGoods(goods);
         } catch (Exception e) {
             e.printStackTrace();
-            return "store/adminAddStore";
+            responseMap.put("errorMsg","굿즈 생성 DB 에러");
+            return ResponseEntity.badRequest().body(responseMap);
         }
-
-        return "redirect:/store/display";
+        responseMap.put("msg","굿즈 생성완료");
+        return ResponseEntity.ok(responseMap);
     }
 
     @GetMapping("/detail")

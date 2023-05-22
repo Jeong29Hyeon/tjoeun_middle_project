@@ -69,7 +69,7 @@
                                     <a href="<c:url value="/store/detail?gno=${setMenu.gno}"/>"
                                        style="text-decoration-line: none; color: black">
                                     <img id="menuImage${setMenu.gno}"
-                                         src="${setMenu.uploadPath}/${setMenu.fileName}"
+                                         src="/getImage?fileName=${setMenu.fileName}"
                                          alt="">
                                         </a>
                                     <span id="btnWrap${setMenu.gno}"
@@ -104,7 +104,7 @@
                                     <a href="<c:url value="/store/detail?gno=${popcorn.gno}"/>"
                                        style="text-decoration-line: none; color: black">
                                          <img id="menuImage${popcorn.gno}"
-                                              src="${popcorn.uploadPath}/${popcorn.fileName}"
+                                              src="/getImage?fileName=${popcorn.fileName}"
                                               alt="">
                                         </a>
                                     <span id="btnWrap${popcorn.gno}"
@@ -138,7 +138,7 @@
                                     <a href="<c:url value="/store/detail?gno=${drink.gno}"/>"
                                        style="text-decoration-line: none; color: black">
                                         <img id="menuImage${drink.gno}"
-                                             src="${drink.uploadPath}/${drink.fileName}"/>
+                                             src="/getImage?fileName=${drink.fileName}"/>
                                         </a>
                                     <span id="btnWrap${drink.gno}"
                                           class="position-absolute top-50 start-50 translate-middle text-center"

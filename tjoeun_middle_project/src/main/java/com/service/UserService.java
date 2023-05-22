@@ -12,8 +12,10 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import java.util.Optional;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -224,7 +226,22 @@ public class UserService {
         }
     }
 
+    public List<User> getAllUser(){
+        return userMapper.selectAllUser();
+    }
+
     public void updateInfo(User newUser) {
         userMapper.updateUser(newUser);
+    }
+
+    public User selectById(String id) {
+        return userMapper.selectById(id);
+    }
+
+    public void deleteById(String id) {
+        int result = userMapper.deleteById(id);
+        if(result < 1){
+            throw new RuntimeException("삭제실패");
+        }
     }
 }

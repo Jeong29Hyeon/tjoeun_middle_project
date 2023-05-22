@@ -142,7 +142,8 @@
                             <li><a class="dropdown-item" href="${profileLink}">${profile}</a></li>
                             <li><a class="dropdown-item" href="${Reservation}">${ReservationInfo}</a></li>
                             <li><a class="dropdown-item" href="/user/couponRoom">쿠폰함</a></li>
-                            <li><a class="dropdown-item" href="/store/add-store">ADD-STORE</a></li>
+                            <li><a class="dropdown-item" href="/store/add-store">상품추가</a></li>
+                            <li><a class="dropdown-item" href="/admin/user-management">회원관리</a></li>
                         </c:when>
                     </c:choose>
                     <li>
