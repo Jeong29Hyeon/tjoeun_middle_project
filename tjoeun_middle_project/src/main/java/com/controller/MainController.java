@@ -34,7 +34,7 @@ public class MainController {
     @RequestMapping("/getImage")
     public @ResponseBody ResponseEntity<byte[]> getImage(String fileName) throws IOException {
         System.out.println("fileName: " + fileName);
-        File file = new File("C://upload/img/goods", fileName);
+        File file = new File("C:\\upload\\img\\goods", fileName);
         System.out.println(file);
         ResponseEntity<byte[]> result = null;
         try {

@@ -6,10 +6,10 @@
 </head>
 <body>
 <%@include file="/WEB-INF/views/header.jsp" %>
-<form action="<c:url value='/store/insert-goods'/>" method="post" enctype="multipart/form-data" class="container mt-5">
+<form id="fileForm" action="<c:url value='/store/insert-goods'/>" method="post" enctype="multipart/form-data" class="container mt-5">
     <div class="row d-flex">
         <div class="d-flex justify-content-center mb-3">
-            <img style="width: 200px; height: 200px" class="form-control" src="${categoryImg.get(1).uploadPath}/${categoryImg.get(1).fileName}">
+            <img style="width: 200px; height: 200px" class="form-control" src="/getImage?fileName=${categoryImg.get(1).fileName}">
         </div>
     </div>
     <div class="mb-3" style="width: 50%; margin: 0 auto;">
@@ -57,11 +57,12 @@
         data:formData,
         processData: false,
         contentType: false,
-        dataType:'json',
+        dataType:'JSON',
         success:function (result){
           alert(result.msg);
         },
         error:function (jqXHR){
+          console.log(jqXHR);
           alert(jqXHR.responseJSON.errorMsg);
         }
       })

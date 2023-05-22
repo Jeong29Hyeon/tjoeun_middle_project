@@ -65,12 +65,13 @@ public class StoreController {
         return "store/main";
     }
 
-    @PostMapping("/insert-goods")
-    public @ResponseBody ResponseEntity<Map<String,Object>> insertGoods(@RequestParam("image") MultipartFile file, Goods goods) {
-        Map<String,Object> responseMap = new HashMap<>();
+    @PostMapping(value = "/insert-goods", produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public ResponseEntity<Map<String,Object>> insertGoods(@RequestParam("image") MultipartFile file, Goods goods) {
+        Map<String,Object> map = new HashMap<>();
         System.out.println("goods = " + goods);
         try {
-            String uploadPath = "C://upload/img/goods";
+            String uploadPath = "C:\\upload\\img\\goods";
             File folder = new File(uploadPath);
             if (!folder.exists()) {
                 boolean mkdirs = folder.mkdirs();
@@ -91,12 +92,12 @@ public class StoreController {
                     extension = ".gif";
                 }
                 else{
-                    responseMap.put("errorMsg","이미지파일만 업로드할 수 있습니다.");
-                    return ResponseEntity.badRequest().body(responseMap);
+                    map.put("errorMsg","이미지파일만 업로드할 수 있습니다.");
+                    return ResponseEntity.badRequest().body(map);
                 }
             }else {
-                responseMap.put("errorMsg","파일에 확장자가 존재하지 않습니다.");
-                return ResponseEntity.badRequest().body(responseMap);
+                map.put("errorMsg","파일에 확장자가 존재하지 않습니다.");
+                return ResponseEntity.badRequest().body(map);
             }
             String fileName = uuids + extension;
             File saveFile = new File(uploadPath + "/" + fileName);
@@ -107,11 +108,11 @@ public class StoreController {
             goodsService.insertGoods(goods);
         } catch (Exception e) {
             e.printStackTrace();
-            responseMap.put("errorMsg","굿즈 생성 DB 에러");
-            return ResponseEntity.badRequest().body(responseMap);
+            map.put("errorMsg","굿즈 생성 DB 에러");
+            return ResponseEntity.badRequest().body(map);
         }
-        responseMap.put("msg","굿즈 생성완료");
-        return ResponseEntity.ok(responseMap);
+        map.put("msg","굿즈 생성완료");
+        return ResponseEntity.ok(map);
     }
 
     @GetMapping("/detail")
