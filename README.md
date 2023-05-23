@@ -12,5 +12,7 @@ aws서버에 해당 프로젝트를 올려놓았습니다. <a href='http://43.20
 <img src="https://img.shields.io/badge/자바스크립트-F7DF1E?style=flat&logo=javascript&logoColor=white"/>
 <img src="https://img.shields.io/badge/jquery-0769AD?style=flat&logo=jquery&logoColor=white"/>
 <img src="https://img.shields.io/badge/intellijidea-000000?style=flat&logo=intellijidea&logoColor=white"/>
+<img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=&logoColor=white"/>
+<img src="https://img.shields.io/badge/mybatis-FF0000?style=flat-square&logo=&logoColor=white"/>
 </div>
 
