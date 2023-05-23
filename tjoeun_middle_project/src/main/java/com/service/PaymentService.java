@@ -23,12 +23,6 @@ public class PaymentService {
         this.paymentMapper = paymentMapper;
     }
 
-    public void insertTicketPayment(Payment payment) throws Exception {
-        int result = paymentMapper.insertTicketPayment(payment);
-        if(result < 1){
-            throw new Exception("티켓 결제정보 생성안됨");
-        }
-    }
     public void insertCouponPayment(Payment payment) throws Exception {
         int result = paymentMapper.insertCouponPayment(payment);
         if(result < 1){
@@ -93,6 +87,41 @@ public class PaymentService {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
             Map<String,Object> map = new HashMap<>();
             map.put("imp_uid",imp_uid);
+            JSONObject reqJson = new JSONObject(map);
+            bw.write(reqJson.toJSONString());
+            bw.flush();
+
+            int responseCode = conn.getResponseCode();
+            System.out.println("responseCode = " + responseCode);
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            StringBuilder result = new StringBuilder();
+            String line = "";
+            while((line = br.readLine())!=null){
+                result.append(line);
+            }
+            JSONParser parser = new JSONParser();
+            JSONObject obj = (JSONObject) parser.parse(result.toString());
+            System.out.println("obj = " + obj);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void partPayCancel(String accessToken, String imp_uid,Integer price) {
+        String reqUrl = "https://api.iamport.kr/payments/cancel";
+        try {
+            URL url = new URL(reqUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type","application/json");
+            conn.setRequestProperty("Authorization",accessToken);
+            conn.setDoOutput(true);
+
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+            Map<String,Object> map = new HashMap<>();
+            map.put("imp_uid",imp_uid);
+            map.put("amount",price);
             JSONObject reqJson = new JSONObject(map);
             bw.write(reqJson.toJSONString());
             bw.flush();

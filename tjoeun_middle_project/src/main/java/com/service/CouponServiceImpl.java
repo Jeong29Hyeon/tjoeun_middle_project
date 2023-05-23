@@ -60,4 +60,5 @@ public class CouponServiceImpl implements CouponService {
     public int deleteByCno(String cno){
         return couponMapper.deleteByCno(cno);
     }
+
 }

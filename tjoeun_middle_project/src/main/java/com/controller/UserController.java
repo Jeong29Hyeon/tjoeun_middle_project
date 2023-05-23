@@ -287,12 +287,12 @@ public class UserController {
     @PostMapping("/deleteCoupon")
     @ResponseBody
     @UserIdCheck
-    public String deleteCoupon(String cno){
+    public String deleteCoupon(String cno,Integer price,String imp_uid){
         String token = null;
         try {
-//            token = paymentService.getAccessToken();
-//            paymentService.payCancel(token,imp_uid);
+            token = paymentService.getAccessToken();
             couponService.deleteByCno(cno);
+            paymentService.partPayCancel(token,imp_uid,price);
         } catch (Exception e) {
             e.printStackTrace();
             return "fail";

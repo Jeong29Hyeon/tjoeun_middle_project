@@ -82,6 +82,7 @@
                             <div class="card-header">쿠폰 정보</div>
                             <div class="card-body">
                                 <h5 class="card-title">${coupon.goods.name}</h5>
+                                <input type="text" value="${coupon.goods.price}"/>
                                 <hr>
                                 <p class="card-text">
                                     <c:set var="components" value="${fn:split(coupon.goods.components,' ')}"/>
@@ -104,13 +105,13 @@
                                     </div>
                                 </div>
                                 <div class="row mt-1">
-                                    <img class="col-6" src="/resources/img/goods/5c974982ed854707a0d2bd3149308132.jpg"/>
+                                    <img class="col-6" src="/getImage?fileName=5c974982ed854707a0d2bd3149308132.jpg"/>
                                     <img class="col-6" src="/getImage?fileName=${coupon.goods.fileName}"/>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-12">
                                         <button class="btn btn-outline-warning" id="delete${coupon.cno}"
-                                                style="color: black">쿠폰취소
+                                                style="color: black">쿠폰 환불
                                         </button>
                                     </div>
                                 </div>
@@ -129,15 +130,21 @@
     })
     <c:forEach var="coupon" items="${falseCoupon}">
     $('#delete${coupon.cno}').on('click',function (){
+      let choice = confirm("정말 환불처리 하시겠습니까?");
+      if (!choice){
+        return;
+      }
       $.ajax({
         url: "/user/deleteCoupon",
         type: "post",
         data: {
-            "cno": '${coupon.cno}'
+          "cno": '${coupon.cno}',
+          "price":'${coupon.goods.price}',
+          "imp_uid":'${coupon.imp_uid}'
         },
         success:function (result){
           if(result==='success'){
-            alert('쿠폰취소완료')
+            alert('쿠폰 환불이 완료되었습니다.')
             location.reload();
           }else{
             alert('환불실패')
