@@ -61,9 +61,16 @@
     </li>
 </ul>
 
-<div class="container tab-content justify-content-center" id="myTabContent">
-    <div class="container tab-pane fade  text-center" id="story" role="tabpanel"
-         aria-labelledby="story-tab"><p>${movie.story}</p></div>
+<div class="container tab-content" id="myTabContent">
+    <div class="container tab-pane fade" id="story" role="tabpanel"
+         aria-labelledby="story-tab">
+        <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6 d-flex justify-content-center mt-3">
+            <p class="">${movie.story}</p></div>
+        <div class="col-3"></div>
+        </div>
+    </div>
 
     <div class="container tab-pane fade show active text-center" id="review" role="tabpanel"
          aria-labelledby="review-tab">
