@@ -82,7 +82,6 @@
                             <div class="card-header">쿠폰 정보</div>
                             <div class="card-body">
                                 <h5 class="card-title">${coupon.goods.name}</h5>
-                                <input type="text" value="${coupon.goods.price}"/>
                                 <hr>
                                 <p class="card-text">
                                     <c:set var="components" value="${fn:split(coupon.goods.components,' ')}"/>

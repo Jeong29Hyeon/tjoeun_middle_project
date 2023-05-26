@@ -108,10 +108,7 @@
                                 <div class="container">
                                     <input type="hidden" name="currentTno" id="currentTno" value="${current.tno}">
                                     <div class="row">
-                                        <div class="col-6">
-                                            <button class="btn btn-outline-light" style="color: black">예약변경</button>
-                                        </div>
-                                        <div class="col-6">
+                                        <div class="col-12">
                                             <button id="deleteBtn${current.tno}" type="button"
                                                     class="btn btn-outline-light"
                                                     style="color: black"
@@ -163,10 +160,7 @@
                                 <div class="container">
                                     <input type="hidden" name="futureTno" id="futureTno" value="${future.tno}">
                                     <div class="row">
-                                        <div class="col-6">
-                                            <button class="btn btn-outline-light" style="color: black">예약변경</button>
-                                        </div>
-                                        <div class="col-6">
+                                        <div class="col-12">
                                             <button class="btn btn-outline-light" id="deleteF${future.tno}"
                                                     style="color: black">예약취소
                                             </button>
